@@ -1,3 +1,3 @@
 export default function ParticleBackground() {
-    return null
+    return <div className="absolute inset-0 pointer-events-none" />;
 }

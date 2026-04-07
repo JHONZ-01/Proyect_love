@@ -1,32 +1,30 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import EnvelopeScene from './components/envelope/EnvelopeScene'
 import Letter from './components/letter/Letter'
 import ParticleBackground from './components/ui/ParticleBackground'
 
-// Estado global de la experiencia
-// 'envelope' → 'opening' → 'letter'
 export default function App() {
     const [stage, setStage] = useState('envelope')
+    const audioRef = useRef(null)
+
+    const handleOpen = () => {
+        if (audioRef.current) {
+            audioRef.current.loop = true
+            audioRef.current.play().catch(() => { })
+        }
+        setStage('opening')
+    }
 
     return (
-        <div className="relative min-h-screen flex items-center justify-center p-4 overflow-hidden bg-[#004280]">
-
-            {/* Partículas de fondo (siempre visibles) */}
+        <div className="relative min-h-screen flex items-center justify-center p-4 overflow-hidden bg-navy">
+            <audio ref={audioRef} src="/assets/sounds/quill.mp3" preload="none" />
             <ParticleBackground />
-
-            {/* Escena del sobre */}
             {stage === 'envelope' && (
-                <EnvelopeScene onOpen={() => setStage('opening')} />
+                <EnvelopeScene onOpen={handleOpen} />
             )}
-
-            {/* Carta completa */}
             {(stage === 'opening' || stage === 'letter') && (
-                <Letter
-                    stage={stage}
-                    onReady={() => setStage('letter')}
-                />
+                <Letter stage={stage} onReady={() => setStage('letter')} />
             )}
-
         </div>
     )
 }
