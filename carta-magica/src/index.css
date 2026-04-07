@@ -1,1 +1,100 @@
+@import "tailwindcss";
 
+/* ── Tema personalizado (Tailwind v4) ── */
+@theme {
+    --color-navy: #004280;
+    --color-cream: #E8D5B7;
+    --color-gold: #C8A96E;
+    --color-parchment: #F5ECD7;
+
+    --font-family-playfair: "Playfair Display", serif;
+    --font-family-vibes: "Great Vibes", cursive;
+    --font-family-code: "JetBrains Mono", monospace;
+
+    --animate-fade-up: fade-up 0.8s ease forwards;
+    --animate-flicker: flicker 3s ease-in-out infinite;
+}
+
+@keyframes fade-up {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes flicker {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.85;
+    }
+}
+
+/* ── Base ── */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+    background-color: #004280;
+    min-height: 100dvh;
+    overflow-x: hidden;
+}
+
+#root {
+    min-height: 100dvh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ── Selección de texto con color de marca ── */
+::selection {
+    background-color: #C8A96E;
+    color: #004280;
+}
+
+/* ── Scrollbar elegante (Chrome/Edge) ── */
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: #004280;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #C8A96E;
+    border-radius: 99px;
+}
+
+/* ── Clase helper para el pergamino ── */
+.parchment-bg {
+    background-color: #F5ECD7;
+    background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+}
+
+/* ── Evita parpadeo en animaciones de Framer Motion ── */
+.will-change-transform {
+    will-change: transform;
+}

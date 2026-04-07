@@ -3,33 +3,33 @@
 
 <head>
     <meta charset="UTF-8" />
-
-    <!-- Responsive -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- Título (importante 👀) -->
+    <!-- SEO / compartir -->
     <title>💌 Tienes un mensaje...</title>
+    <meta name="description" content="Una carta especial creada solo para ti..." />
+    <meta name="theme-color" content="#004280" />
+
+    <!-- Open Graph (se ve lindo al compartir por WhatsApp/IG) -->
+    <meta property="og:title" content="💌 Tienes un mensaje..." />
+    <meta property="og:description" content="Una carta especial creada solo para ti..." />
+    <meta property="og:type" content="website" />
 
     <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💌</text></svg>" />
 
-    <!-- Fuentes elegantes -->
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Great+Vibes&display=swap"
-        rel="stylesheet">
-
-    <!-- Descripción (detalle pro) -->
-    <meta name="description" content="Una carta especial creada solo para ti..." />
-
+    <!-- Fuentes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet" />
 </head>
 
-<body class="bg-[#004280]">
-
-    <!-- React se monta aquí -->
+<body>
     <div id="root"></div>
-
-    <!-- Script principal -->
     <script type="module" src="/src/main.jsx"></script>
-
 </body>
 
 </html>
