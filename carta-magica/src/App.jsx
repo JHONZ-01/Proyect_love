@@ -16,12 +16,14 @@ export default function App() {
     }
 
     return (
-        <div className="relative min-h-screen flex items-center justify-center p-4 overflow-hidden bg-navy">
-            <audio ref={audioRef} src="/assets/sounds/quill.mp3" preload="none" />
+        <div className="relative min-h-screen flex items-center justify-center p-4 overflow-hidden bg-[#004280]">
+            <audio ref={audioRef} src="/assets/sounds/Álvaro Díaz, Cazzu, Caleb Calloway - Deportivo (Official Video).mp3" preload="none" />
             <ParticleBackground />
+
             {stage === 'envelope' && (
                 <EnvelopeScene onOpen={handleOpen} />
             )}
+
             {(stage === 'opening' || stage === 'letter') && (
                 <Letter stage={stage} onReady={() => setStage('letter')} />
             )}
