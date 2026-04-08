@@ -60,6 +60,7 @@ body {
 
 #root {
     min-height: 100dvh;
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -85,7 +86,9 @@ body {
 
 .parchment-bg {
     background-color: var(--color-parchment);
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    background-image: url("./assets/textures/paper1.png");
+    background-size: cover;
+    background-position: center;
 }
 
 .will-change-transform {
@@ -275,7 +278,8 @@ body {
     height: 80%;
     background: var(--color-parchment);
     top: 10%;
-    left: 5%;
+    left: 50%;
+    transform: translateX(-50%);
     border: 1px solid #ccc;
     z-index: 2;
     transition: all 1.5s ease 1s;
@@ -284,12 +288,12 @@ body {
 }
 
 .envelope-3d.open .letter-physical {
-    transform: translateY(-150px);
+    transform: translate(-50%, -230px);
     z-index: 6;
     height: auto;
-    min-height: 400px;
-    width: 110%;
-    left: -5%;
+    min-height: 480px;
+    width: min(500px, 95vw);
+    padding: 30px;
 }
 
 /* Las caras del sobre (Frente) */
