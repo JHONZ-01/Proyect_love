@@ -72,13 +72,13 @@ export default function EnvelopeScene({ onOpen }) {
                             zIndex: 20,
                         }} />
 
-                        {/* Texto interior — solo visible cuando la tapa se abre */}
+                        {/* Texto interior — visible con background de papel */}
                         <motion.div
-                            className="absolute inset-0 flex items-center justify-center z-5"
+                            className="absolute inset-[10px] flex items-center justify-center z-5 parchment-bg rounded-sm shadow-inner"
                             animate={{ opacity: isHovered ? 1 : 0 }}
                             transition={{ duration: 0.3, delay: isHovered ? 0.3 : 0 }}
                         >
-                            <p className="font-['Great_Vibes'] text-[#004280] text-2xl text-center leading-relaxed px-4">
+                            <p className="font-['Great_Vibes'] text-[#004280] text-3xl text-center leading-relaxed px-4">
                                 Hay algo<br />especial<br />para ti...
                             </p>
                         </motion.div>
@@ -121,7 +121,7 @@ export default function EnvelopeScene({ onOpen }) {
 
             </motion.div>
 
-            {/* Botón */}
+            {/* Botón - Alejado (mt-32) para no ahogar la carta */}
             <motion.button
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -129,7 +129,7 @@ export default function EnvelopeScene({ onOpen }) {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={onOpen}
-                className="mt-16 px-10 py-3 bg-[#C8A96E] text-[#004280] font-['Playfair_Display'] font-bold rounded-full shadow-xl hover:bg-[#E8D5B7] transition-all duration-300 z-50"
+                className="mt-32 px-10 py-3 bg-[#C8A96E] text-[#004280] font-['Playfair_Display'] font-bold rounded-full shadow-xl hover:bg-[#E8D5B7] transition-all duration-300 z-50"
             >
                 Abrir Carta
             </motion.button>
