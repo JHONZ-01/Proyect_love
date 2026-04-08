@@ -2,22 +2,22 @@ import { useState, useRef } from 'react'
 import EnvelopeScene from './components/envelope/EnvelopeScene'
 import Letter from './components/letter/Letter'
 import ParticleBackground from './components/ui/ParticleBackground'
+import { useSound } from './hooks/useSound'
+import { useAnimationState } from './hooks/useAnimationState';
 
 export default function App() {
     const [stage, setStage] = useState('envelope')
-    const audioRef = useRef(null)
-
+    const { play } = useSound('/assets/sounds/Álvaro Díaz, Cazzu, Caleb Calloway - Deportivo (Official Video).mp3', {
+        loop: true,
+        volume: 0.6,
+    })
     const handleOpen = () => {
-        if (audioRef.current) {
-            audioRef.current.loop = true
-            audioRef.current.play().catch(() => { })
-        }
+        play()
         setStage('opening')
     }
 
     return (
         <div className="relative min-h-screen flex items-center justify-center p-4 overflow-hidden bg-[#004280]">
-            <audio ref={audioRef} src="/assets/sounds/Álvaro Díaz, Cazzu, Caleb Calloway - Deportivo (Official Video).mp3" preload="none" />
             <ParticleBackground />
 
             {stage === 'envelope' && (
