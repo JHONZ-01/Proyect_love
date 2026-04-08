@@ -157,5 +157,169 @@ body {
     height: 0;
 }
 
-/* ... pega aquí el resto de tus clases .card, .heart, .hearts, .one, .two, etc. */
-/* Asegúrate de no pegar el 'body' del CSS que me pasaste para no romper el fondo azul */
+/* ========== CORAZONES FLOTANTES ========== */
+.hearts {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+}
+
+.hearts div {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background: #e74c3c;
+    transform: rotate(45deg);
+    animation: floatHeart 3s ease-in-out infinite;
+}
+
+.hearts div::before,
+.hearts div::after {
+    content: '';
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #e74c3c;
+}
+
+.hearts div::before {
+    top: -6px;
+    left: 0;
+}
+
+.hearts div::after {
+    left: 6px;
+    top: 0;
+}
+
+.hearts .one {
+    left: 20%;
+    animation-delay: 0s;
+    animation-duration: 2.5s;
+}
+
+.hearts .two {
+    left: 40%;
+    animation-delay: 0.4s;
+    animation-duration: 3s;
+}
+
+.hearts .three {
+    left: 60%;
+    animation-delay: 0.8s;
+    animation-duration: 2.8s;
+}
+
+.hearts .four {
+    left: 75%;
+    animation-delay: 1.2s;
+    animation-duration: 3.2s;
+}
+
+.hearts .five {
+    left: 10%;
+    animation-delay: 0.6s;
+    animation-duration: 2.6s;
+}
+
+@keyframes floatHeart {
+    0% {
+        opacity: 0;
+        transform: rotate(45deg) translateY(0) scale(0.5);
+    }
+
+    50% {
+        opacity: 1;
+        transform: rotate(45deg) translateY(-40px) scale(1);
+    }
+
+    100% {
+        opacity: 0;
+        transform: rotate(45deg) translateY(-80px) scale(0.3);
+    }
+}
+
+/* ========== CONTENEDOR DE LA CARTA 3D ========== */
+.envelope-3d {
+    width: 300px;
+    height: 200px;
+    background: var(--color-gold);
+    position: relative;
+    perspective: 1000px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+/* La tapa que se abre */
+.flap-top {
+    position: absolute;
+    width: 100%;
+    height: 0;
+    border-left: 150px solid transparent;
+    border-right: 150px solid transparent;
+    border-top: 110px solid #d4af37;
+    z-index: 5;
+    transform-origin: top;
+    transition: transform 1s ease;
+}
+
+.envelope-3d.open .flap-top {
+    transform: rotateX(180deg);
+    z-index: 1;
+}
+
+/* La carta física que sale */
+.letter-physical {
+    position: absolute;
+    width: 90%;
+    height: 80%;
+    background: var(--color-parchment);
+    top: 10%;
+    left: 5%;
+    border: 1px solid #ccc;
+    z-index: 2;
+    transition: all 1.5s ease 1s;
+    padding: 20px;
+    overflow: hidden;
+}
+
+.envelope-3d.open .letter-physical {
+    transform: translateY(-150px);
+    z-index: 6;
+    height: auto;
+    min-height: 400px;
+    width: 110%;
+    left: -5%;
+}
+
+/* Las caras del sobre (Frente) */
+.flap-front {
+    position: absolute;
+    width: 100%;
+    height: 0;
+    border-left: 150px solid #e8d5b7;
+    border-right: 150px solid #e8d5b7;
+    border-bottom: 100px solid #c8a96e;
+    bottom: 0;
+    z-index: 4;
+}
+
+/* ========== SHIMMER EN LA CARTA ========== */
+@keyframes shimmer {
+    0% {
+        background-position: -200% 0;
+    }
+
+    100% {
+        background-position: 200% 0;
+    }
+}
+
+.letter-shimmer {
+    background: linear-gradient(90deg,
+            transparent 0%,
+            rgba(200, 169, 110, 0.1) 50%,
+            transparent 100%);
+    background-size: 200% 100%;
+    animation: shimmer 3s ease-in-out infinite;
+}

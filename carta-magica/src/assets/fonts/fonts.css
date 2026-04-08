@@ -1,1 +1,23 @@
+/*
+ * Fuentes cargadas via Google Fonts en index.html:
+ *   - Playfair Display (serif - textos elegantes)
+ *   - Great Vibes (cursiva - títulos románticos)
+ *   - JetBrains Mono (monospace - detalles de código)
+ *
+ * Si necesitas cargar fuentes locales en el futuro,
+ * agrega los @font-face aquí y coloca los archivos
+ * .woff2 en esta carpeta.
+ */
 
+/* Clases utilitarias de fuentes */
+.font-playfair {
+    font-family: 'Playfair Display', serif;
+}
+
+.font-vibes {
+    font-family: 'Great Vibes', cursive;
+}
+
+.font-code {
+    font-family: 'JetBrains Mono', monospace;
+}

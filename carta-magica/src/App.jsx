@@ -6,14 +6,14 @@ import { useSound } from './hooks/useSound'
 import { useAnimationState } from './hooks/useAnimationState';
 
 export default function App() {
-    const [stage, setStage] = useState('envelope')
+    const { stage, startOpening } = useAnimationState()
     const { play } = useSound('/assets/sounds/Álvaro Díaz, Cazzu, Caleb Calloway - Deportivo (Official Video).mp3', {
         loop: true,
         volume: 0.6,
     })
     const handleOpen = () => {
         play()
-        setStage('opening')
+        startOpening()
     }
 
     return (
@@ -25,7 +25,7 @@ export default function App() {
             )}
 
             {(stage === 'opening' || stage === 'letter') && (
-                <Letter stage={stage} onReady={() => setStage('letter')} />
+                <Letter stage={stage} />
             )}
         </div>
     )
