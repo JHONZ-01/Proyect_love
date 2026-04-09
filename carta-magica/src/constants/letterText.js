@@ -1,9 +1,10 @@
 // Textos centralizados de la carta
-export const LETTER_HEADER = 'Hola, Especial'
+export const LETTER_HEADER = 'Hola, Mari'
 
 export const LETTER_PARAGRAPHS = [
-    'Hay momentos en la vida que merecen ser compartidos de una manera diferente.',
-    'Esta no es solo una página web, es una invitación a crear un recuerdo.',
+    ' Entre días ocupados y pequeñas pausas, encontré el momento perfecto para escribirte… porque hay invitaciones que no se hacen a la ligera.',
+    'Me gustaría invitarte a salir, a compartir una buena película, unas risas y, sobre todo, un momento agradable contigo.',
+    '¿Te gustaría acompañarme al cine?'
 ]
 
 export const LETTER_SIGNATURE = 'Con cariño...'

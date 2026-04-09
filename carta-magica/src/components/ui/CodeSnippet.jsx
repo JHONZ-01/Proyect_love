@@ -5,11 +5,11 @@ import { motion } from 'framer-motion'
  * Se usa como detalle visual premium en la carta.
  */
 export default function CodeSnippet({ code, language = 'javascript' }) {
-    const defaultCode = `const miSentimiento = {
-  para: "ti",
-  tipo: "especial",
-  intensidad: Infinity,
-  expira: never,
+    const defaultCode = `const invitacion = {
+  destino: "cine",
+  compañia: "tú",
+  plan: "disfrutar el momento",
+  resultado: "incierto pero prometedor",
 };`
 
     const displayCode = code || defaultCode
