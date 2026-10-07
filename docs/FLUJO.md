@@ -1,74 +1,101 @@
 # Flujo de la experiencia
 
-## Etapas
+## Arranque
 
-`useAnimationState` maneja tres etapas: `envelope` → `opening` → `letter`. `App.jsx` renderiza según la etapa.
+```mermaid
+flowchart TD
+    A[Carga la app] --> B["BlockHost: resolveBlock(env, registro)"]
+    B -->|error de configuración| E[ConfigError]
+    B -->|bloque elegido| C["carga perezosa del bloque + su meta"]
+    C --> D["AudioProvider con la música del bloque"]
+    D -->|"letter"| L[Flujo de la carta]
+    D -->|"gallery"| G[Flujo de la galería]
+```
+
+## Bloque carta
+
+`useAnimationState` maneja tres etapas: `envelope` → `opening` → `letter`.
 
 ```mermaid
 stateDiagram-v2
     [*] --> envelope
-    envelope --> opening: clic en el sobre / "Abrir Carta"<br/>(startOpening + play música)
+    envelope --> opening: clic en el sobre y "Abrir Carta"<br/>(startMusic + startOpening)
     opening --> letter: setTimeout 1200 ms
     letter --> envelope: reset() (existe en el hook, sin uso en la UI)
 ```
-
-## Secuencia de usuario
 
 ```mermaid
 sequenceDiagram
     actor U as Usuario
     participant E as EnvelopeScene
-    participant A as App
-    participant S as useSound
+    participant B as LetterBlock
+    participant A as AudioProvider
     participant L as Letter
-    participant B as InvitationButtons
+    participant I as InvitationButtons
 
     U->>E: pasa el mouse (la tapa se abre)
     U->>E: clic en el sobre y en "Abrir Carta"
-    E->>A: onOpen()
-    A->>S: play() (música en bucle, volumen 0.6)
-    A->>A: stage = opening
-    A->>L: renderiza Letter (animación del sobre 3D)
-    A->>A: a los 1200 ms stage = letter
-    L->>L: texto con efecto máquina de escribir (useTypewriter)
-    L->>B: tras 2.5 s aparecen los botones
+    E->>B: onOpen()
+    B->>A: startMusic() (bucle)
+    B->>B: stage = opening, y a los 1200 ms letter
+    B->>L: renderiza la carta (efecto máquina de escribir)
+    L->>I: tras 2.5 s aparecen los botones
     alt Sí, acepto
-        U->>B: clic en aceptar
-        B->>U: AcceptResponse (confeti + mensaje)
+        U->>I: AcceptResponse (confeti + mensaje)
     else No puedo
-        U->>B: pasa el mouse por "No"
-        B->>B: el botón se esquiva las primeras 3 veces
-        U->>B: clic en declinar
-        B->>U: DeclineResponse
-        U->>B: "reconsiderar" (reinicia el contador)
+        U->>I: el botón se esquiva las primeras 3 veces
+        I->>U: DeclineResponse: confirmar, escribir motivo y enviar por WhatsApp
+        U->>I: "Pensarlo de nuevo" reinicia
     end
+```
+
+## Bloque galería
+
+```mermaid
+sequenceDiagram
+    actor U as Usuario
+    participant T as GalleryTile
+    participant G as GalleryBlock
+    participant A as AudioProvider
+    participant M as PhotoModal
+
+    U->>T: clic en una puerta
+    T->>G: onSelect(foto)
+    G->>A: startMusic() (solo la primera vez)
+    G->>G: guarda la puerta como abierta (localStorage)
+    G->>M: abre el modal (450 ms después si la puerta estaba cerrada)
+    U->>M: flechas / Anterior / Siguiente (abren esa puerta también)
+    U->>M: Escape, × o clic fuera: cierra
+    U->>A: botón Música: pausa o reanuda
 ```
 
 ## Dónde editar cada cosa
 
 | Quiero cambiar... | Archivo |
 |---|---|
-| Nombre, párrafos, firma, mensajes y etiquetas | `src/constants/letterText.js` |
-| Música de fondo | `src/App.jsx` (import del mp3, volumen) |
-| Duración de la apertura | `src/hooks/useAnimationState.js` |
-| Velocidad de escritura | `src/hooks/useTypewriter.js` (parámetro `speed`) |
-| Cuántas veces huye el botón "No" | `src/components/invitation/InvitationButtons.jsx` (`dodgeCount < 3`) |
-| Colores, sobre y pergamino | `src/index.css` |
+| Qué bloque se muestra | `carta-magica/.env` (reiniciar `dev`) |
+| Textos de la carta (nombre, párrafos, firma, respuestas) | `src/blocks/letter/content.js` |
+| Música de la carta | `src/blocks/letter/block.meta.js` |
+| Duración de la apertura | `src/blocks/letter/hooks/useAnimationState.js` |
+| Velocidad de escritura | `src/blocks/letter/hooks/useTypewriter.js` (`speed`) |
+| Cuántas veces huye el botón "No" | `src/blocks/letter/components/invitation/InvitationButtons.jsx` |
+| Número de WhatsApp y mensaje del rechazo | `src/blocks/letter/components/invitation/DeclineResponse.jsx` |
+| Fotos de la galería | copiarlas a `src/blocks/gallery/assets/photos/` |
+| Título, textos y tamaño de cada foto | `src/blocks/gallery/content.js` (`PHOTO_DETAILS`) |
+| Tamaño de celdas y puertas | `src/blocks/gallery/gallery.css` |
+| Música de la galería | `src/blocks/gallery/block.meta.js` |
+| Colores globales y fondo | `src/shared/styles/base.css` |
 | Título, descripción al compartir, fuentes | `carta-magica/index.html` |
 
 ## Flujo de trabajo del desarrollador
 
 ```mermaid
 flowchart LR
-    A[npm ci --ignore-scripts] --> B[npm run dev]
-    B --> C[editar src/]
-    C --> D[npm run build]
-    D --> E[npm run preview]
-    E --> F[desplegar dist/]
+    A["npm ci --ignore-scripts"] --> B[copiar .env.example a .env]
+    B --> C[npm run dev]
+    C --> D[editar src/]
+    D --> T[npm test]
+    T --> E[npm run build]
+    E --> F[npm run preview]
+    F --> G[desplegar dist/]
 ```
-
-## Flujo planificado con bloques
-
-1. Editar `.env` (`VITE_BLOCK_LETTER`, `VITE_BLOCK_GALLERY`).
-2. Reiniciar `npm run dev` o rehacer `npm run build`.
-3. `App.jsx` monta solo el bloque activo; cada bloque trae su música y textos.
