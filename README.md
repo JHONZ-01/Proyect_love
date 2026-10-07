@@ -1,36 +1,42 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Carta mágica
 
-## Getting Started
+Invitación interactiva: un sobre que se abre, una carta con efecto de máquina de escribir y botones de respuesta (el "No" se esquiva). Construida con React 19, Vite 6, Tailwind 4 y Framer Motion. Es un sitio estático, sin backend.
 
-First, run the development server:
+## Inicio rápido
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm ci --ignore-scripts   # instala exactamente lo del lock, sin scripts de terceros
+npm run dev               # http://localhost:5173
+npm run build             # genera carta-magica/dist
+npm run preview           # previsualiza el build
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+`.npmrc` ya trae `ignore-scripts=true`. Si el build falla por `esbuild`, ejecuta `npm rebuild esbuild`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Documentación
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- [docs/ARQUITECTURA.md](docs/ARQUITECTURA.md): stack, estructura de carpetas, diagrama de componentes, despliegue y bloques con interruptor.
+- [docs/FLUJO.md](docs/FLUJO.md): etapas, secuencia de usuario, dónde editar cada cosa.
+- [PLAN_LIMPIEZA.md](PLAN_LIMPIEZA.md): tareas hechas y pendientes.
 
-## Learn More
+## Personalizar
 
-To learn more about Next.js, take a look at the following resources:
+Los textos (nombre, párrafos, firma, respuestas) están en `carta-magica/src/constants/letterText.js`. La música se cambia en `carta-magica/src/App.jsx`. La tabla completa está en [docs/FLUJO.md](docs/FLUJO.md#dónde-editar-cada-cosa).
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Estructura
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```
+carta-magica/src/
+├── App.jsx            # etapas + música
+├── components/        # envelope, letter, invitation, ui
+├── hooks/             # useAnimationState, useSound, useTypewriter
+├── animations/        # variantes de Framer Motion
+├── constants/         # textos
+└── assets/            # sounds, textures
+```
 
-## Deploy on Vercel
+## Notas
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- La canción `Deportivo` en `assets/sounds` se conserva a propósito para un uso futuro; no eliminarla.
+- Hoy `carta-magica/dist` está versionada (ver el plan).
+- Próximo paso: bloques activables por `.env` (carta, galería). Ver el plan, punto 6.
