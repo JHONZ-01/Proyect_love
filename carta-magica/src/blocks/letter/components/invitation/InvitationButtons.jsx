@@ -43,8 +43,8 @@ export default function InvitationButtons() {
                 whileTap={{ scale: 0.95 }}
                 animate={{
                     boxShadow: [
-                        '0 0 0 0 rgba(200, 169, 110, 0.4)',
-                        '0 0 0 10px rgba(200, 169, 110, 0)',
+                        '0 0 0 0 rgba(224, 176, 79, 0.4)',
+                        '0 0 0 10px rgba(224, 176, 79, 0)',
                     ],
                 }}
                 transition={{
@@ -53,7 +53,7 @@ export default function InvitationButtons() {
                     ease: 'easeInOut',
                 }}
                 onClick={handleAccept}
-                className="px-8 py-3 bg-[#C8A96E] text-[#004280] font-['Playfair_Display'] font-bold rounded-full shadow-xl hover:bg-[#E8D5B7] transition-colors duration-300 text-lg"
+                className="px-8 py-3 bg-gold text-navy font-body font-bold rounded-full shadow-xl hover:bg-cream transition-colors duration-300 text-lg"
                 id="accept-btn"
             >
                 {BUTTON_LABELS.accept}
@@ -69,7 +69,7 @@ export default function InvitationButtons() {
                 whileTap={{ scale: 0.95 }}
                 onMouseEnter={handleDeclineHover}
                 onClick={handleDecline}
-                className="px-6 py-2 bg-transparent border-2 border-[#C8A96E] text-[#C8A96E] font-['Playfair_Display'] rounded-full hover:bg-[#C8A96E]/10 transition-colors duration-300"
+                className="px-6 py-2 bg-transparent border-2 border-gold text-gold font-body rounded-full hover:bg-gold/10 transition-colors duration-300"
                 id="decline-btn"
             >
                 {BUTTON_LABELS.decline}

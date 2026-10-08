@@ -21,9 +21,10 @@ export function AudioProvider({ src, volume = 0.6, children }) {
     useEffect(() => stop, [stop])
 
     const startMusic = useCallback(() => {
+        if (!src) return // bloque sin música
         play()
         setIsPlaying(true)
-    }, [play])
+    }, [src, play])
 
     const stopMusic = useCallback(() => {
         stop()
@@ -31,6 +32,7 @@ export function AudioProvider({ src, volume = 0.6, children }) {
     }, [stop])
 
     const toggleMusic = useCallback(() => {
+        if (!src) return
         if (isPlaying) {
             pause()
             setIsPlaying(false)
@@ -38,7 +40,7 @@ export function AudioProvider({ src, volume = 0.6, children }) {
             resume()
             setIsPlaying(true)
         }
-    }, [isPlaying, pause, resume])
+    }, [src, isPlaying, pause, resume])
 
     const value = useMemo(
         () => ({ isPlaying, startMusic, stopMusic, toggleMusic }),

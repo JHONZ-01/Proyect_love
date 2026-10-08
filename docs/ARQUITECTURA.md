@@ -39,18 +39,21 @@ Proyect_love/
         │   └── ConfigError.jsx         # pantalla de configuración inválida
         ├── shared/         # lo que usan todos los bloques
         │   ├── ParticleBackground.jsx
-        │   ├── useSound.js
+        │   ├── useSound.js, useGoogleFont.js
         │   └── styles/base.css
         └── blocks/
             ├── letter/     # bloque 1: sobre + carta + invitación
             │   ├── index.jsx, block.meta.js, content.js, letter.css
             │   ├── components/ hooks/ animations/
             │   └── assets/ (paper1.png, sounds/persona-favorita.mp3)
-            └── gallery/    # bloque 2: calendario de recuerdos
-                ├── index.jsx, block.meta.js, content.js, gallery.css
-                ├── components/ (GalleryTile, PhotoModal, MusicToggle, Placeholder)
-                ├── hooks/useOpenedDoors.js
-                └── assets/ (photos/, sounds/deportivo.mp3)
+            ├── gallery/    # bloque 2: calendario de recuerdos
+            │   ├── index.jsx, block.meta.js, content.js, gallery.css
+            │   ├── components/ (GalleryTile, PhotoModal, MusicToggle, Placeholder)
+            │   ├── hooks/useOpenedDoors.js
+            │   └── assets/ (photos/, sounds/deportivo.mp3)
+            └── steamer/    # bloque 3: cesto de vapor con bolitas (solo CSS, sin música)
+                ├── index.jsx, block.meta.js (music: null), content.js, steamer.css
+                └── components/Dumpling.jsx
 ```
 
 ## Cómo se elige el bloque
@@ -83,6 +86,7 @@ flowchart TD
     BH --> AP[AudioProvider]
     AP --> LB[blocks/letter]
     AP --> GB[blocks/gallery]
+    AP --> SB[blocks/steamer]
     LB --> ES[EnvelopeScene]
     LB --> L[Letter]
     L --> IB[InvitationButtons]
@@ -91,6 +95,7 @@ flowchart TD
     GB --> GT[GalleryTile x N]
     GB --> PM[PhotoModal]
     GB --> MT[MusicToggle]
+    SB --> DP["Dumpling x 3 + CSS :checked"]
     LB -.useAudio.-> AP
     GB -.useAudio.-> AP
 ```

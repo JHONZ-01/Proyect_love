@@ -26,14 +26,14 @@ export default function CodeSnippet({ code, language = 'javascript' }) {
                 <span className="w-3 h-3 rounded-full bg-red-400/80" />
                 <span className="w-3 h-3 rounded-full bg-yellow-400/80" />
                 <span className="w-3 h-3 rounded-full bg-green-400/80" />
-                <span className="ml-auto text-xs text-gray-500 font-['JetBrains_Mono']">
+                <span className="ml-auto text-xs text-gray-500 font-code">
                     {language}
                 </span>
             </div>
 
             {/* Código */}
             <pre className="bg-[#1e1e2e] px-4 py-3 rounded-b-lg overflow-x-auto border border-[#2d2d3f] border-t-0">
-                <code className="font-['JetBrains_Mono'] text-xs sm:text-sm text-[#a6e3a1] leading-relaxed whitespace-pre">
+                <code className="font-code text-xs sm:text-sm text-[#a6e3a1] leading-relaxed whitespace-pre">
                     {displayCode}
                 </code>
             </pre>

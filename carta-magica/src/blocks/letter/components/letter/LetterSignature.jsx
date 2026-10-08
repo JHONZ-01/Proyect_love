@@ -8,8 +8,8 @@ export default function LetterSignature() {
             {...signatureFadeUp}
             className="mt-12 text-center"
         >
-            <div className="h-px w-16 bg-[#b38b59] mx-auto mb-6 opacity-50" />
-            <p className="font-['Great_Vibes'] text-4xl text-[#8b5e3c]">
+            <div className="h-px w-16 bg-gold-deep mx-auto mb-6 opacity-50" />
+            <p className="font-script text-4xl text-sepia">
                 {LETTER_SIGNATURE}
             </p>
         </motion.div>

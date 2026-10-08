@@ -29,4 +29,14 @@ export const BLOCK_REGISTRY = [
                 import('../blocks/gallery/block.meta'),
             ]),
     },
+    {
+        id: 'steamer',
+        flag: 'VITE_BLOCK_STEAMER',
+        load: __BLOCK_STEAMER_OFF__
+            ? null
+            : () => Promise.all([
+                import('../blocks/steamer'),
+                import('../blocks/steamer/block.meta'),
+            ]),
+    },
 ]

@@ -40,10 +40,10 @@ export default function DeclineResponse({ onReconsider }) {
                         {DECLINE_MESSAGE.emoji}
                     </motion.span>
 
-                    <h3 className="font-['Great_Vibes'] text-3xl text-[#8b5e3c] mb-2">
+                    <h3 className="font-script text-3xl text-sepia mb-2">
                         {DECLINE_MESSAGE.title}
                     </h3>
-                    <p className="font-['Playfair_Display'] text-[#4a3f35] italic mb-6">
+                    <p className="font-body text-ink italic mb-6">
                         ¿De verdad estás segura de rechazar?
                     </p>
 
@@ -52,7 +52,7 @@ export default function DeclineResponse({ onReconsider }) {
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
                             onClick={() => setStep('reason')}
-                            className="px-6 py-2 bg-transparent text-[#8b5e3c] border border-[#8b5e3c] font-['Playfair_Display'] rounded-full hover:bg-[#8b5e3c]/10 transition-colors text-sm"
+                            className="px-6 py-2 bg-transparent text-sepia border border-sepia font-body rounded-full hover:bg-sepia/10 transition-colors text-sm"
                         >
                             Sí, estoy segura
                         </motion.button>
@@ -61,7 +61,7 @@ export default function DeclineResponse({ onReconsider }) {
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
                             onClick={onReconsider}
-                            className="px-8 py-3 bg-[#C8A96E] text-[#004280] font-['Playfair_Display'] font-bold rounded-full shadow-lg hover:bg-[#E8D5B7] transition-colors"
+                            className="px-8 py-3 bg-gold text-navy font-body font-bold rounded-full shadow-lg hover:bg-cream transition-colors"
                         >
                             Pensarlo de nuevo 💭
                         </motion.button>
@@ -76,9 +76,9 @@ export default function DeclineResponse({ onReconsider }) {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -20 }}
                     // Estilos de la notita con "parchment-bg" y una "cinta adhesiva" simulada
-                    className="mt-2 p-6 parchment-bg rounded shadow-2xl border border-[#C8A96E]/40 w-full max-w-xs flex flex-col relative before:absolute before:-top-3 before:left-1/2 before:-translate-x-1/2 before:w-16 before:h-4 before:bg-white/60 before:rotate-[-3deg] before:shadow-sm"
+                    className="mt-2 p-6 parchment-bg rounded shadow-2xl border border-gold/40 w-full max-w-xs flex flex-col relative before:absolute before:-top-3 before:left-1/2 before:-translate-x-1/2 before:w-16 before:h-4 before:bg-white/60 before:rotate-[-3deg] before:shadow-sm"
                 >
-                    <h4 className="font-['Great_Vibes'] text-3xl text-[#8b5e3c] mb-4 text-center">
+                    <h4 className="font-script text-3xl text-sepia mb-4 text-center">
                         Cuéntame,<br />¿por qué no?
                     </h4>
 
@@ -86,7 +86,7 @@ export default function DeclineResponse({ onReconsider }) {
                         value={reason}
                         onChange={(e) => setReason(e.target.value)}
                         placeholder="Escribe tu motivo aquí..."
-                        className="w-full bg-transparent border-b-2 border-[#b38b59]/30 outline-none resize-none h-20 font-['Playfair_Display'] text-[#4a3f35] placeholder:text-[#4a3f35]/50 focus:border-[#b38b59] transition-colors mb-6 text-center leading-relaxed"
+                        className="w-full bg-transparent border-b-2 border-gold-deep/30 outline-none resize-none h-20 font-body text-ink placeholder:text-ink/50 focus:border-gold-deep transition-colors mb-6 text-center leading-relaxed"
                     />
 
                     <div className="flex flex-col gap-3">
@@ -96,9 +96,9 @@ export default function DeclineResponse({ onReconsider }) {
                             onClick={handleSendWhatsApp}
                             disabled={isReasonEmpty}
                             title={isReasonEmpty ? "Escribe un motivo primero" : "Enviar respuesta"}
-                            className={`px-4 py-2.5 font-['Playfair_Display'] font-bold rounded shadow-md transition-all flex items-center justify-center gap-2 ${isReasonEmpty
+                            className={`px-4 py-2.5 font-body font-bold rounded shadow-md transition-all flex items-center justify-center gap-2 ${isReasonEmpty
                                     ? 'bg-gray-300 text-gray-500 cursor-not-allowed opacity-60'
-                                    : 'bg-[#25D366] text-white hover:bg-[#1DA851]'
+                                    : 'bg-whatsapp text-white hover:bg-whatsapp-hover'
                                 }`}
                         >
                             <span>Enviar por WhatsApp</span>
@@ -112,7 +112,7 @@ export default function DeclineResponse({ onReconsider }) {
                             whileHover={{ scale: 1.02 }}
                             whileTap={{ scale: 0.98 }}
                             onClick={onReconsider}
-                            className="px-6 py-2 mt-2 text-[#8b5e3c] font-['Playfair_Display'] text-sm hover:underline"
+                            className="px-6 py-2 mt-2 text-sepia font-body text-sm hover:underline"
                         >
                             Pensarlo de nuevo 💭
                         </motion.button>

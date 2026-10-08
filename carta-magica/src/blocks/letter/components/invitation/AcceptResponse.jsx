@@ -49,10 +49,10 @@ export default function AcceptResponse() {
                 {ACCEPT_MESSAGE.emoji}
             </motion.span>
 
-            <h3 className="font-['Great_Vibes'] text-3xl text-[#8b5e3c] mb-2">
+            <h3 className="font-script text-3xl text-sepia mb-2">
                 {ACCEPT_MESSAGE.title}
             </h3>
-            <p className="font-['Playfair_Display'] text-[#4a3f35] italic">
+            <p className="font-body text-ink italic">
                 {ACCEPT_MESSAGE.subtitle}
             </p>
         </motion.div>

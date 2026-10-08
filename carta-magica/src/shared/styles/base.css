@@ -1,14 +1,42 @@
 @import "tailwindcss";
 
+/*
+ * Paleta y tipografías compartidas (shell + carta). Cada nombre genera su
+ * utilidad de Tailwind: --color-gold -> bg-gold / text-gold / border-gold/40,
+ * --font-script -> font-script. Para retocar el diseño basta cambiar estos valores.
+ */
 @theme {
-    --color-navy: #004280;
-    --color-cream: #E8D5B7;
-    --color-gold: #C8A96E;
-    --color-parchment: #F5ECD7;
+    /* Fondo y acentos */
+    --color-navy: #004280;          /* fondo del sitio, texto sobre dorado */
+    /* Un solo oro: rampa luz -> base -> sombra. Se usan juntos en degradados;
+       en plano, siempre --color-gold. */
+    --color-gold-light: #F4D57E;
+    --color-gold: #E0B04F;
+    --color-gold-deep: #B9801C;
+    --color-cream: #E8D5B7;         /* hover de botones */
 
-    --font-family-playfair: "Playfair Display", serif;
-    --font-family-vibes: "Great Vibes", cursive;
-    --font-family-code: "JetBrains Mono", monospace;
+    /* Papel kraft del sobre */
+    --color-kraft-light: #E3CBA1;
+    --color-kraft: #D4B287;
+    --color-kraft-deep: #B8956A;
+
+    /* Papel y tinta */
+    --color-parchment: #F5ECD7;     /* papel de la carta */
+    --color-ink: #4a3f35;           /* texto de lectura */
+    --color-sepia: #8b5e3c;         /* títulos y firma sobre papel */
+
+    /* Detalles */
+    --color-wax: #8f1d1d;           /* sello de lacre */
+    --color-wax-light: #D24545;     /* brillo del lacre */
+    --color-heart: #e74c3c;         /* corazones flotantes */
+    --color-whatsapp: #25D366;
+    --color-whatsapp-hover: #1DA851;
+
+    /* Tipografías por rol */
+    --font-ui: "Nunito", system-ui, sans-serif;     /* portada y botones de interfaz */
+    --font-script: "Great Vibes", cursive;          /* títulos y firma */
+    --font-body: "Playfair Display", serif;         /* texto y botones */
+    --font-code: "JetBrains Mono", monospace;       /* fragmento de código */
 }
 
 *,

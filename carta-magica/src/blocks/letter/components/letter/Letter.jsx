@@ -19,7 +19,7 @@ export default function Letter({ stage }) {
                 <div className="flap-front" />
 
                 {/* La carta que sube */}
-                <div className="letter-physical shadow-2xl rounded-sm border-l-4 border-[#C8A96E] parchment-bg">
+                <div className="letter-physical shadow-2xl rounded-sm border-l-4 border-gold parchment-bg">
                     
                     {/* Líneas simulando el doblez en 3 */}
                     <div className="absolute top-1/3 left-0 w-full h-[1px] bg-black/10 shadow-[0_1px_2px_rgba(255,255,255,0.5)] z-0" />

@@ -9,6 +9,11 @@ export const LETTER_PARAGRAPHS = [
 
 export const LETTER_SIGNATURE = 'Con cariño...'
 
+export const COVER = {
+    title: '¡Has recibido un mensaje especial!',
+    subtitle: 'Haz clic para descubrir lo que hay dentro',
+}
+
 export const ENVELOPE_PEEK_TEXT = 'Hay algo\nespecial\npara ti...'
 
 export const ACCEPT_MESSAGE = {

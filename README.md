@@ -4,6 +4,7 @@ Proyecto multiuso hecho de **bloques**: cada bloque es una experiencia independi
 
 - **Bloque 1, carta:** un sobre que se abre, una carta con efecto de máquina de escribir y botones de respuesta (el "No" se esquiva).
 - **Bloque 2, galería:** un calendario de recuerdos digital: cuadrícula de puertas con fotos, modal y música de fondo.
+- **Bloque 3, cesto de vapor:** un cesto con tres bolitas con carita que despiertan al levantar la tapa. Solo CSS, sin música.
 
 Construido con React 19, Vite 6, Tailwind 4 y Framer Motion. Es un sitio estático, sin backend.
 
@@ -27,9 +28,10 @@ En `carta-magica/.env`:
 ```env
 VITE_BLOCK_LETTER=true
 VITE_BLOCK_GALLERY=false
+VITE_BLOCK_STEAMER=false
 ```
 
-- Se muestra un solo bloque. Para la galería, pon la carta en `false` y la galería en `true`.
+- Se muestra un solo bloque. Para la galería, pon la carta en `false` y la galería en `true`; para el cesto de vapor, lo mismo con `VITE_BLOCK_STEAMER`.
 - Sin ninguna variable definida se muestra la carta.
 - Cambiar el `.env` exige reiniciar `npm run dev` o rehacer `npm run build`. Es un interruptor, no un secreto: los valores quedan en el bundle.
 
@@ -42,6 +44,7 @@ Copia los archivos (`.jpg`, `.jpeg`, `.png` o `.webp`) a `carta-magica/src/block
 - [docs/ARQUITECTURA.md](docs/ARQUITECTURA.md): stack, estructura, selección de bloque, contrato de bloque y despliegue.
 - [docs/FLUJO.md](docs/FLUJO.md): flujos de cada bloque y dónde editar cada cosa.
 - [docs/NUEVO_BLOQUE.md](docs/NUEVO_BLOQUE.md): guía paso a paso para crear un bloque.
+- [docs/DESPLIEGUE.md](docs/DESPLIEGUE.md): cómo publicar (con o sin build en el hosting) y qué revisar antes.
 - [docs/PLAN_BLOQUES.md](docs/PLAN_BLOQUES.md): plan por fases de la arquitectura de bloques y su avance.
 - [docs/VERIFICACION_CARTA.md](docs/VERIFICACION_CARTA.md) y [docs/VERIFICACION_GALERIA.md](docs/VERIFICACION_GALERIA.md): listas de verificación manual.
 - [PLAN_LIMPIEZA.md](PLAN_LIMPIEZA.md): plan de limpieza general.
@@ -55,7 +58,8 @@ carta-magica/src/
 ├── shared/            # fondo de partículas, useSound, estilos base
 └── blocks/
     ├── letter/        # bloque 1
-    └── gallery/       # bloque 2
+    ├── gallery/       # bloque 2
+    └── steamer/       # bloque 3
 ```
 
 ## Notas

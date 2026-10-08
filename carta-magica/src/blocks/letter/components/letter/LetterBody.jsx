@@ -8,7 +8,7 @@ export default function LetterBody() {
     const paragraphs = text.split('\n\n')
 
     return (
-        <div className="font-['Playfair_Display'] text-[#4a3f35] text-lg leading-relaxed my-8 space-y-4 text-center">
+        <div className="font-body text-ink text-lg leading-relaxed my-8 space-y-4 text-center">
             {paragraphs.map((p, i) => (
                 p && <p key={i} className={i > 0 ? 'italic' : ''}>{p}</p>
             ))}

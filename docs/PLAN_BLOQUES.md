@@ -152,11 +152,20 @@ Una rama y un PR por fase. Después de cada una: `npm run build` sin errores y l
 - [x] Fase 2: `core/blocks.config.js` (resolvedor puro), `core/registry.js`, `blocks/letter/block.meta.js`, `carta-magica/.env.example` (y `!.env.example` en `.gitignore`). Resolvedor probado con 8 casos en Node (sin banderas, true, false, varios activos, ninguno, valor inválido, mayúsculas, vacío). Aún no está conectado a `App.jsx` (fase 3).
 - [x] Fase 3: `App.jsx` reducido a fondo + `BlockHost`; `core/BlockHost.jsx`, `AudioProvider.jsx`, `ConfigError.jsx`; la carta es ahora `blocks/letter/index.jsx` (carga perezosa, con su propio `letter.css`). Build OK; **verificación en navegador a cargo del usuario**.
 - [x] Fase 4: exclusión del bloque apagado en el build. La bandera se calcula en `vite.config.js` (`loadEnv` + `parseFlag`) y se inyecta como constante literal `__BLOCK_LETTER_OFF__`; `core/registry.js` pone `load: null` si está apagado. Un primer intento con `parseFlag()` directo en el registro NO excluía nada (Rollup no pliega llamadas a funciones). Verificado con 4 builds: `true`, `false`, `FALSE` y sin variable. Con `false` desaparecen mp3, textura y JS de la carta (de ~5,6 MB a ~0,3 MB). `dist` reconstruida con la configuración por defecto.
-- [ ] Fase 5 en adelante.
 - [x] Fase 5 (primera versión): bloque `gallery` como calendario de adviento digital. Cuadrícula bento (`auto-fill` + `grid-auto-flow: dense`, celdas `tall/wide/big/xtall`, tomada de la base del usuario sin las funciones CSS experimentales), puertas con animación que se abren al hacer clic, modal (Escape, flechas, fondo para cerrar), música "Deportivo" iniciada con el primer clic y botón para pausar. El estado "abierto" se guarda en `localStorage`. Mientras no haya fotos se muestran 12 marcadores de posición.
   - **Cómo agregar fotos:** copiarlas a `carta-magica/src/blocks/gallery/assets/photos/` (`.jpg/.jpeg/.png/.webp`, se ordenan por nombre: `01.jpg`, `02.jpg`...). Textos y tamaño por foto en `PHOTO_DETAILS` de `blocks/gallery/content.js`, con el nombre sin extensión como clave.
   - **Cambio en el build:** `vite.config.js` ahora usa el mismo resolvedor que la app, así que solo el bloque que se muestra entra al build (con las variables sin definir, solo la carta). Al añadir un bloque hay que registrarlo en `core/registry.js` y en la lista `BLOCKS` de `vite.config.js`.
   - Verificado con builds: `LETTER=false,GALLERY=true` solo trae `deportivo.mp3`; `LETTER=true` o sin variables solo `persona-favorita.mp3` y la textura; ambos en `false` o un valor inválido no traen ningún asset. **Pendiente: verificación visual por parte del usuario.**
 - [x] Fase 7 (parcial): pruebas del resolvedor con `node --test` (10 casos; se usó el ejecutor integrado de Node en lugar de Vitest para no sumar dependencias); docs actualizados (`ARQUITECTURA`, `FLUJO`, README); guía [NUEVO_BLOQUE.md](NUEVO_BLOQUE.md); lista [VERIFICACION_GALERIA.md](VERIFICACION_GALERIA.md).
-- [ ] Fase 7, pendiente de decisión del usuario: actualizar Vite (7 vulnerabilidades de desarrollo en `npm audit`) y definir hosting + flujo de despliegue.
 - Fase 6 (modo secuencia): descartada.
+- [x] Fase 7 (cierre): `npm audit fix --ignore-scripts` aplicado (Vite 6.4.4 y 25 paquetes menores; 0 vulnerabilidades; 10 tests y build en verde). Guía de despliegue en [DESPLIEGUE.md](DESPLIEGUE.md), que deja listo lo que necesita cualquier proveedor.
+- Pendiente fuera del plan: elegir el hosting (la guía lo deja neutro), subir las fotos reales de la galería y el bloque 3.
+
+## Estado del plan: completo
+Fases 0 a 5 y 7 hechas; fase 6 descartada por decisión del usuario.
+
+## Bloque 3: steamer (cesto de vapor)
+- [x] Añadido como `blocks/steamer` a partir del HTML/CSS aportado por el usuario. El CSS se convierte con un script (no se reescribió a mano) y queda aislado bajo `.steamer-block`, con `@keyframes` prefijados `st-`; la fuente Sniglet se carga con el nuevo `shared/useGoogleFont.js`; el marcado se divide en `index.jsx` + `components/Dumpling.jsx`, y los textos están en `content.js` (en inglés, como en el original).
+- [x] Sin música: `AudioProvider` ahora respeta `music: null`.
+- [x] Registrado en `core/registry.js`, en `BLOCKS` de `vite.config.js` y en `.env.example` (`VITE_BLOCK_STEAMER`).
+- [x] Verificado con builds: solo el bloque elegido entra al build (con `STEAMER=true` no hay mp3 ni textura); el CSS anidado se convierte bien y conserva los selectores `:checked + ...`. **Pendiente: revisión visual por el usuario** ([VERIFICACION_STEAMER.md](VERIFICACION_STEAMER.md)).

@@ -85,3 +85,11 @@ Añade `VITE_BLOCK_TRIVIA=false` a `carta-magica/.env.example`. Para usarlo, en 
 | El bloque no cambia al editar `.env` | Hay que reiniciar `npm run dev` |
 | No suena la música | `startMusic()` se llamó fuera de un gesto del usuario |
 | Estilos que se "filtran" a otros bloques | Clases sin prefijo en el CSS del bloque |
+
+## Casos especiales (ejemplo: el bloque `steamer`)
+
+- **Sin música:** pon `music: null` en `block.meta.js`. El shell no crea audio y `startMusic()` / `toggleMusic()` no hacen nada.
+- **Fuente propia:** usa `useGoogleFont(url)` de `shared/useGoogleFont.js` dentro del bloque. La hoja se añade al montarse y se quita al desmontarse (no uses `@import` en el CSS del bloque: no es válido en medio del archivo empaquetado).
+- **Pantalla completa con otro fondo:** envuelve el bloque en una clase raíz (`.steamer-block`) con `position: fixed; inset: 0; z-index: 20; overflow: auto` y su propio `background`. Así cubre el fondo azul y las partículas del shell sin tocarlos.
+- **Importar CSS ajeno:** anida todo bajo la clase raíz del bloque, saca los `@keyframes` (no pueden anidarse) y ponles un prefijo (`st-`). Así los nombres genéricos (`.lid`, `.title`, `.face`...) no se filtran a otros bloques.
+- **Interacción solo con CSS:** si el bloque usa selectores de hermanos (`:checked + .x`), conserva el orden del marcado.

@@ -11,6 +11,7 @@ const root = fileURLToPath(new URL('./carta-magica', import.meta.url))
 const BLOCKS = [
     { id: 'letter', flag: 'VITE_BLOCK_LETTER' },
     { id: 'gallery', flag: 'VITE_BLOCK_GALLERY' },
+    { id: 'steamer', flag: 'VITE_BLOCK_STEAMER' },
 ]
 
 export default defineConfig(({ mode }) => {

@@ -10,6 +10,7 @@ flowchart TD
     C --> D["AudioProvider con la música del bloque"]
     D -->|"letter"| L[Flujo de la carta]
     D -->|"gallery"| G[Flujo de la galería]
+    D -->|"steamer"| S[Flujo del cesto de vapor]
 ```
 
 ## Bloque carta
@@ -69,6 +70,21 @@ sequenceDiagram
     U->>A: botón Música: pausa o reanuda
 ```
 
+## Bloque cesto de vapor
+
+Toda la interacción es CSS, sin estado de React: un `checkbox` oculto (`#lid-toggle`) y su `label` (el cesto). Al marcarlo, los selectores `:checked + .steamer` y `:checked ~ .caption` abren la tapa, levantan las bolitas, hacen salir el vapor y cambian la leyenda.
+
+```mermaid
+stateDiagram-v2
+    [*] --> cerrado
+    cerrado --> abierto: clic o Espacio sobre el cesto (checkbox :checked)
+    abierto --> cerrado: segundo clic
+    note right of cerrado: tapa que se agita, "zzz", bolitas con los ojos cerrados
+    note right of abierto: tapa levantada, bolitas con ojos abiertos y rebote, vapor
+```
+
+Sin música (`music: null` en `block.meta.js`). Respeta `prefers-reduced-motion`. La estructura `input` → `label.steamer` → `h1` → `p.caption` debe mantenerse en ese orden, porque el CSS usa selectores de hermanos.
+
 ## Dónde editar cada cosa
 
 | Quiero cambiar... | Archivo |
@@ -84,6 +100,8 @@ sequenceDiagram
 | Título, textos y tamaño de cada foto | `src/blocks/gallery/content.js` (`PHOTO_DETAILS`) |
 | Tamaño de celdas y puertas | `src/blocks/gallery/gallery.css` |
 | Música de la galería | `src/blocks/gallery/block.meta.js` |
+| Textos del cesto de vapor (título, leyendas) | `src/blocks/steamer/content.js` |
+| Colores, tamaño y animaciones del cesto | `src/blocks/steamer/steamer.css` (variables al inicio, bajo `.steamer-block`) |
 | Colores globales y fondo | `src/shared/styles/base.css` |
 | Título, descripción al compartir, fuentes | `carta-magica/index.html` |
 
