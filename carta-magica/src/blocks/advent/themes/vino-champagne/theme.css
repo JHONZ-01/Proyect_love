@@ -1,0 +1,85 @@
+/*
+ * Estilo «Vino y champán» (el estilo por defecto del adviento): burdeos profundo y oro rosado.
+ * Todas las variables llevan el prefijo --adv- y quedan acotadas al bloque, así que no
+ * cambian el aspecto de la carta, la galería ni el cesto. Cada estilo nuevo será una carpeta
+ * hermana con este mismo conjunto de variables (ver PLAN_BLOQUE_4_ADVIENTO.md §4.8).
+ * Los contrastes de texto de estos pares se comprobaron en el mockup (≥ 4,5:1).
+ */
+.advent-block[data-theme="vino-champagne"] {
+    /* Fondo */
+    --adv-bg1: #5B1A2E;
+    --adv-bg2: #3A0F1E;
+    --adv-bg3: #240912;
+    --adv-star-rgb: 255 235 225;
+    --adv-snow: #fff0e8;
+
+    /* Texto sobre el fondo */
+    --adv-tx: #F6E3D6;
+    --adv-tx-rgb: 246 227 214;
+    --adv-tx-soft: rgba(246, 227, 214, .88);
+    --adv-tx-accent: #F2C7A8;
+    --adv-glow: rgba(242, 199, 168, .22);
+
+    /* Puerta */
+    --adv-door-1: #F4D2B8;
+    --adv-door-2: #D9A184;
+    --adv-door-edge: #A86A52;
+    --adv-door-ink: #4A1224;
+    --adv-door-line: rgba(74, 18, 36, .3);
+    --adv-knob-1: #F4D2B8;
+    --adv-knob-2: #A86A52;
+
+    /* Puerta bloqueada (apagada) */
+    --adv-lk-fill: rgba(244, 210, 184, .10);
+    --adv-lk-edge: rgba(244, 210, 184, .36);
+    --adv-lk-ink: #F6E3D6;
+    --adv-lk-line: rgba(246, 227, 214, .2);
+
+    /* Ventana encendida (puerta abierta) */
+    --adv-lit-0: #FFE9CC;
+    --adv-lit-1: #F7B98B;
+    --adv-lit-2: #D0714A;
+    --adv-lit-3: #8E3A2C;
+    --adv-lit-ink: #5a1f19;
+    --adv-lit-edge: rgba(142, 58, 44, .55);
+    --adv-lit-glow: rgba(247, 185, 139, .3);
+
+    /* «Hoy», pendiente y halo */
+    --adv-hoy-bg: #4A1224;
+    --adv-hoy-ink: #F6E3D6;
+    --adv-dot: #9E2A4B;
+    --adv-halo: rgba(242, 199, 168, .55);
+    --adv-halo-solid: #F2C7A8;
+
+    /* Botón principal */
+    --adv-btn-1: #F4D2B8;
+    --adv-btn-2: #D9A184;
+    --adv-btn-ink: #4A1224;
+
+    /* Puerta final: lazo y etiqueta */
+    --adv-rib-1: #8E2B4A;
+    --adv-rib-2: #B8405F;
+    --adv-tag-bg: #F4D2B8;
+    --adv-tag-ink: #4A1224;
+    --adv-tag-lk-bg: rgba(36, 9, 18, .92);
+    --adv-tag-lk-ink: #F6E3D6;
+
+    /* Hoja (aviso y, en la Fase 5, el modal) */
+    --adv-sh-bg: #FBEFE6;
+    --adv-sh-ink: #4a2a30;
+    --adv-sh-acc: #8E3A4E;
+    --adv-sh-border: rgba(168, 106, 82, .5);
+
+    /* Tipografía: Fraunces (títulos, números y texto) + Figtree (etiquetas). La hoja de fuentes
+       se carga desde content.js (ADVENT_FONT_URL). */
+    --adv-f-title: "Fraunces", Georgia, serif;
+    --adv-w-title: 600;
+    --adv-ls-title: -.01em;
+    --adv-s-h1: clamp(2rem, 10.5cqw, 3rem);
+    --adv-lh-h1: 1.1;
+    --adv-f-num: "Fraunces", Georgia, serif;
+    --adv-w-num: 700;
+    --adv-f-text: "Fraunces", Georgia, serif;
+    --adv-st-text: normal;
+    --adv-f-ui: "Figtree", system-ui, sans-serif;
+}

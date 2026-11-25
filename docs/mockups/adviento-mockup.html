@@ -1,0 +1,763 @@
+<!doctype html>
+<html lang="es" data-theme="noche-dorada" data-type="clasica">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Mockup · Calendario de adviento</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Nunito:wght@600;700;800&family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Figtree:wght@500;600;700;800&family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600;700&family=Caveat:wght@600;700&family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+/* ==========================================================================
+   MOCKUP del bloque «advent» (concepto A: puertas) con PROBADOR de paleta y
+   tipografía. Todo el color y la letra salen de variables: cambiar de opción
+   es cambiar un atributo (data-theme / data-type), así que en la app real
+   bastará con mover las variables elegidas a base.css.
+   Los textos son de EJEMPLO.
+   ========================================================================== */
+
+/* ---------- PALETAS ---------- */
+/* 1. Noche dorada: la actual (azul noche + oro), misma familia que la carta */
+:root, [data-theme="noche-dorada"] {
+    --bg1: #004280; --bg2: #00264d; --bg3: #001a33; --star-rgb: 255 255 255;
+    --tx: #E8D5B7; --tx-rgb: 232 213 183; --tx-soft: rgba(232,213,183,.88); --tx-accent: #F4D57E; --glow: rgba(244,213,126,.25);
+    --door-1: #F4D57E; --door-2: #E0B04F; --door-edge: #B9801C; --door-ink: #004280; --door-line: rgba(0,66,128,.35);
+    --knob-1: #F4D57E; --knob-2: #B9801C;
+    --lk-fill: rgba(224,176,79,.14); --lk-edge: rgba(224,176,79,.42); --lk-ink: #E8D5B7; --lk-line: rgba(232,213,183,.2);
+    --lit-0: #FFF1C2; --lit-1: #F4C25A; --lit-2: #C07A1E; --lit-3: #8A4F10; --lit-ink: #5a3410; --lit-edge: rgba(138,79,16,.55); --lit-glow: rgba(244,194,90,.28);
+    --hoy-bg: #8f1d1d; --hoy-ink: #E8D5B7; --dot: #D24545;
+    --halo: rgba(244,213,126,.6); --halo-solid: #F4D57E;
+    --btn-1: #F4D57E; --btn-2: #E0B04F; --btn-ink: #004280;
+    --rib-1: #6f1515; --rib-2: #8f1d1d; --tag-bg: #F4D57E; --tag-ink: #004280; --tag-lk-bg: rgba(0,28,56,.92); --tag-lk-ink: #E8D5B7;
+    --sh-bg: #F5ECD7; --sh-ink: #4a3f35; --sh-acc: #8b5e3c; --sh-border: rgba(200,169,110,.5);
+    --snow: #fff;
+}
+/* 2. Bosque y lacre: verde pino, oro viejo y burdeos */
+[data-theme="bosque-lacre"] {
+    --bg1: #14503F; --bg2: #0C3329; --bg3: #07211A; --star-rgb: 255 255 255;
+    --tx: #F1E4C8; --tx-rgb: 241 228 200; --tx-soft: rgba(241,228,200,.88); --tx-accent: #F0CF85; --glow: rgba(240,207,133,.22);
+    --door-1: #EBCB8B; --door-2: #CFA254; --door-edge: #9A6B26; --door-ink: #0C3329; --door-line: rgba(12,51,41,.35);
+    --knob-1: #EBCB8B; --knob-2: #9A6B26;
+    --lk-fill: rgba(235,203,139,.10); --lk-edge: rgba(235,203,139,.38); --lk-ink: #F1E4C8; --lk-line: rgba(241,228,200,.2);
+    --lit-0: #FFF0C4; --lit-1: #F6C45F; --lit-2: #C4701F; --lit-3: #8B4513; --lit-ink: #5a2e0e; --lit-edge: rgba(139,69,19,.55); --lit-glow: rgba(246,196,95,.28);
+    --hoy-bg: #8E1F2B; --hoy-ink: #F6E8CC; --dot: #E5535B;
+    --halo: rgba(240,207,133,.55); --halo-solid: #F0CF85;
+    --btn-1: #EBCB8B; --btn-2: #CFA254; --btn-ink: #0C3329;
+    --rib-1: #7a1620; --rib-2: #A3262F; --tag-bg: #EBCB8B; --tag-ink: #0C3329; --tag-lk-bg: rgba(7,33,26,.92); --tag-lk-ink: #F1E4C8;
+    --sh-bg: #F4EDD9; --sh-ink: #35382d; --sh-acc: #8A5A2B; --sh-border: rgba(154,107,38,.45);
+    --snow: #fff;
+}
+/* 3. Vino y champán: burdeos profundo y oro rosado (íntima, romántica) */
+[data-theme="vino-champagne"] {
+    --bg1: #5B1A2E; --bg2: #3A0F1E; --bg3: #240912; --star-rgb: 255 235 225;
+    --tx: #F6E3D6; --tx-rgb: 246 227 214; --tx-soft: rgba(246,227,214,.88); --tx-accent: #F2C7A8; --glow: rgba(242,199,168,.22);
+    --door-1: #F4D2B8; --door-2: #D9A184; --door-edge: #A86A52; --door-ink: #4A1224; --door-line: rgba(74,18,36,.3);
+    --knob-1: #F4D2B8; --knob-2: #A86A52;
+    --lk-fill: rgba(244,210,184,.10); --lk-edge: rgba(244,210,184,.36); --lk-ink: #F6E3D6; --lk-line: rgba(246,227,214,.2);
+    --lit-0: #FFE9CC; --lit-1: #F7B98B; --lit-2: #D0714A; --lit-3: #8E3A2C; --lit-ink: #5a1f19; --lit-edge: rgba(142,58,44,.55); --lit-glow: rgba(247,185,139,.3);
+    --hoy-bg: #4A1224; --hoy-ink: #F6E3D6; --dot: #9E2A4B;
+    --halo: rgba(242,199,168,.55); --halo-solid: #F2C7A8;
+    --btn-1: #F4D2B8; --btn-2: #D9A184; --btn-ink: #4A1224;
+    --rib-1: #8E2B4A; --rib-2: #B8405F; --tag-bg: #F4D2B8; --tag-ink: #4A1224; --tag-lk-bg: rgba(36,9,18,.92); --tag-lk-ink: #F6E3D6;
+    --sh-bg: #FBEFE6; --sh-ink: #4a2a30; --sh-acc: #8E3A4E; --sh-border: rgba(168,106,82,.5);
+    --snow: #fff0e8;
+}
+/* 4. Medianoche y hielo: índigo y plata; las ventanas en ámbar destacan por contraste */
+[data-theme="hielo-medianoche"] {
+    --bg1: #233E73; --bg2: #14264A; --bg3: #0A1630; --star-rgb: 255 255 255;
+    --tx: #E4EEF8; --tx-rgb: 228 238 248; --tx-soft: rgba(228,238,248,.88); --tx-accent: #FFD9A0; --glow: rgba(255,217,160,.2);
+    --door-1: #E8F1FA; --door-2: #AFC6DD; --door-edge: #7B97B5; --door-ink: #14264A; --door-line: rgba(20,38,74,.3);
+    --knob-1: #E8F1FA; --knob-2: #7B97B5;
+    --lk-fill: rgba(175,198,221,.10); --lk-edge: rgba(175,198,221,.38); --lk-ink: #E4EEF8; --lk-line: rgba(228,238,248,.2);
+    --lit-0: #FFF1C2; --lit-1: #FFC95C; --lit-2: #E58A1F; --lit-3: #9A4F0C; --lit-ink: #5a3410; --lit-edge: rgba(154,79,12,.55); --lit-glow: rgba(255,201,92,.35);
+    --hoy-bg: #C2410C; --hoy-ink: #FFF4E6; --dot: #FF7A45;
+    --halo: rgba(255,217,160,.55); --halo-solid: #FFD9A0;
+    --btn-1: #FFE0AE; --btn-2: #F4B860; --btn-ink: #14264A;
+    --rib-1: #B13A0B; --rib-2: #D9531A; --tag-bg: #FFE0AE; --tag-ink: #14264A; --tag-lk-bg: rgba(10,22,48,.92); --tag-lk-ink: #E4EEF8;
+    --sh-bg: #F2F6FA; --sh-ink: #26324a; --sh-acc: #3E5F8F; --sh-border: rgba(123,151,181,.55);
+    --snow: #fff;
+}
+/* 5. Papel kraft: fondo claro, puertas de cartón y rojo arándano (hecho a mano; conecta con el sobre de la carta) */
+[data-theme="papel-kraft"] {
+    --bg1: #F6EEDF; --bg2: #EBDDC4; --bg3: #DCC8A5; --star-rgb: 140 100 50;
+    --tx: #3B2D24; --tx-rgb: 59 45 36; --tx-soft: rgba(59,45,36,.86); --tx-accent: #9B2335; --glow: rgba(255,255,255,.0);
+    --door-1: #DDBE8E; --door-2: #C79B63; --door-edge: #8C6638; --door-ink: #33241A; --door-line: rgba(51,36,26,.3);
+    --knob-1: #DDBE8E; --knob-2: #8C6638;
+    --lk-fill: rgba(140,102,56,.10); --lk-edge: rgba(140,102,56,.4); --lk-ink: #6A5039; --lk-line: rgba(106,80,57,.28);
+    --lit-0: #FFF3C9; --lit-1: #F3C25B; --lit-2: #D9822B; --lit-3: #A04E1A; --lit-ink: #5a3410; --lit-edge: rgba(160,78,26,.55); --lit-glow: rgba(217,130,43,.35);
+    --hoy-bg: #9B2335; --hoy-ink: #FFF1E0; --dot: #9B2335;
+    --halo: rgba(155,35,53,.4); --halo-solid: #9B2335;
+    --btn-1: #A82A3E; --btn-2: #8A1F31; --btn-ink: #FFF1E0;
+    --rib-1: #2F5D46; --rib-2: #3F7A5C; --tag-bg: #F6EEDF; --tag-ink: #33241A; --tag-lk-bg: rgba(246,238,223,.92); --tag-lk-ink: #6A5039;
+    --sh-bg: #FFFAF0; --sh-ink: #3B2D24; --sh-acc: #9B2335; --sh-border: rgba(140,102,56,.5);
+    --snow: #C9B08A;
+}
+/* 6. Kawaii lazo rojo: rosa pastel, lunares, corazones y un lazo rojo.
+      Estilo inspirado en lo «kawaii», con formas PROPIAS (sin personajes de marca). */
+[data-theme="kawaii-lazo"] {
+    --bg1: #FFE3EC; --bg2: #FFD0E0; --bg3: #FFB8D0; --star-rgb: 255 255 255;
+    --tx: #8E1B47; --tx-rgb: 142 27 71; --tx-soft: rgba(142,27,71,.92); --tx-accent: #A50E3B; --glow: rgba(255,255,255,.7);
+    --door-1: #FFFFFF; --door-2: #FFD6E4; --door-edge: #F06292; --door-ink: #A50E3B; --door-line: rgba(216,27,96,.35);
+    --knob-1: #FF6B9A; --knob-2: #C2185B;
+    --lk-fill: rgba(255,255,255,.4); --lk-edge: rgba(216,27,96,.4); --lk-ink: #9E2A52; --lk-line: rgba(216,27,96,.25);
+    --lit-0: #FFFFFF; --lit-1: #FFE27A; --lit-2: #FF9EB5; --lit-3: #E8638C; --lit-ink: #7A1038; --lit-edge: rgba(216,27,96,.5); --lit-glow: rgba(255,105,150,.4);
+    --hoy-bg: #D81B60; --hoy-ink: #FFFFFF; --dot: #D81B60;
+    --halo: rgba(255,64,129,.5); --halo-solid: #FF4081;
+    --btn-1: #D81B60; --btn-2: #C2185B; --btn-ink: #FFFFFF;
+    --rib-1: #C2185B; --rib-2: #E91E63; --tag-bg: #FFFFFF; --tag-ink: #A50E3B; --tag-lk-bg: rgba(255,255,255,.88); --tag-lk-ink: #9E2A52;
+    --sh-bg: #FFF5F8; --sh-ink: #5A2A3A; --sh-acc: #C2185B; --sh-border: rgba(233,30,99,.35);
+    --snow: #ff80ab;
+    --door-deco: radial-gradient(circle, rgba(255,150,185,.55) 1.4px, transparent 2px); --deco-size: 13px 13px;
+}
+
+/* ---------- TIPOGRAFÍAS ---------- */
+/* Clásica (la actual): Great Vibes + Playfair */
+:root, [data-type="clasica"] {
+    --f-title: "Great Vibes", cursive; --w-title: 400; --ls-title: 0;
+    --s-h1: clamp(2.6rem, 14cqw, 4rem); --lh-h1: 1.05; --s-sheet: 2.6rem; --s-answer: 1.7rem;
+    --f-num: "Playfair Display", Georgia, serif; --w-num: 700;
+    --f-text: "Playfair Display", Georgia, serif; --st-text: italic;
+    --f-ui: "Nunito", system-ui, sans-serif;
+}
+/* Cálida: Fraunces (serif suave, números claros) */
+[data-type="fraunces"] {
+    --f-title: "Fraunces", Georgia, serif; --w-title: 600; --ls-title: -.01em;
+    --s-h1: clamp(2rem, 10.5cqw, 3rem); --lh-h1: 1.1; --s-sheet: 1.95rem; --s-answer: 1.5rem;
+    --f-num: "Fraunces", Georgia, serif; --w-num: 700;
+    --f-text: "Fraunces", Georgia, serif; --st-text: normal;
+    --f-ui: "Figtree", system-ui, sans-serif;
+}
+/* Moderna: Bricolage Grotesque (sans con carácter) */
+[data-type="bricolage"] {
+    --f-title: "Bricolage Grotesque", system-ui, sans-serif; --w-title: 700; --ls-title: -.02em;
+    --s-h1: clamp(2rem, 10.5cqw, 3rem); --lh-h1: 1.05; --s-sheet: 1.9rem; --s-answer: 1.5rem;
+    --f-num: "Bricolage Grotesque", system-ui, sans-serif; --w-num: 800;
+    --f-text: "Instrument Sans", system-ui, sans-serif; --st-text: normal;
+    --f-ui: "Instrument Sans", system-ui, sans-serif;
+}
+/* Cercana: Caveat (a mano) + Nunito redondeada */
+[data-type="caveat"] {
+    --f-title: "Caveat", cursive; --w-title: 700; --ls-title: 0;
+    --s-h1: clamp(2.8rem, 15cqw, 4.2rem); --lh-h1: 1; --s-sheet: 2.7rem; --s-answer: 2rem;
+    --f-num: "Nunito", system-ui, sans-serif; --w-num: 800;
+    --f-text: "Nunito", system-ui, sans-serif; --st-text: normal;
+    --f-ui: "Nunito", system-ui, sans-serif;
+}
+/* Kawaii: Fredoka (redondeada, números claros) */
+[data-type="fredoka"] {
+    --f-title: "Fredoka", system-ui, sans-serif; --w-title: 600; --ls-title: 0;
+    --s-h1: clamp(2.2rem, 12cqw, 3.3rem); --lh-h1: 1.05; --s-sheet: 2.1rem; --s-answer: 1.7rem;
+    --f-num: "Fredoka", system-ui, sans-serif; --w-num: 600;
+    --f-text: "Fredoka", system-ui, sans-serif; --st-text: normal;
+    --f-ui: "Nunito", system-ui, sans-serif;
+}
+
+:root { --stage-w: 390px; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { -webkit-font-smoothing: antialiased; }
+body {
+    min-height: 100dvh;
+    font-family: var(--f-text);
+    color: var(--tx);
+    background:
+        radial-gradient(1.2px 1.2px at 12% 18%, rgb(var(--star-rgb) / .55), transparent 60%),
+        radial-gradient(1px 1px at 78% 9%, rgb(var(--star-rgb) / .5), transparent 60%),
+        radial-gradient(1.4px 1.4px at 38% 42%, rgb(var(--star-rgb) / .4), transparent 60%),
+        radial-gradient(1px 1px at 91% 55%, rgb(var(--star-rgb) / .45), transparent 60%),
+        radial-gradient(1.2px 1.2px at 22% 78%, rgb(var(--star-rgb) / .4), transparent 60%),
+        radial-gradient(1px 1px at 64% 88%, rgb(var(--star-rgb) / .5), transparent 60%),
+        linear-gradient(180deg, var(--bg1) 0%, var(--bg2) 55%, var(--bg3) 100%);
+    background-attachment: fixed;
+    overflow-x: hidden;
+}
+:focus-visible { outline: 3px solid var(--tx-accent); outline-offset: 3px; }
+
+/* ---------- Barra del mockup (NO es parte del diseño) ---------- */
+.mockbar {
+    position: sticky; top: 0; z-index: 40;
+    display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; justify-content: center;
+    padding: 10px 12px;
+    background: rgba(0, 12, 28, .92); backdrop-filter: blur(6px);
+    border-bottom: 1px solid rgba(232, 213, 183, .18);
+    font: 700 13px "Nunito", system-ui, sans-serif; color: #E8D5B7;
+}
+.mockbar label { display: flex; align-items: center; gap: 6px; }
+.mockbar select, .mockbar button {
+    font: 700 13px "Nunito", system-ui, sans-serif; color: #E8D5B7;
+    background: rgba(255,255,255,.08); border: 1px solid rgba(232,213,183,.35);
+    border-radius: 8px; padding: 7px 10px; min-height: 36px; max-width: 100%;
+}
+.mockbar select option { color: #111; }
+.mockbar button { cursor: pointer; }
+.seg { display: flex; }
+.seg button { border-radius: 0; }
+.seg button:first-child { border-radius: 8px 0 0 8px; }
+.seg button:last-child { border-radius: 0 8px 8px 0; border-left: 0; }
+.mockbar button[aria-pressed="true"] { background: #E0B04F; color: #004280; border-color: #E0B04F; }
+.mockbar .cmpbtn { background: #E8D5B7; color: #00264d; border-color: #E8D5B7; }
+
+/* ---------- Nieve (solo CSS; en la app serán pocos elementos fijos) ---------- */
+.snow { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+.snow i {
+    position: absolute; top: -10px; border-radius: 50%; background: var(--snow); opacity: .5;
+    animation: fall linear infinite;
+}
+@keyframes fall { to { transform: translate3d(var(--drift, 20px), 105vh, 0); } }
+
+/* ---------- Escenario ---------- */
+.stage {
+    position: relative; z-index: 1;
+    width: min(100%, var(--stage-w)); margin: 0 auto;
+    padding: 28px 16px 56px;
+    container-type: inline-size;
+    transition: width .25s ease;
+}
+.head { text-align: center; margin-bottom: 22px; }
+.head h1 {
+    font-family: var(--f-title); font-weight: var(--w-title); font-size: var(--s-h1);
+    line-height: var(--lh-h1); letter-spacing: var(--ls-title);
+    color: var(--tx); text-shadow: 0 2px 18px var(--glow);
+}
+.head__today { margin-top: 10px; font: 700 1.05rem var(--f-ui); color: var(--tx-accent); }
+.head__sub { margin-top: 4px; font-family: var(--f-text); font-style: var(--st-text); font-size: 1rem; line-height: 1.5; color: var(--tx-soft); }
+.head__go {
+    margin-top: 14px; min-height: 44px; padding: 10px 20px; cursor: pointer;
+    font: 800 .95rem var(--f-ui); color: var(--btn-ink);
+    background: linear-gradient(180deg, var(--btn-1), var(--btn-2));
+    border: 0; border-radius: 999px; box-shadow: 0 6px 18px rgba(0,0,0,.28);
+}
+.head__count { margin-top: 12px; font: 600 .85rem var(--f-ui); color: var(--tx-soft); opacity: .85; }
+
+/* ---------- Cuadrícula: 4 columnas en móvil, 6 en ancho ---------- */
+.grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+@container (min-width: 640px) { .grid { grid-template-columns: repeat(6, 1fr); gap: 12px; } }
+
+/* ---------- Puerta ---------- */
+.tile {
+    --r-top: 14px; --r-bottom: 5px;
+    position: relative; display: block; width: 100%; aspect-ratio: 3 / 4;
+    padding: 0; border: 0; background: none; cursor: pointer; perspective: 700px;
+    font-family: var(--f-num); -webkit-tap-highlight-color: transparent;
+}
+.tile__inside, .tile__door {
+    position: absolute; inset: 0; border-radius: var(--r-top) var(--r-top) var(--r-bottom) var(--r-bottom);
+}
+/* La ventana encendida que hay detrás de la puerta */
+.tile__inside {
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
+    background: radial-gradient(ellipse at 50% 62%, var(--lit-0) 0%, var(--lit-1) 38%, var(--lit-2) 78%, var(--lit-3) 100%);
+    box-shadow: inset 0 0 0 2px var(--lit-edge), 0 0 22px var(--lit-glow);
+    color: var(--lit-ink);
+}
+.tile__inside svg { width: 34%; height: auto; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.tile__inside b { font: 700 .8rem var(--f-ui); opacity: .85; }
+
+.tile__door {
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
+    transform-origin: left center; backface-visibility: hidden;
+    transition: transform .8s cubic-bezier(.2, .75, .2, 1), opacity .5s ease .3s;
+    background: var(--door-deco, linear-gradient(transparent, transparent)), linear-gradient(160deg, var(--door-1) 0%, var(--door-2) 100%);
+    background-size: var(--deco-size, 100% 100%), 100% 100%;
+    box-shadow: inset 0 0 0 1.5px var(--door-edge), 0 4px 10px rgba(0, 0, 0, .3);
+}
+/* Marco de panel de la puerta */
+.tile__door::before {
+    content: ""; position: absolute; inset: 8px; pointer-events: none;
+    border: 1px solid var(--door-line);
+    border-radius: calc(var(--r-top) - 5px) calc(var(--r-top) - 5px) 3px 3px;
+}
+/* Pomo */
+.tile__door::after {
+    content: ""; position: absolute; right: 13%; top: 54%; width: 7px; height: 7px; border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, var(--knob-1), var(--knob-2));
+    box-shadow: 0 1px 2px rgba(0,0,0,.4);
+}
+.tile__num { font-family: var(--f-num); font-weight: var(--w-num); font-size: clamp(1.5rem, 8.5cqw, 2.3rem); line-height: 1; color: var(--door-ink); font-variant-numeric: lining-nums; }
+.tile__meta { font: 700 .68rem var(--f-ui); color: var(--door-ink); opacity: .8; }
+.tile__lock { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; color: var(--lk-ink); }
+.tile__pill {
+    position: absolute; top: 9%; left: 50%; transform: translateX(-50%);
+    padding: 2px 9px; border-radius: 999px; font: 800 .7rem var(--f-ui);
+    background: var(--hoy-bg); color: var(--hoy-ink); white-space: nowrap;
+}
+.tile__dot { position: absolute; top: 9%; right: 12%; width: 8px; height: 8px; border-radius: 50%; background: var(--dot); box-shadow: 0 0 0 2px rgba(255,255,255,.6); }
+
+/* Bloqueada: mismo dibujo, apagado (se reconoce que es una puerta pero «aún no») */
+.tile[data-state="locked"] .tile__door {
+    background: var(--lk-fill);
+    box-shadow: inset 0 0 0 1.5px var(--lk-edge);
+}
+.tile[data-state="locked"] .tile__door::before { border-color: var(--lk-line); }
+.tile[data-state="locked"] .tile__door::after { background: var(--lk-line); box-shadow: none; }
+.tile[data-state="locked"] .tile__num { color: var(--lk-ink); }
+.tile[data-state="locked"] .tile__meta { color: var(--lk-ink); opacity: .85; }
+.tile[data-state="locked"] { cursor: not-allowed; }
+
+/* Hoy: halo que respira */
+.tile[data-state="today"]::before {
+    content: ""; position: absolute; inset: -5px; z-index: -1;
+    border-radius: calc(var(--r-top) + 4px) calc(var(--r-top) + 4px) 9px 9px;
+    box-shadow: 0 0 0 2px var(--halo-solid), 0 0 26px 4px var(--halo);
+    animation: breathe 2.6s ease-in-out infinite;
+}
+@keyframes breathe { 0%, 100% { opacity: .55; } 50% { opacity: 1; } }
+
+/* Abierta: la puerta se abre y deja ver la luz */
+.tile[data-state="open"] .tile__door { transform: rotateY(-108deg); opacity: 0; pointer-events: none; }
+.tile:not([data-state="open"]) .tile__inside { visibility: hidden; }
+
+/* Asomarse: al pasar el ratón por una puerta disponible se entreabre y se ve la luz */
+@media (hover: hover) {
+    .tile[data-state="today"]:hover .tile__door,
+    .tile[data-state="ready"]:hover .tile__door { transform: rotateY(-16deg); }
+    .tile[data-state="today"]:hover .tile__inside,
+    .tile[data-state="ready"]:hover .tile__inside { visibility: visible; }
+}
+.tile.shake { animation: shake .42s ease; }
+@keyframes shake {
+    0%, 100% { transform: translateX(0); } 20% { transform: translateX(-5px); }
+    40% { transform: translateX(5px); } 60% { transform: translateX(-3px); } 80% { transform: translateX(3px); }
+}
+
+/* ---------- Puerta 25: ancho completo, con lazo ---------- */
+.tile--final { grid-column: 1 / -1; aspect-ratio: 16 / 6; margin-top: 4px; }
+@container (min-width: 640px) { .tile--final { aspect-ratio: 16 / 4.2; } }
+.tile--final .tile__num { font-size: clamp(2.2rem, 12cqw, 3.4rem); }
+.tile--final .tile__door::before { inset: 10px; }
+.tile--final .tile__door::after { display: none; }
+/* El lazo pasa por detrás de una «etiqueta de regalo» donde va el texto: así el lazo no compite con la lectura */
+.ribbon { position: absolute; top: 0; bottom: 0; left: 50%; width: 9%; transform: translateX(-50%); background: linear-gradient(90deg, var(--rib-1), var(--rib-2), var(--rib-1)); opacity: .95; pointer-events: none; }
+.tile--final[data-state="locked"] .ribbon { opacity: .5; }
+.tile--final .tile__label {
+    position: relative; z-index: 1; text-align: center; display: grid; gap: 2px; justify-items: center;
+    padding: 8px 22px 9px; border-radius: 12px;
+    background: var(--tag-bg); box-shadow: 0 3px 10px rgba(0, 0, 0, .3);
+}
+.tile--final .tile__label .tile__num { color: var(--tag-ink); }
+.tile--final[data-state="locked"] .tile__label { background: var(--tag-lk-bg); box-shadow: inset 0 0 0 1px var(--lk-edge); }
+.tile--final[data-state="locked"] .tile__label .tile__num { color: var(--tag-lk-ink); }
+.tile__pill--inline { position: static; transform: none; margin-bottom: 2px; }
+.tile--final .tile__name { font: 700 .85rem var(--f-ui); color: var(--tag-ink); }
+.tile--final[data-state="locked"] .tile__name, .tile--final[data-state="locked"] .tile__meta, .tile--final[data-state="locked"] .tile__lock { color: var(--tag-lk-ink); }
+
+/* ---------- Guía de estados ---------- */
+.legend { margin-top: 40px; padding-top: 22px; border-top: 1px solid rgb(var(--tx-rgb) / .22); }
+.legend h2 { font: 700 .95rem var(--f-ui); color: var(--tx-accent); text-align: center; margin-bottom: 14px; }
+.legend__row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.legend__item { display: grid; gap: 8px; justify-items: center; text-align: center; font: 600 .78rem/1.3 var(--f-ui); color: var(--tx-soft); }
+.legend__item .tile { pointer-events: none; }
+
+/* ---------- Aviso (puerta bloqueada) ---------- */
+.toast {
+    position: fixed; left: 50%; bottom: 22px; z-index: 60; transform: translate(-50%, 20px);
+    max-width: min(92vw, 420px); padding: 12px 18px; border-radius: 12px;
+    font: 700 .95rem/1.35 var(--f-ui); text-align: center;
+    background: var(--sh-bg); color: var(--sh-ink);
+    border: 1px solid var(--sh-border); box-shadow: 0 10px 30px rgba(0, 0, 0, .45);
+    opacity: 0; pointer-events: none; transition: opacity .25s, transform .25s;
+}
+.toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+/* ---------- Modal del día ---------- */
+.backdrop {
+    position: fixed; inset: 0; z-index: 50; display: none; align-items: center; justify-content: center;
+    padding: 16px; background: rgba(0, 10, 24, .72); backdrop-filter: blur(4px);
+}
+.backdrop.show { display: flex; animation: fadeIn .25s ease; }
+@keyframes fadeIn { from { opacity: 0; } }
+.sheet {
+    position: relative; width: 100%; max-width: 460px; max-height: 100%; overflow-y: auto;
+    border-radius: 10px; background: var(--sh-bg); color: var(--sh-ink);
+    border: 1px solid var(--sh-border); box-shadow: 0 24px 60px rgba(0, 0, 0, .55);
+    animation: pop .4s cubic-bezier(.2, .9, .3, 1.2);
+}
+@keyframes pop { from { transform: translateY(18px) scale(.94); opacity: 0; } }
+.sheet__close {
+    position: absolute; top: 10px; right: 10px; z-index: 2; width: 44px; height: 44px; border-radius: 50%;
+    border: 0; cursor: pointer; font: 400 1.7rem/1 var(--f-ui); color: #fff; background: rgba(30, 20, 10, .6);
+}
+.sheet__hero {
+    height: 150px; display: grid; place-items: center; color: var(--lit-ink);
+    background: radial-gradient(ellipse at 50% 70%, var(--lit-0) 0%, var(--lit-1) 40%, var(--lit-2) 85%);
+}
+.sheet__hero svg { width: 64px; height: 64px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.sheet__hero.photo { background: linear-gradient(135deg, var(--bg1), var(--bg3)); color: var(--tx); }
+.sheet__body { padding: 20px 24px 26px; text-align: center; }
+.sheet__day { font: 600 .85rem var(--f-ui); color: var(--sh-acc); opacity: .9; }
+.sheet__title { margin: 4px 0 10px; font-family: var(--f-title); font-weight: var(--w-title); font-size: var(--s-sheet); line-height: 1.15; letter-spacing: var(--ls-title); color: var(--sh-acc); }
+.sheet__text { font-family: var(--f-text); font-style: var(--st-text); font-size: 1.05rem; line-height: 1.65; }
+.sheet__extra { margin-top: 16px; }
+.coupon { padding: 16px; border: 2px dashed var(--sh-acc); border-radius: 8px; background: rgb(var(--tx-rgb) / .0); font: 600 1.02rem/1.5 var(--f-text); }
+.coupon small { display: block; margin-top: 6px; font: 600 .8rem var(--f-ui); color: var(--sh-acc); }
+.btn {
+    display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 10px 22px;
+    border-radius: 999px; border: 0; cursor: pointer; font: 800 .95rem var(--f-ui);
+    background: var(--sh-acc); color: var(--sh-bg);
+}
+.song { display: grid; gap: 4px; margin-bottom: 14px; font: 700 1.05rem var(--f-text); }
+.song span { font: 600 .9rem var(--f-ui); color: var(--sh-acc); }
+.answer { margin-top: 14px; font-family: var(--f-title); font-weight: var(--w-title); font-size: var(--s-answer); color: var(--sh-acc); min-height: 2.2rem; }
+.sheet__note { margin-top: 18px; font: 600 .72rem var(--f-ui); color: var(--sh-acc); opacity: .7; }
+.sheet__final .sheet__hero { background: radial-gradient(ellipse at 50% 70%, var(--lit-0) 0%, var(--lit-1) 35%, var(--lit-2) 70%, var(--rib-2) 125%); height: 170px; }
+
+/* Chispas del final (una sola vez al abrir el 25) */
+.spark { position: absolute; left: 50%; top: 85px; width: 6px; height: 6px; border-radius: 50%; background: var(--lit-0); pointer-events: none; animation: burst .95s ease-out forwards; }
+@keyframes burst { to { transform: translate(var(--dx), var(--dy)) scale(.2); opacity: 0; } }
+
+/* ---------- Adornos solo del tema kawaii (ocultos en los demás) ---------- */
+.deco { position: fixed; inset: 0; z-index: 0; pointer-events: none; display: none; opacity: .7;
+    background-image: radial-gradient(circle at 25% 25%, #fff 3px, transparent 3.5px), radial-gradient(circle at 75% 75%, rgba(255,255,255,.75) 2px, transparent 2.5px);
+    background-size: 36px 36px; }
+.bow { display: none; fill: currentColor; stroke: rgba(0, 0, 0, .18); stroke-width: .8; }
+.hl { fill: none; stroke: rgba(255, 255, 255, .55); stroke-width: 1.4; stroke-linecap: round; }
+[data-theme="kawaii-lazo"] .deco { display: block; }
+[data-theme="kawaii-lazo"] .head__bow { display: block; width: 68px; height: auto; margin: 0 auto 2px; color: var(--rib-2); filter: drop-shadow(0 2px 2px rgba(142, 27, 71, .25)); }
+[data-theme="kawaii-lazo"] .tile__bow { display: block; position: absolute; top: -15px; left: 50%; transform: translateX(-50%); width: 58px; height: auto; z-index: 2; color: var(--rib-2); filter: drop-shadow(0 2px 2px rgba(142, 27, 71, .3)); }
+[data-theme="kawaii-lazo"] .snow i {
+    min-width: 11px; min-height: 11px; border-radius: 0; opacity: .75;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23ff6b9a' d='M12 21C5 16.5 2 12.6 2 8.9 2 6.2 4.1 4 6.8 4c1.9 0 3.7 1 5.2 3 1.5-2 3.3-3 5.2-3C19.9 4 22 6.2 22 8.9c0 3.7-3 7.6-10 12.1z'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+.tile__bow { display: none; }
+
+/* ---------- Comparador de paletas ---------- */
+.cmp { position: fixed; inset: 0; z-index: 70; display: none; overflow-y: auto; padding: 18px 14px 40px; background: rgba(0, 8, 20, .94); }
+.cmp.show { display: block; }
+.cmp__top { max-width: 1100px; margin: 0 auto 16px; display: flex; gap: 12px; align-items: center; justify-content: space-between; font: 700 14px "Nunito", system-ui, sans-serif; color: #E8D5B7; }
+.cmp__top h2 { font: 800 1.05rem "Nunito", system-ui, sans-serif; }
+.cmp__top button { font: 800 13px "Nunito", system-ui, sans-serif; color: #E8D5B7; background: rgba(255,255,255,.1); border: 1px solid rgba(232,213,183,.4); border-radius: 8px; padding: 8px 14px; min-height: 40px; cursor: pointer; }
+.cmp__grid { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+.pcard {
+    container-type: inline-size; display: grid; gap: 10px; align-content: start; padding: 16px; border-radius: 14px;
+    background: linear-gradient(180deg, var(--bg1), var(--bg2) 55%, var(--bg3)); color: var(--tx);
+    border: 2px solid rgb(var(--tx-rgb) / .25);
+}
+.pcard.is-current { border-color: var(--tx-accent); box-shadow: 0 0 0 3px var(--tx-accent); }
+.pcard__name { font-family: var(--f-title); font-weight: var(--w-title); font-size: calc(var(--s-sheet) * .85); line-height: 1.1; letter-spacing: var(--ls-title); text-align: center; }
+.pcard__desc { font: 600 .82rem/1.4 var(--f-ui); color: var(--tx-soft); text-align: center; min-height: 3.4em; }
+.pcard__sw { display: flex; gap: 6px; justify-content: center; }
+.pcard__sw i { width: 22px; height: 22px; border-radius: 50%; border: 1.5px solid rgb(var(--tx-rgb) / .5); }
+.pcard__grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+.pcard__grid .tile { pointer-events: none; }
+.pcard .tile__num { font-size: clamp(1.2rem, 9cqw, 1.7rem); }
+.pcard__use { justify-self: center; min-height: 44px; padding: 8px 18px; border-radius: 999px; border: 0; cursor: pointer; font: 800 .9rem var(--f-ui); background: linear-gradient(180deg, var(--btn-1), var(--btn-2)); color: var(--btn-ink); }
+
+/* ---------- Movimiento reducido ---------- */
+@media (prefers-reduced-motion: reduce) {
+    .snow { display: none; }
+    .tile__door, .toast { transition: opacity .2s; }
+    .tile[data-state="open"] .tile__door { transform: none; }
+    .tile[data-state="today"]::before { animation: none; opacity: 1; }
+    .tile.shake, .sheet, .backdrop.show, .spark { animation: none; }
+    .spark { display: none; }
+}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="i-heart" viewBox="0 0 24 24"><path d="M12 21C5 16.5 2 12.6 2 8.9 2 6.2 4.1 4 6.8 4c1.9 0 3.7 1 5.2 3 1.5-2 3.3-3 5.2-3C19.9 4 22 6.2 22 8.9c0 3.7-3 7.6-10 12.1z"/></symbol>
+    <symbol id="i-photo" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="1.6"/><path d="M3 17l5-5 4 4 3-3 6 6"/></symbol>
+    <symbol id="i-ticket" viewBox="0 0 24 24"><path d="M4 7h16v3a2 2 0 0 0 0 4v3H4v-3a2 2 0 0 0 0-4z"/><path d="M14 7v10" stroke-dasharray="2 2"/></symbol>
+    <symbol id="i-music" viewBox="0 0 24 24"><path d="M9 18V6l10-2v12"/><circle cx="7" cy="18" r="2.2"/><circle cx="17" cy="16" r="2.2"/></symbol>
+    <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/><path d="M19 16v4M17 18h4"/></symbol>
+    <symbol id="i-gift" viewBox="0 0 24 24"><rect x="3" y="9" width="18" height="11" rx="1.5"/><path d="M12 9v11M3 13h18"/><path d="M12 9c-2-4-6-3-5 0 .5 1.5 3 1 5 0zM12 9c2-4 6-3 5 0-.5 1.5-3 1-5 0z"/></symbol>
+    <!-- Lazo propio (dos lazadas, nudo y dos colas): forma genérica dibujada para este proyecto -->
+    <symbol id="i-bow" viewBox="0 0 64 40">
+        <path d="M32 20C24 3 3 0 3 13c0 13 21 17 29 7z"/>
+        <path d="M32 20C40 3 61 0 61 13c0 13-21 17-29 7z"/>
+        <path d="M30 25L21 38l10-3zM34 25l9 13-10-3z"/>
+        <ellipse cx="32" cy="20" rx="6.5" ry="7.5"/>
+        <path class="hl" d="M9 10c4-4 11-2 15 4M55 10c-4-4-11-2-15 4"/>
+    </symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></symbol>
+</svg>
+
+<div class="mockbar" role="group" aria-label="Controles del mockup (no forman parte del diseño)">
+    <label>Paleta <select id="selTheme"></select></label>
+    <label>Letra <select id="selType"></select></label>
+    <button type="button" class="cmpbtn" id="cmpOpen">Comparar paletas</button>
+    <label>Fecha <select id="sim"></select></label>
+    <div class="seg" role="group" aria-label="Tamaño de pantalla">
+        <button type="button" id="vm" aria-pressed="true">Móvil</button>
+        <button type="button" id="vd" aria-pressed="false">Escritorio</button>
+    </div>
+</div>
+
+<div class="deco" aria-hidden="true"></div>
+<div class="snow" id="snow" aria-hidden="true"></div>
+
+<main class="stage" id="stage">
+    <header class="head" id="head"></header>
+    <section class="grid" id="grid" aria-label="Puertas del calendario"></section>
+
+    <section class="legend" aria-label="Guía de estados">
+        <h2>Cómo se ve cada puerta</h2>
+        <div class="legend__row" id="legend"></div>
+    </section>
+</main>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<div class="backdrop" id="backdrop">
+    <div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sheetTitle"></div>
+</div>
+
+<div class="cmp" id="cmp" role="dialog" aria-modal="true" aria-label="Comparar paletas">
+    <div class="cmp__top"><h2>Las 5 paletas, con la tipografía elegida</h2><button type="button" id="cmpClose">Cerrar</button></div>
+    <div class="cmp__grid" id="cmpGrid"></div>
+</div>
+
+<script>
+const YEAR = 2026, TOTAL = 25;
+const TYPES = ['mensaje', 'foto', 'vale', 'cancion', 'reto'];
+const ICON = { mensaje: 'i-heart', foto: 'i-photo', vale: 'i-ticket', cancion: 'i-music', reto: 'i-spark', final: 'i-gift' };
+const SIMS = [
+    ['2026-11-24', 'Antes de empezar (24 nov)'],
+    ['2026-12-01', '1 de diciembre'],
+    ['2026-12-05', '5 de diciembre'],
+    ['2026-12-12', '12 de diciembre'],
+    ['2026-12-24', '24 de diciembre'],
+    ['2026-12-25', '25 de diciembre (Navidad)'],
+    ['2027-01-03', 'Después de Navidad']
+];
+const THEMES = [
+    ['noche-dorada', 'Noche dorada (la actual)', 'Azul noche y oro. Clásica; la misma familia que la carta.'],
+    ['bosque-lacre', 'Bosque y lacre', 'Verde pino, oro viejo y burdeos. La Navidad de siempre, más cálida.'],
+    ['vino-champagne', 'Vino y champán', 'Burdeos profundo y oro rosado. Íntima y romántica.'],
+    ['hielo-medianoche', 'Medianoche y hielo', 'Índigo y plata; las ventanas en ámbar destacan por contraste.'],
+    ['papel-kraft', 'Papel kraft', 'Fondo claro, puertas de cartón y rojo arándano. Hecho a mano; conecta con el sobre de la carta.'],
+    ['kawaii-lazo', 'Kawaii lazo rojo', 'Rosa pastel, lunares, corazones y un lazo rojo. Va muy bien con la letra «Kawaii · Fredoka».']
+];
+const FONTSETS = [
+    ['clasica', 'Clásica (la actual)'],
+    ['fraunces', 'Cálida · Fraunces'],
+    ['bricolage', 'Moderna · Bricolage'],
+    ['caveat', 'Cercana · Caveat + Nunito'],
+    ['fredoka', 'Kawaii · Fredoka']
+];
+
+const $ = (s) => document.querySelector(s);
+const pad = (n) => String(n).padStart(2, '0');
+const doorDate = (d) => `${YEAR}-12-${pad(d)}`;
+const typeOf = (d) => (d === TOTAL ? 'final' : TYPES[(d - 1) % 5]);
+const reduceMotion = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+let today = '2026-12-05';
+let opened = new Set();
+
+// Misma regla que tendrá lib/calendar.js: se comparan textos AAAA-MM-DD (sin husos ni horario de verano).
+const stateOf = (d) => (doorDate(d) > today ? 'locked' : doorDate(d) === today ? 'today' : 'ready');
+const status = (d) => { const s = stateOf(d); return s !== 'locked' && opened.has(d) ? 'open' : s; };
+const dayNumberToday = () => (today.startsWith(`${YEAR}-12-`) ? Number(today.slice(8)) : today > `${YEAR}-12-25` ? 26 : 0);
+const daysUntilStart = () => Math.round((Date.UTC(YEAR, 11, 1) - Date.UTC(...today.split('-').map((v, i) => (i === 1 ? v - 1 : +v)))) / 864e5);
+
+function seedOpened() {
+    opened = new Set();
+    for (let d = 1; d <= TOTAL; d++) if (doorDate(d) < today && d % 5 !== 4) opened.add(d); // 4, 9, 14… quedan «pendientes»
+}
+
+/* ---------- Puertas ---------- */
+function tileHTML(d, st, { legend = false } = {}) {
+    const final = d === TOTAL;
+    const label = st === 'locked' ? `Puerta ${d}, se abre el ${d} de diciembre`
+        : st === 'today' ? `Puerta ${d}, disponible hoy`
+        : st === 'ready' ? `Puerta ${d}, sin abrir`
+        : `Puerta ${d}, abierta. Volver a verla`;
+    const inside = `<span class="tile__inside"><svg aria-hidden="true"><use href="#${ICON[typeOf(d)]}"/></svg><b>${d}</b></span>`;
+    let door;
+    if (final) {
+        door = `<span class="tile__door"><span class="ribbon"></span><svg class="bow tile__bow" viewBox="0 0 64 40" aria-hidden="true"><use href="#i-bow"/></svg><span class="tile__label">
+            ${st === 'locked' ? '<svg class="tile__lock" aria-hidden="true"><use href="#i-lock"/></svg>' : ''}
+            ${st === 'today' ? '<span class="tile__pill tile__pill--inline">Hoy</span>' : ''}
+            <span class="tile__num">25</span><span class="tile__name">Navidad</span>
+            ${st === 'locked' ? '<span class="tile__meta">Se abre el 25 de diciembre</span>' : ''}</span></span>`;
+    } else {
+        door = `<span class="tile__door">
+            ${st === 'today' ? '<span class="tile__pill">Hoy</span>' : ''}
+            ${st === 'ready' ? '<span class="tile__dot" title="Sin abrir"></span>' : ''}
+            ${st === 'locked' ? '<svg class="tile__lock" aria-hidden="true"><use href="#i-lock"/></svg>' : ''}
+            <span class="tile__num">${d}</span></span>`;
+    }
+    const attrs = legend ? 'tabindex="-1" aria-hidden="true"' : `aria-label="${label}" ${st === 'locked' ? 'aria-disabled="true"' : ''}`;
+    return `<button type="button" class="tile${final ? ' tile--final' : ''}" data-day="${d}" data-state="${st}" ${attrs}>${inside}${door}</button>`;
+}
+
+function renderGrid() {
+    $('#grid').innerHTML = Array.from({ length: TOTAL }, (_, i) => tileHTML(i + 1, status(i + 1))).join('');
+}
+
+function renderLegend() {
+    const items = [
+        [7, 'locked', 'Bloqueada: aún no es su día'],
+        [8, 'today', 'Hoy: la puerta del día'],
+        [9, 'ready', 'Pendiente: ya puedes abrirla'],
+        [6, 'open', 'Abierta: se ve la luz']
+    ];
+    $('#legend').innerHTML = items.map(([d, st, txt]) => `<div class="legend__item">${tileHTML(d, st, { legend: true })}<span>${txt}</span></div>`).join('');
+}
+
+/* ---------- Cabecera según la fecha ---------- */
+function renderHead() {
+    const n = dayNumberToday();
+    let line, sub, go = '';
+    if (n === 0) {
+        const k = daysUntilStart();
+        line = k === 1 ? 'Falta 1 día' : `Faltan ${k} días`;
+        sub = 'La primera puerta se abre el 1 de diciembre.';
+    } else if (n >= 26) {
+        line = 'Feliz Navidad';
+        sub = 'Todas las puertas están abiertas. Vuelve a verlas cuando quieras.';
+    } else {
+        line = n === 25 ? 'Hoy es Navidad' : `Hoy es ${n} de diciembre`;
+        if (!opened.has(n)) { sub = `Te espera la puerta ${n}.`; go = `<button type="button" class="head__go" id="go">Ir a la puerta ${n}</button>`; }
+        else sub = n === 25 ? 'Ya abriste la última puerta.' : `La de hoy ya está abierta. Mañana, la ${n + 1}.`;
+    }
+    const count = n === 0 ? '' : `<p class="head__count">Has abierto ${opened.size} de ${TOTAL}</p>`;
+    $('#head').innerHTML = `<svg class="bow head__bow" viewBox="0 0 64 40" aria-hidden="true"><use href="#i-bow"/></svg><h1>Calendario de adviento</h1><p class="head__today">${line}</p><p class="head__sub">${sub}</p>${go}${count}`;
+    const g = $('#go');
+    if (g) g.addEventListener('click', () => {
+        const t = document.querySelector(`.tile[data-day="${n}"]`);
+        t.scrollIntoView({ block: 'center', behavior: reduceMotion() ? 'auto' : 'smooth' });
+        t.focus({ preventScroll: true });
+    });
+}
+
+/* ---------- Aviso ---------- */
+let toastTimer;
+function toast(msg) {
+    const t = $('#toast'); t.textContent = msg; t.classList.add('show');
+    clearTimeout(toastTimer); toastTimer = setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+/* ---------- Modal ---------- */
+const CONTENT = {
+    mensaje: { title: 'Algo que no te digo a menudo', text: 'Me gusta cómo conviertes un día cualquiera en uno que vale la pena recordar. Gracias por eso.' },
+    foto: { title: 'Ese día', text: 'Una foto que me hace sonreír cada vez que la veo.' },
+    vale: { title: 'Vale por una tarde sin prisa', coupon: 'Merienda, la película que tú elijas y cero pantallas.', small: 'Canjeable cuando quieras' },
+    cancion: { title: 'Para escuchar hoy', song: ['Título de la canción', 'Artista'], text: 'Ponla mientras te tomas un café.' },
+    reto: { title: 'Una adivinanza', text: 'Tengo ciudades, pero no casas; ríos, pero no agua. ¿Qué soy?', answer: 'Un mapa.' },
+    final: { title: 'Feliz Navidad', text: 'Llegaste a la última puerta. Gracias por abrir cada una, por quedarte y por hacer que estos veinticinco días hayan valido la pena. Lo mejor de este calendario eras tú al otro lado.' }
+};
+let opener = null;
+
+function openSheet(d) {
+    const type = typeOf(d), c = CONTENT[type];
+    const heroClass = type === 'foto' ? 'sheet__hero photo' : 'sheet__hero';
+    let extra = '';
+    if (c.coupon) extra = `<div class="sheet__extra coupon">${c.coupon}<small>${c.small}</small></div>`;
+    if (c.song) extra = `<div class="sheet__extra"><div class="song">${c.song[0]}<span>${c.song[1]}</span></div><button type="button" class="btn">Escuchar</button></div>`;
+    if (c.answer) extra = `<div class="sheet__extra"><button type="button" class="btn" id="reveal">Mostrar la respuesta</button><p class="answer" id="answer" aria-live="polite"></p></div>`;
+    $('#sheet').className = 'sheet' + (type === 'final' ? ' sheet__final' : '');
+    $('#sheet').innerHTML = `
+        <button type="button" class="sheet__close" id="close" aria-label="Cerrar">×</button>
+        <div class="${heroClass}"><svg aria-hidden="true"><use href="#${ICON[type]}"/></svg></div>
+        <div class="sheet__body">
+            <p class="sheet__day">Día ${d} de ${TOTAL}</p>
+            <h2 class="sheet__title" id="sheetTitle">${c.title}</h2>
+            <p class="sheet__text">${c.text || ''}</p>
+            ${extra}
+            <p class="sheet__note">Texto de ejemplo del mockup</p>
+        </div>`;
+    $('#backdrop').classList.add('show');
+    $('#close').focus();
+    $('#close').addEventListener('click', closeSheet);
+    const r = $('#reveal');
+    if (r) r.addEventListener('click', () => { $('#answer').textContent = c.answer; r.hidden = true; });
+    if (type === 'final' && !reduceMotion()) {
+        for (let i = 0; i < 18; i++) {
+            const s = document.createElement('i'); s.className = 'spark';
+            const a = (i / 18) * Math.PI * 2, dist = 70 + (i % 3) * 30;
+            s.style.setProperty('--dx', `${Math.cos(a) * dist}px`); s.style.setProperty('--dy', `${Math.sin(a) * dist}px`);
+            $('#sheet').appendChild(s);
+        }
+    }
+}
+function closeSheet() {
+    $('#backdrop').classList.remove('show');
+    if (opener) opener.focus();
+}
+
+/* ---------- Clic en una puerta ---------- */
+$('#grid').addEventListener('click', (e) => {
+    const t = e.target.closest('.tile'); if (!t) return;
+    const d = Number(t.dataset.day), st = t.dataset.state;
+    if (st === 'locked') {
+        t.classList.remove('shake'); void t.offsetWidth; t.classList.add('shake');
+        toast(d === TOTAL ? 'La puerta de Navidad se abre el 25 de diciembre.' : `La puerta ${d} se abre el ${d} de diciembre.`);
+        return;
+    }
+    opener = t;
+    if (st === 'open') { openSheet(d); return; }
+    opened.add(d);
+    t.dataset.state = 'open';
+    t.setAttribute('aria-label', `Puerta ${d}, abierta. Volver a verla`);
+    setTimeout(() => { openSheet(d); renderHead(); }, reduceMotion() ? 0 : 450);
+});
+
+/* ---------- Teclado ---------- */
+document.addEventListener('keydown', (e) => {
+    if ($('#cmp').classList.contains('show')) { if (e.key === 'Escape') closeCompare(); return; }
+    if (!$('#backdrop').classList.contains('show')) return;
+    if (e.key === 'Escape') closeSheet();
+    if (e.key === 'Tab') {
+        const f = [...$('#sheet').querySelectorAll('button:not([hidden])')];
+        if (!f.length) return;
+        const first = f[0], last = f[f.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    }
+});
+$('#backdrop').addEventListener('click', (e) => { if (e.target.id === 'backdrop') closeSheet(); });
+
+/* ---------- Probador: paleta, letra, fecha, tamaño ---------- */
+const root = document.documentElement;
+const selTheme = $('#selTheme'), selType = $('#selType'), sim = $('#sim');
+selTheme.innerHTML = THEMES.map(([v, l]) => `<option value="${v}">${l}</option>`).join('');
+selType.innerHTML = FONTSETS.map(([v, l]) => `<option value="${v}">${l}</option>`).join('');
+sim.innerHTML = SIMS.map(([v, l]) => `<option value="${v}">${l}</option>`).join('');
+sim.value = today;
+selTheme.addEventListener('change', () => { root.dataset.theme = selTheme.value; });
+selType.addEventListener('change', () => { root.dataset.type = selType.value; });
+sim.addEventListener('change', () => { today = sim.value; refresh(); });
+function setView(mobile) {
+    root.style.setProperty('--stage-w', mobile ? '390px' : '860px');
+    $('#vm').setAttribute('aria-pressed', mobile); $('#vd').setAttribute('aria-pressed', !mobile);
+}
+$('#vm').addEventListener('click', () => setView(true));
+$('#vd').addEventListener('click', () => setView(false));
+
+/* ---------- Comparador: las 5 paletas con las mismas puertas ---------- */
+function openCompare() {
+    const demo = [[1, 'open'], [2, 'open'], [3, 'ready'], [4, 'today'], [5, 'locked'], [6, 'locked'], [7, 'locked'], [8, 'locked']];
+    $('#cmpGrid').innerHTML = THEMES.map(([id, name, desc]) => `
+        <article class="pcard${root.dataset.theme === id ? ' is-current' : ''}" data-theme="${id}">
+            <h3 class="pcard__name">${name.replace(' (la actual)', '')}</h3>
+            <p class="pcard__desc">${desc}</p>
+            <div class="pcard__sw" aria-hidden="true"><i style="background:var(--bg1)"></i><i style="background:var(--door-2)"></i><i style="background:var(--tx-accent)"></i><i style="background:var(--lit-1)"></i><i style="background:var(--hoy-bg)"></i></div>
+            <div class="pcard__grid">${demo.map(([d, st]) => tileHTML(d, st, { legend: true })).join('')}</div>
+            <button type="button" class="pcard__use" data-pick="${id}">Usar esta paleta</button>
+        </article>`).join('');
+    $('#cmp').classList.add('show');
+    $('#cmpClose').focus();
+}
+function closeCompare() { $('#cmp').classList.remove('show'); $('#cmpOpen').focus(); }
+$('#cmpOpen').addEventListener('click', openCompare);
+$('#cmpClose').addEventListener('click', closeCompare);
+$('#cmpGrid').addEventListener('click', (e) => {
+    const b = e.target.closest('[data-pick]'); if (!b) return;
+    root.dataset.theme = b.dataset.pick; selTheme.value = b.dataset.pick; closeCompare();
+});
+
+function refresh() { seedOpened(); renderHead(); renderGrid(); }
+
+// Nieve
+$('#snow').innerHTML = Array.from({ length: 22 }, () => {
+    const s = 2 + Math.random() * 3;
+    return `<i style="left:${Math.random() * 100}%;width:${s}px;height:${s}px;animation-duration:${9 + Math.random() * 10}s;animation-delay:${-Math.random() * 18}s;--drift:${(Math.random() * 60 - 30).toFixed(0)}px"></i>`;
+}).join('');
+
+renderLegend();
+refresh();
+</script>
+</body>
+</html>

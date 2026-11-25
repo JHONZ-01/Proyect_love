@@ -12,6 +12,7 @@ const BLOCKS = [
     { id: 'letter', flag: 'VITE_BLOCK_LETTER' },
     { id: 'gallery', flag: 'VITE_BLOCK_GALLERY' },
     { id: 'steamer', flag: 'VITE_BLOCK_STEAMER' },
+    { id: 'advent', flag: 'VITE_BLOCK_ADVENT' },
 ]
 
 export default defineConfig(({ mode }) => {

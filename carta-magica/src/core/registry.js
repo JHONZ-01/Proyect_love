@@ -39,4 +39,14 @@ export const BLOCK_REGISTRY = [
                 import('../blocks/steamer/block.meta'),
             ]),
     },
+    {
+        id: 'advent',
+        flag: 'VITE_BLOCK_ADVENT',
+        load: __BLOCK_ADVENT_OFF__
+            ? null
+            : () => Promise.all([
+                import('../blocks/advent'),
+                import('../blocks/advent/block.meta'),
+            ]),
+    },
 ]
