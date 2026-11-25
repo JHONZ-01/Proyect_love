@@ -1,9 +1,12 @@
 import { motion } from 'framer-motion'
+import kraft from '../../assets/kraft.webp'
+import waxSeal from '../../assets/wax-seal.png'
 
 /*
  * Sobre escalable: todo va en porcentajes, así que ocupa el ancho que le dé el
  * contenedor (proporción 8:5). Las solapas son polígonos con clip-path (no
- * triángulos de borde en px), lo que permite degradados y no se rompe en móvil.
+ * triángulos de borde en px). Todas comparten la misma textura kraft sobre la caja
+ * completa del sobre, así el papel se ve continuo y solo cambia la luz de cada cara.
  * La punta de la solapa y el sello caen en el mismo punto: 50% / 56%.
  */
 const TIP = '50% 56%'
@@ -13,34 +16,36 @@ const RIGHT = `polygon(100% 0, 100% 100%, ${TIP})`
 const BOTTOM = `polygon(0 100%, ${TIP}, 100% 100%)`
 
 const hidden = { backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden' }
-
 const lidSpring = { type: 'spring', stiffness: 90, damping: 16 }
+
+/** Textura kraft con una capa de luz/sombra encima. */
+const paper = (light) => ({
+    backgroundImage: `${light}, url(${kraft})`,
+    backgroundSize: '100% 100%',
+})
+
+/** Cara del sobre: el contenedor lleva la sombra (el clip-path la recortaría). */
+function Face({ clip, shadow, bg }) {
+    return (
+        <div className="absolute inset-0 z-2" style={{ filter: shadow }}>
+            <div className="absolute inset-0" style={{ clipPath: clip, ...bg }} />
+        </div>
+    )
+}
 
 function Seal({ open }) {
     return (
-        <motion.div
-            className="absolute z-4 w-[17%] aspect-square -translate-x-1/2 -translate-y-1/2 rounded-full"
-            style={{
-                left: '50%',
-                top: '56%',
-                background: 'radial-gradient(circle at 32% 28%, var(--color-wax-light), var(--color-wax) 70%)',
-                boxShadow:
-                    '0 4px 10px rgba(0,0,0,.45), inset 0 -3px 4px rgba(0,0,0,.35), inset 0 2px 2px rgba(255,255,255,.25)',
-            }}
+        <motion.img
+            src={waxSeal}
+            width={360}
+            height={360}
+            alt=""
+            draggable={false}
+            className="absolute z-4 w-[22%] h-auto -translate-x-1/2 -translate-y-1/2 select-none"
+            style={{ left: '50%', top: '56%', filter: 'drop-shadow(0 5px 6px rgba(0,0,0,0.45))' }}
             animate={{ opacity: open ? 0 : 1, scale: open ? 0.4 : 1 }}
             transition={{ duration: 0.3 }}
-        >
-            <div className="absolute inset-[16%] rounded-full border border-gold/80 shadow-[inset_0_1px_3px_rgba(0,0,0,.4)] flex items-center justify-center">
-                <svg viewBox="0 0 24 24" className="w-[55%]" aria-hidden="true">
-                    <path
-                        d="M12 21s-7.5-4.6-9.5-9.2C1.2 8.7 3 5.5 6.2 5.5c2 0 3.4 1.1 5.8 3.3 2.4-2.2 3.8-3.3 5.8-3.3 3.2 0 5 3.2 3.7 6.3C19.5 16.4 12 21 12 21z"
-                        fill="var(--color-wax-light)"
-                        stroke="rgba(255,255,255,.35)"
-                        strokeWidth="0.6"
-                    />
-                </svg>
-            </div>
-        </motion.div>
+        />
     )
 }
 
@@ -48,8 +53,11 @@ function Seal({ open }) {
 export default function Envelope({ open = false, children }) {
     return (
         <div className="relative w-full aspect-8/5" style={{ perspective: 900 }}>
-            {/* Interior */}
-            <div className="absolute inset-0 rounded-[3px] bg-kraft-deep shadow-[0_22px_40px_-12px_rgba(0,0,0,0.55)]" />
+            {/* Interior (se ve al abrir la solapa) */}
+            <div
+                className="absolute inset-0 rounded-[3px] shadow-[0_22px_40px_-12px_rgba(0,0,0,0.55)]"
+                style={paper('linear-gradient(rgba(45,25,5,0.5), rgba(45,25,5,0.5))')}
+            />
 
             {/* Hoja que asoma por detrás de las solapas frontales */}
             <motion.div
@@ -60,19 +68,10 @@ export default function Envelope({ open = false, children }) {
                 {children}
             </motion.div>
 
-            {/* Solapas frontales */}
-            <div
-                className="absolute inset-0 z-2"
-                style={{ clipPath: LEFT, background: 'linear-gradient(100deg, var(--color-kraft-deep), var(--color-kraft))' }}
-            />
-            <div
-                className="absolute inset-0 z-2"
-                style={{ clipPath: RIGHT, background: 'linear-gradient(260deg, var(--color-kraft-deep), var(--color-kraft))' }}
-            />
-            <div
-                className="absolute inset-0 z-2"
-                style={{ clipPath: BOTTOM, background: 'linear-gradient(0deg, var(--color-kraft-light), var(--color-kraft))' }}
-            />
+            {/* Solapas frontales: laterales en penumbra, la de abajo recibe más luz */}
+            <Face clip={LEFT} shadow="drop-shadow(1px 0 2px rgba(0,0,0,0.25))" bg={paper('linear-gradient(100deg, rgba(60,35,10,0.42), rgba(60,35,10,0.1))')} />
+            <Face clip={RIGHT} shadow="drop-shadow(-1px 0 2px rgba(0,0,0,0.25))" bg={paper('linear-gradient(260deg, rgba(60,35,10,0.42), rgba(60,35,10,0.1))')} />
+            <Face clip={BOTTOM} shadow="drop-shadow(0 -2px 3px rgba(0,0,0,0.3))" bg={paper('linear-gradient(0deg, rgba(255,240,205,0.3), rgba(255,240,205,0))')} />
 
             {/* Solapa superior: cara dorada al frente, cara interior al abrirse */}
             <motion.div
@@ -81,23 +80,26 @@ export default function Envelope({ open = false, children }) {
                 animate={{ rotateX: open ? -180 : 0, zIndex: open ? 0 : 3 }}
                 transition={{ rotateX: lidSpring, zIndex: { duration: 0, delay: open ? 0.2 : 0.35 } }}
             >
-                <div
-                    className="absolute inset-0"
-                    style={{
-                        ...hidden,
-                        clipPath: LID,
-                        background: 'linear-gradient(165deg, var(--color-gold-light), var(--color-gold))',
-                    }}
-                />
-                <div
-                    className="absolute inset-0"
-                    style={{
-                        ...hidden,
-                        clipPath: LID,
-                        transform: 'rotateX(180deg)',
-                        background: 'linear-gradient(0deg, var(--color-kraft-deep), var(--color-kraft))',
-                    }}
-                />
+                <div className="absolute inset-0" style={{ ...hidden, filter: 'drop-shadow(0 3px 3px rgba(0,0,0,0.3))' }}>
+                    <div
+                        className="absolute inset-0"
+                        style={{
+                            clipPath: LID,
+                            backgroundImage: `linear-gradient(165deg, rgba(244,213,126,0.9), rgba(224,176,79,0.9)), url(${kraft})`,
+                            backgroundSize: 'cover',
+                        }}
+                    />
+                </div>
+                <div className="absolute inset-0" style={{ ...hidden, transform: 'rotateX(180deg)' }}>
+                    <div
+                        className="absolute inset-0"
+                        style={{
+                            clipPath: LID,
+                            backgroundImage: `linear-gradient(rgba(45,25,5,0.35), rgba(45,25,5,0.1)), url(${kraft})`,
+                            backgroundSize: 'cover',
+                        }}
+                    />
+                </div>
             </motion.div>
 
             <Seal open={open} />

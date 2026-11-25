@@ -1,8 +1,7 @@
 import { motion, useReducedMotion } from 'framer-motion'
-import { useState } from 'react'
 import Envelope from './Envelope'
 import Sparkles from './Sparkles'
-import { BUTTON_LABELS, COVER, ENVELOPE_PEEK_TEXT } from '../../content'
+import { BUTTON_LABELS, COVER } from '../../content'
 
 function OpenMailIcon() {
     return (
@@ -16,12 +15,7 @@ function OpenMailIcon() {
 
 /** Portada: mensaje, sobre cerrado con sello y botón para abrir. */
 export default function EnvelopeScene({ onOpen }) {
-    const [peek, setPeek] = useState(false)
     const reduce = useReducedMotion()
-
-    // Solo el ratón "asoma" la hoja; en táctil no existe el hover y el botón abre directo.
-    const peekOn = (e) => e.pointerType === 'mouse' && setPeek(true)
-    const peekOff = (e) => e.pointerType === 'mouse' && setPeek(false)
 
     return (
         <div className="w-full max-w-md px-4 flex flex-col items-center text-center">
@@ -38,16 +32,10 @@ export default function EnvelopeScene({ onOpen }) {
                 animate={reduce ? undefined : { y: [0, -8, 0] }}
                 transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
                 onClick={onOpen}
-                onPointerEnter={peekOn}
-                onPointerLeave={peekOff}
                 aria-hidden="true"
             >
                 <div className="absolute -inset-[12%] rounded-full bg-gold/15 blur-3xl pointer-events-none" />
-                <Envelope open={peek}>
-                    <p className="font-script text-navy text-2xl sm:text-3xl text-center leading-snug whitespace-pre-line px-3">
-                        {ENVELOPE_PEEK_TEXT}
-                    </p>
-                </Envelope>
+                <Envelope />
                 <Sparkles />
             </motion.div>
 
@@ -59,10 +47,6 @@ export default function EnvelopeScene({ onOpen }) {
                 whileHover={{ scale: 1.04 }}
                 whileTap={{ scale: 0.96 }}
                 onClick={onOpen}
-                onPointerEnter={peekOn}
-                onPointerLeave={peekOff}
-                onFocus={() => setPeek(true)}
-                onBlur={() => setPeek(false)}
                 className="mt-12 inline-flex items-center gap-2.5 px-10 py-3.5 min-h-12 rounded-full border-2 border-gold-light bg-linear-to-b from-gold-light to-gold text-navy font-ui font-bold text-xl shadow-[0_6px_18px_rgba(0,0,0,0.35),0_0_24px_rgba(224,176,79,0.35)] cursor-pointer"
             >
                 <OpenMailIcon />

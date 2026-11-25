@@ -39,13 +39,11 @@
     --font-code: "JetBrains Mono", monospace;       /* fragmento de código */
 }
 
-*,
-*::before,
-*::after {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
+/*
+ * Sin reset manual de margin/padding: el preflight de Tailwind ya lo hace dentro de
+ * @layer base. Un `* { margin: 0; padding: 0 }` aquí (sin capa) le ganaba a TODAS las
+ * utilidades (mt-*, px-*, p-*, space-y-*) y las dejaba sin efecto.
+ */
 
 html {
     scroll-behavior: smooth;
