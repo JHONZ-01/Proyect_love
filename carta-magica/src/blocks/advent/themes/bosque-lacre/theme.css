@@ -1,0 +1,91 @@
+/*
+ * Estilo «Bosque y lacre»: Verde pino, oro viejo y burdeos. La Navidad de siempre.
+ * Variables --adv-* acotadas al elemento con data-adv-theme (el bloque o una tarjeta del
+ * selector de estilos): no cambian el aspecto de la carta, la galería ni el cesto.
+ * Todos los estilos definen exactamente las mismas variables (lo comprueba themes.test.js).
+ * Contraste de texto comprobado en el mockup (>= 4,5:1).
+ */
+[data-adv-theme="bosque-lacre"] {
+    /* Fondo */
+    --adv-bg1: #14503F;
+    --adv-bg2: #0C3329;
+    --adv-bg3: #07211A;
+    --adv-star-rgb: 255 255 255;
+    --adv-snow: #fff;
+    --adv-texture: linear-gradient(transparent, transparent);
+
+    /* Texto sobre el fondo */
+    --adv-tx: #F1E4C8;
+    --adv-tx-rgb: 241 228 200;
+    --adv-tx-soft: rgba(241, 228, 200, .88);
+    --adv-tx-accent: #F0CF85;
+    --adv-glow: rgba(240, 207, 133, .22);
+
+    /* Puerta */
+    --adv-door-1: #EBCB8B;
+    --adv-door-2: #CFA254;
+    --adv-door-edge: #9A6B26;
+    --adv-door-ink: #0C3329;
+    --adv-door-line: rgba(12, 51, 41, .35);
+    --adv-knob-1: #EBCB8B;
+    --adv-knob-2: #9A6B26;
+    --adv-door-deco: repeating-linear-gradient(88deg, rgba(90, 55, 20, .10) 0 1px, transparent 1px 7px); /* material de la puerta */
+    --adv-deco-size: 100% 100%;
+    --adv-light: rgba(255, 240, 200, .5); /* luz que sigue al cursor */
+    --adv-snowcap: #FFFFFF; /* nieve sobre las puertas grandes */
+
+    /* Puerta bloqueada (apagada) */
+    --adv-lk-fill: rgba(235, 203, 139, .10);
+    --adv-lk-edge: rgba(235, 203, 139, .38);
+    --adv-lk-ink: #F1E4C8;
+    --adv-lk-line: rgba(241, 228, 200, .2);
+
+    /* Ventana encendida (puerta abierta) */
+    --adv-lit-0: #FFF0C4;
+    --adv-lit-1: #F6C45F;
+    --adv-lit-2: #C4701F;
+    --adv-lit-3: #8B4513;
+    --adv-lit-ink: #5a2e0e;
+    --adv-lit-edge: rgba(139, 69, 19, .55);
+    --adv-lit-glow: rgba(246, 196, 95, .28);
+
+    /* «Hoy», pendiente y halo */
+    --adv-hoy-bg: #8E1F2B;
+    --adv-hoy-ink: #F6E8CC;
+    --adv-dot: #E5535B;
+    --adv-halo: rgba(240, 207, 133, .55);
+    --adv-halo-solid: #F0CF85;
+
+    /* Botón principal */
+    --adv-btn-1: #EBCB8B;
+    --adv-btn-2: #CFA254;
+    --adv-btn-ink: #0C3329;
+
+    /* Puerta final: lazo y etiqueta */
+    --adv-rib-1: #7a1620;
+    --adv-rib-2: #A3262F;
+    --adv-tag-bg: #EBCB8B;
+    --adv-tag-ink: #0C3329;
+    --adv-tag-lk-bg: rgba(7, 33, 26, .92);
+    --adv-tag-lk-ink: #F1E4C8;
+
+    /* Hoja (modal y aviso) */
+    --adv-sh-bg: #F4EDD9;
+    --adv-sh-ink: #35382d;
+    --adv-sh-acc: #8A5A2B;
+    --adv-sh-border: rgba(154, 107, 38, .45);
+
+    /* Letra: Bricolage Grotesque (títulos y números) + Instrument Sans (texto). La hoja de fuentes la carga theme.js (fontUrl). */
+    --adv-f-title: "Bricolage Grotesque", system-ui, sans-serif;
+    --adv-w-title: 700;
+    --adv-ls-title: -.02em;
+    --adv-s-h1: clamp(2rem, 10.5cqw, 3rem);
+    --adv-lh-h1: 1.05;
+    --adv-s-sheet: 1.9rem;
+    --adv-s-answer: 1.5rem;
+    --adv-f-num: "Bricolage Grotesque", system-ui, sans-serif;
+    --adv-w-num: 800;
+    --adv-f-text: "Instrument Sans", system-ui, sans-serif;
+    --adv-st-text: normal;
+    --adv-f-ui: "Instrument Sans", system-ui, sans-serif;
+}

@@ -1,0 +1,91 @@
+/*
+ * Estilo «Noche dorada»: Azul noche y oro. La misma familia que la carta.
+ * Variables --adv-* acotadas al elemento con data-adv-theme (el bloque o una tarjeta del
+ * selector de estilos): no cambian el aspecto de la carta, la galería ni el cesto.
+ * Todos los estilos definen exactamente las mismas variables (lo comprueba themes.test.js).
+ * Contraste de texto comprobado en el mockup (>= 4,5:1).
+ */
+[data-adv-theme="noche-dorada"] {
+    /* Fondo */
+    --adv-bg1: #004280;
+    --adv-bg2: #00264d;
+    --adv-bg3: #001a33;
+    --adv-star-rgb: 255 255 255;
+    --adv-snow: #fff;
+    --adv-texture: linear-gradient(transparent, transparent);
+
+    /* Texto sobre el fondo */
+    --adv-tx: #E8D5B7;
+    --adv-tx-rgb: 232 213 183;
+    --adv-tx-soft: rgba(232, 213, 183, .88);
+    --adv-tx-accent: #F4D57E;
+    --adv-glow: rgba(244, 213, 126, .25);
+
+    /* Puerta */
+    --adv-door-1: #F4D57E;
+    --adv-door-2: #E0B04F;
+    --adv-door-edge: #B9801C;
+    --adv-door-ink: #004280;
+    --adv-door-line: rgba(0, 66, 128, .35);
+    --adv-knob-1: #F4D57E;
+    --adv-knob-2: #B9801C;
+    --adv-door-deco: repeating-linear-gradient(95deg, rgba(255, 255, 255, .07) 0 1px, transparent 1px 6px); /* material de la puerta */
+    --adv-deco-size: 100% 100%;
+    --adv-light: rgba(190, 225, 255, .55); /* luz que sigue al cursor */
+    --adv-snowcap: #F2F8FF; /* nieve sobre las puertas grandes */
+
+    /* Puerta bloqueada (apagada) */
+    --adv-lk-fill: rgba(224, 176, 79, .14);
+    --adv-lk-edge: rgba(224, 176, 79, .42);
+    --adv-lk-ink: #E8D5B7;
+    --adv-lk-line: rgba(232, 213, 183, .2);
+
+    /* Ventana encendida (puerta abierta) */
+    --adv-lit-0: #FFF1C2;
+    --adv-lit-1: #F4C25A;
+    --adv-lit-2: #C07A1E;
+    --adv-lit-3: #8A4F10;
+    --adv-lit-ink: #5a3410;
+    --adv-lit-edge: rgba(138, 79, 16, .55);
+    --adv-lit-glow: rgba(244, 194, 90, .28);
+
+    /* «Hoy», pendiente y halo */
+    --adv-hoy-bg: #8f1d1d;
+    --adv-hoy-ink: #E8D5B7;
+    --adv-dot: #D24545;
+    --adv-halo: rgba(244, 213, 126, .6);
+    --adv-halo-solid: #F4D57E;
+
+    /* Botón principal */
+    --adv-btn-1: #F4D57E;
+    --adv-btn-2: #E0B04F;
+    --adv-btn-ink: #004280;
+
+    /* Puerta final: lazo y etiqueta */
+    --adv-rib-1: #6f1515;
+    --adv-rib-2: #8f1d1d;
+    --adv-tag-bg: #F4D57E;
+    --adv-tag-ink: #004280;
+    --adv-tag-lk-bg: rgba(0, 28, 56, .92);
+    --adv-tag-lk-ink: #E8D5B7;
+
+    /* Hoja (modal y aviso) */
+    --adv-sh-bg: #F5ECD7;
+    --adv-sh-ink: #4a3f35;
+    --adv-sh-acc: #8b5e3c;
+    --adv-sh-border: rgba(200, 169, 110, .5);
+
+    /* Letra: Fraunces (títulos, números y texto) + Figtree (etiquetas). La hoja de fuentes la carga theme.js (fontUrl). */
+    --adv-f-title: "Fraunces", Georgia, serif;
+    --adv-w-title: 600;
+    --adv-ls-title: -.01em;
+    --adv-s-h1: clamp(2rem, 10.5cqw, 3rem);
+    --adv-lh-h1: 1.1;
+    --adv-s-sheet: 1.95rem;
+    --adv-s-answer: 1.5rem;
+    --adv-f-num: "Fraunces", Georgia, serif;
+    --adv-w-num: 700;
+    --adv-f-text: "Fraunces", Georgia, serif;
+    --adv-st-text: normal;
+    --adv-f-ui: "Figtree", system-ui, sans-serif;
+}

@@ -1,12 +1,17 @@
 /*
- * Estilos del bloque advent. Estructura y forma; los colores y las letras salen de las variables
- * --adv-* de themes/<estilo>/theme.css. Todas las clases llevan el prefijo .advent- (y las
- * animaciones, adv-) para no filtrarse a otros bloques.
- * Diseño aprobado en docs/mockups/adviento-mockup.html.
+ * Estilos del bloque advent. Estructura, forma y movimiento; los colores, materiales y letras salen
+ * de las variables --adv-* de themes/<estilo>/theme.css. Clases con prefijo .advent- y animaciones
+ * con prefijo adv-, para no filtrarse a otros bloques.
+ *
+ * Movimiento (criterio de la skill «animate», Emil Kowalski):
+ *  - hover: frecuente -> sutil y rápido (160-200 ms), solo con ratón y sin «reducir movimiento»;
+ *  - abrir una puerta: una vez al día -> aquí sí hay deleite (700 ms, curva de salida fuerte);
+ *  - solo transform y opacity (no se anima tamaño ni posición de diseño).
  */
 
-/* ---------- Raíz: pantalla completa con fondo propio (como el bloque steamer) ---------- */
+/* ---------- Raíz: pantalla completa con fondo propio ---------- */
 .advent-block {
+    --adv-ease-out: cubic-bezier(0.23, 1, 0.32, 1);
     position: fixed;
     inset: 0;
     z-index: 20;
@@ -16,6 +21,7 @@
     color: var(--adv-tx);
     -webkit-font-smoothing: antialiased;
     background:
+        var(--adv-texture),
         radial-gradient(1.2px 1.2px at 12% 18%, rgb(var(--adv-star-rgb) / .55), transparent 60%),
         radial-gradient(1px 1px at 78% 9%, rgb(var(--adv-star-rgb) / .5), transparent 60%),
         radial-gradient(1.4px 1.4px at 38% 42%, rgb(var(--adv-star-rgb) / .4), transparent 60%),
@@ -25,12 +31,16 @@
         linear-gradient(180deg, var(--adv-bg1) 0%, var(--adv-bg2) 55%, var(--adv-bg3) 100%);
 }
 
+.advent-block[data-modal-open="true"] {
+    overflow: hidden; /* el fondo no se desplaza mientras hay un modal abierto */
+}
+
 .advent-block :focus-visible {
     outline: 3px solid var(--adv-tx-accent);
     outline-offset: 3px;
 }
 
-/* ---------- Nieve (solo CSS) ---------- */
+/* ---------- Cielo: nieve, destellos y lunares ---------- */
 .advent-snow {
     position: fixed;
     inset: 0;
@@ -52,20 +62,62 @@
     to { transform: translate3d(var(--adv-drift, 20px), 105vh, 0); }
 }
 
+.advent-snow--hearts i {
+    min-width: 11px;
+    min-height: 11px;
+    border-radius: 0;
+    opacity: .75;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23ff6b9a' d='M12 21C5 16.5 2 12.6 2 8.9 2 6.2 4.1 4 6.8 4c1.9 0 3.7 1 5.2 3 1.5-2 3.3-3 5.2-3C19.9 4 22 6.2 22 8.9c0 3.7-3 7.6-10 12.1z'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+.advent-twinkles {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.advent-twinkles i {
+    position: absolute;
+    width: 9px;
+    height: 9px;
+    background: rgb(var(--adv-star-rgb));
+    clip-path: polygon(50% 0, 60% 40%, 100% 50%, 60% 60%, 50% 100%, 40% 60%, 0 50%, 40% 40%);
+    opacity: .15;
+    animation: adv-twinkle-sky 4.2s ease-in-out infinite;
+}
+
+@keyframes adv-twinkle-sky {
+    0%, 100% { opacity: .12; transform: scale(.7); }
+    50% { opacity: .9; transform: scale(1); }
+}
+
+.advent-dots {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: .7;
+    background-image:
+        radial-gradient(circle at 25% 25%, #fff 3px, transparent 3.5px),
+        radial-gradient(circle at 75% 75%, rgba(255, 255, 255, .75) 2px, transparent 2.5px);
+    background-size: 36px 36px;
+}
+
 /* ---------- Escenario ---------- */
 .advent-stage {
     position: relative;
     z-index: 1;
     display: block;
-    width: min(100%, 860px);
+    width: min(100%, 1040px);
     margin: 0 auto;
-    padding: 36px 16px 64px;
+    padding: 36px 16px 112px; /* abajo deja sitio al botón «Estilo» */
     container-type: inline-size;
 }
 
 /* ---------- Cabecera ---------- */
 .advent-head {
-    margin-bottom: 22px;
+    margin-bottom: 26px;
     text-align: center;
 }
 
@@ -120,58 +172,141 @@
     color: var(--adv-tx-accent);
 }
 
-/* ---------- Cuadrícula: 4 columnas en móvil, 6 con ancho ---------- */
-.advent-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 8px;
+.advent-head__bow {
+    display: block;
+    width: 68px;
+    height: auto;
+    margin: 0 auto 4px;
+    color: var(--adv-rib-2);
+    filter: drop-shadow(0 2px 2px rgba(0, 0, 0, .2));
 }
 
-@container (min-width: 640px) {
+.advent-head__art {
+    display: block;
+    max-width: min(160px, 45%);
+    max-height: 120px;
+    margin: 0 auto 8px;
+    object-fit: contain;
+}
+
+/* ---------- Cuadrícula asimétrica (posiciones en lib/layout.js) ---------- */
+.advent-gridwrap {
+    container: advent-grid / inline-size;
+}
+
+.advent-grid {
+    --cols: 4;
+    --gap: 8px;
+    /* Casillas cuadradas: el alto de fila es igual al ancho de columna. */
+    --cell: calc((100cqw - (var(--cols) - 1) * var(--gap)) / var(--cols));
+    display: grid;
+    grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
+    grid-auto-rows: var(--cell);
+    gap: var(--gap);
+}
+
+@container advent-grid (min-width: 600px) {
     .advent-grid {
-        grid-template-columns: repeat(6, 1fr);
-        gap: 12px;
+        --cols: 6;
+        --gap: 14px;
     }
 }
 
-/* ---------- Puerta ---------- */
+/* ---------- Puerta: estructura común ---------- */
 .advent-door {
-    --r-top: 14px;
-    --r-bottom: 5px;
+    --d-radius: 12px 12px 6px 6px;
     position: relative;
     display: block;
     width: 100%;
-    aspect-ratio: 3 / 4;
+    height: 100%;
+    min-width: 0;
     padding: 0;
     border: 0;
     background: none;
     cursor: pointer;
-    perspective: 700px;
+    perspective: 900px;
     font-family: var(--adv-f-num);
     -webkit-tap-highlight-color: transparent;
+    grid-column: var(--m-col) / span var(--m-cs);
+    grid-row: var(--m-row) / span var(--m-rs);
+    /* Entrada al cargar: una sola secuencia, 30 ms entre puertas, en el orden de los números */
+    animation: adv-door-in 560ms var(--adv-ease-out) both;
+    animation-delay: calc(var(--i, 0) * 30ms);
 }
 
-.advent-door__inside,
-.advent-door__face {
+@container advent-grid (min-width: 600px) {
+    .advent-door {
+        grid-column: var(--w-col) / span var(--w-cs);
+        grid-row: var(--w-row) / span var(--w-rs);
+    }
+}
+
+@keyframes adv-door-in {
+    from { opacity: 0; transform: translateY(12px) scale(.97); }
+}
+
+@keyframes adv-fade-in {
+    from { opacity: 0; }
+}
+
+/* Formas: el radio decide el aspecto (ventanita, arco, contraventanas, doble puerta…) */
+.advent-door[data-shape="tall"] { --d-radius: 50% 50% 8px 8px / 24% 24% 8px 8px; }
+.advent-door[data-shape="wide"],
+.advent-door[data-shape="banner"] { --d-radius: 10px; --l-radius: 10px 0 0 10px; --r-radius: 0 10px 10px 0; }
+.advent-door[data-shape="large"] {
+    --d-radius: 50% 50% 10px 10px / 30% 30% 10px 10px;
+    --l-radius: 100% 0 0 10px / 30% 0 0 10px;
+    --r-radius: 0 100% 10px 0 / 0 30% 10px 0;
+}
+.advent-door[data-shape="final"] { --d-radius: 14px; }
+
+/* Cuerpo: lo que se eleva y se inclina con el ratón (DoorGrid escribe su transform) */
+.advent-door__body {
     position: absolute;
     inset: 0;
-    border-radius: var(--r-top) var(--r-top) var(--r-bottom) var(--r-bottom);
+    display: block;
+    perspective: 700px;
+    transition: transform 180ms var(--adv-ease-out);
 }
 
-/* La ventana encendida que hay detrás de la puerta */
+/* Sombra en el suelo: crece cuando la puerta se eleva */
+.advent-door__body::before {
+    content: "";
+    position: absolute;
+    left: 8%;
+    right: 8%;
+    bottom: -7px;
+    height: 14px;
+    border-radius: 50%;
+    background: radial-gradient(closest-side, rgba(0, 0, 0, .42), transparent);
+    opacity: .55;
+    pointer-events: none;
+    transition: opacity 200ms ease, transform 200ms var(--adv-ease-out);
+}
+
+.advent-door__body[data-lit]::before {
+    opacity: 1;
+    transform: translateY(5px) scaleX(1.05);
+}
+
+/* La ventana encendida que hay detrás de la puerta (hundida en el marco) */
 .advent-door__inside {
+    position: absolute;
+    inset: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: 4px;
-    background: radial-gradient(ellipse at 50% 62%, var(--adv-lit-0) 0%, var(--adv-lit-1) 38%, var(--adv-lit-2) 78%, var(--adv-lit-3) 100%);
-    box-shadow: inset 0 0 0 2px var(--adv-lit-edge), 0 0 22px var(--adv-lit-glow);
+    overflow: hidden;
+    border-radius: var(--d-radius);
     color: var(--adv-lit-ink);
+    background: radial-gradient(ellipse at 50% 60%, var(--adv-lit-0) 0%, var(--adv-lit-1) 38%, var(--adv-lit-2) 78%, var(--adv-lit-3) 100%);
+    box-shadow: inset 0 0 0 2px var(--adv-lit-edge), inset 0 8px 18px rgba(0, 0, 0, .28), 0 0 24px var(--adv-lit-glow);
 }
 
 .advent-door__inside svg {
-    width: 34%;
+    width: min(38%, 64px);
     height: auto;
 }
 
@@ -180,49 +315,182 @@
     opacity: .85;
 }
 
-.advent-door__face {
+/* Destello al abrir: la luz «se enciende» */
+.advent-door__inside::after {
+    content: "";
+    position: absolute;
+    inset: -20%;
+    background: radial-gradient(circle, rgba(255, 255, 255, .9), transparent 60%);
+    opacity: 0;
+    pointer-events: none;
+}
+
+.advent-door[data-opening] .advent-door__inside::after {
+    animation: adv-bloom 900ms var(--adv-ease-out);
+}
+
+@keyframes adv-bloom {
+    30% { opacity: .85; }
+    100% { opacity: 0; }
+}
+
+.advent-door:not([data-state="open"]):not([data-opening]) .advent-door__inside {
+    visibility: hidden;
+}
+
+/* Hoja de la puerta: material del estilo, bisel y sombra propia */
+.advent-door__leaf,
+.advent-door__wrap {
+    position: absolute;
+    inset: 0;
+    border-radius: var(--d-radius);
+    background: var(--adv-door-deco), linear-gradient(160deg, var(--adv-door-1) 0%, var(--adv-door-2) 100%);
+    background-size: var(--adv-deco-size), 100% 100%;
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, .45),
+        inset 0 -3px 0 rgba(0, 0, 0, .14),
+        inset 0 0 0 1.5px var(--adv-door-edge),
+        0 10px 18px -10px rgba(0, 0, 0, .6);
+    transform-origin: left center;
+    backface-visibility: hidden;
+    transition: transform 700ms var(--adv-ease-out), opacity 260ms ease 420ms;
+}
+
+/* Panel moldurado */
+.advent-door__leaf::before {
+    content: "";
+    position: absolute;
+    inset: max(5px, 8%);
+    border: 1px solid var(--adv-door-line);
+    border-radius: inherit;
+    pointer-events: none;
+}
+
+/* Pomo */
+.advent-door__leaf::after {
+    content: "";
+    position: absolute;
+    right: 12%;
+    top: 55%;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, var(--adv-knob-1), var(--adv-knob-2));
+    box-shadow: 0 1px 2px rgba(0, 0, 0, .45);
+}
+
+/* Dos hojas que se abren desde el centro */
+.advent-door__leaf--l {
+    inset: 0 50% 0 0;
+    border-radius: var(--l-radius);
+}
+
+.advent-door__leaf--r {
+    inset: 0 0 0 50%;
+    border-radius: var(--r-radius);
+    transform-origin: right center;
+}
+
+.advent-door__leaf--l::after { right: 7%; }
+.advent-door__leaf--r::after { right: auto; left: 7%; }
+
+/* Contraventanas: lamas horizontales */
+.advent-door[data-shape="wide"] .advent-door__leaf,
+.advent-door[data-shape="banner"] .advent-door__leaf {
+    background:
+        repeating-linear-gradient(180deg, transparent 0 9px, rgba(0, 0, 0, .07) 9px 10px),
+        var(--adv-door-deco),
+        linear-gradient(160deg, var(--adv-door-1) 0%, var(--adv-door-2) 100%);
+    background-size: auto, var(--adv-deco-size), 100% 100%;
+}
+
+/* Luz que sigue al cursor */
+.advent-door__shine {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    overflow: hidden;
+    border-radius: var(--d-radius);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 200ms ease;
+}
+
+.advent-door__body[data-lit] .advent-door__shine {
+    opacity: 1;
+}
+
+.advent-door__shine i {
+    position: absolute;
+    left: -110px;
+    top: -110px;
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--adv-light) 0%, transparent 62%);
+}
+
+/* Placa con el número: en las de una hoja va pintada en la hoja (gira con ella) */
+.advent-door__plate {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: 2px;
+    pointer-events: none;
     transform-origin: left center;
     backface-visibility: hidden;
-    transition: transform .8s cubic-bezier(.2, .75, .2, 1), opacity .5s ease .3s;
-    background: linear-gradient(160deg, var(--adv-door-1) 0%, var(--adv-door-2) 100%);
-    box-shadow: inset 0 0 0 1.5px var(--adv-door-edge), 0 4px 10px rgba(0, 0, 0, .3);
-}
-
-/* Marco de panel de la puerta */
-.advent-door__face::before {
-    content: "";
-    position: absolute;
-    inset: 8px;
-    pointer-events: none;
-    border: 1px solid var(--adv-door-line);
-    border-radius: calc(var(--r-top) - 5px) calc(var(--r-top) - 5px) 3px 3px;
-}
-
-/* Pomo */
-.advent-door__face::after {
-    content: "";
-    position: absolute;
-    right: 13%;
-    top: 54%;
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: radial-gradient(circle at 35% 35%, var(--adv-knob-1), var(--adv-knob-2));
-    box-shadow: 0 1px 2px rgba(0, 0, 0, .4);
+    transition: transform 700ms var(--adv-ease-out), opacity 260ms ease 420ms;
 }
 
 .advent-door__num {
     font-family: var(--adv-f-num);
     font-weight: var(--adv-w-num);
-    font-size: clamp(1.5rem, 8.5cqw, 2.3rem);
+    font-size: min(calc(var(--cell, 80px) * .42), 3.4rem);
     line-height: 1;
-    color: var(--adv-door-ink);
     font-variant-numeric: lining-nums;
+    color: var(--adv-door-ink);
+    /* Número grabado: luz arriba, sombra abajo */
+    text-shadow: 0 1px 0 rgba(255, 255, 255, .35), 0 -1px 0 rgba(0, 0, 0, .12);
+}
+
+.advent-door[data-shape="tall"] .advent-door__num { font-size: min(calc(var(--cell, 80px) * .5), 3.8rem); }
+
+/* En las de dos hojas y en el regalo, el número va en una etiqueta colgada */
+.advent-door:is([data-shape="wide"], [data-shape="large"], [data-shape="banner"], [data-shape="final"]) .advent-door__plate {
+    inset: auto;
+    left: 50%;
+    top: 50%;
+    translate: -50% -50%;
+    padding: 6px 16px 7px;
+    border-radius: 12px;
+    background: var(--adv-tag-bg);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, .3), inset 0 0 0 1px rgba(0, 0, 0, .08);
+    transform-origin: center top;
+}
+
+.advent-door:is([data-shape="wide"], [data-shape="large"], [data-shape="banner"], [data-shape="final"]) .advent-door__num {
+    color: var(--adv-tag-ink);
+    text-shadow: none;
+}
+
+.advent-door[data-shape="wide"] .advent-door__num { font-size: min(calc(var(--cell, 80px) * .34), 2.4rem); }
+.advent-door[data-shape="banner"] .advent-door__num { font-size: min(calc(var(--cell, 80px) * .36), 2.6rem); }
+.advent-door:is([data-shape="large"], [data-shape="final"]) .advent-door__num { font-size: min(calc(var(--cell, 80px) * .5), 3.6rem); }
+
+.advent-door__name {
+    font: 700 .78rem var(--adv-f-ui);
+    color: var(--adv-tag-ink);
+    white-space: nowrap;
+}
+
+.advent-door__note {
+    font: 700 .68rem var(--adv-f-ui);
+    color: var(--adv-tag-lk-ink);
+    opacity: .9;
 }
 
 .advent-door__lock {
@@ -234,9 +502,9 @@
 
 .advent-door__pill {
     position: absolute;
-    top: 9%;
+    top: 8%;
     left: 50%;
-    transform: translateX(-50%);
+    translate: -50% 0;
     padding: 2px 9px;
     border-radius: 999px;
     font: 800 .7rem var(--adv-f-ui);
@@ -247,7 +515,7 @@
 
 .advent-door__dot {
     position: absolute;
-    top: 9%;
+    top: 8%;
     right: 12%;
     width: 8px;
     height: 8px;
@@ -256,19 +524,214 @@
     box-shadow: 0 0 0 2px rgba(255, 255, 255, .6);
 }
 
-/* Bloqueada: el mismo dibujo, apagado (se reconoce que es una puerta, pero «aún no») */
+.advent-door[data-shape="tall"] .advent-door__pill { top: 16%; }
+.advent-door[data-shape="tall"] .advent-door__dot { top: 20%; right: 16%; }
+
+.advent-door:is([data-shape="wide"], [data-shape="large"], [data-shape="banner"], [data-shape="final"]) .advent-door__pill {
+    position: static;
+    translate: none;
+    margin-bottom: 2px;
+}
+
+.advent-door:is([data-shape="wide"], [data-shape="large"], [data-shape="banner"], [data-shape="final"]) .advent-door__dot {
+    top: -4px;
+    right: -4px;
+}
+
+/* ---------- Puerta final: regalo con lazo ---------- */
+.advent-door__wrap {
+    transform-origin: center bottom;
+    transition: transform 650ms var(--adv-ease-out), opacity 260ms ease 300ms;
+}
+
+.advent-ribbon {
+    position: absolute;
+    pointer-events: none;
+}
+
+.advent-ribbon--v {
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 9%;
+    translate: -50% 0;
+    background: linear-gradient(90deg, var(--adv-rib-1), var(--adv-rib-2), var(--adv-rib-1));
+}
+
+.advent-ribbon--h {
+    left: 0;
+    right: 0;
+    top: 50%;
+    height: 16%;
+    translate: 0 -50%;
+    background: linear-gradient(180deg, var(--adv-rib-1), var(--adv-rib-2), var(--adv-rib-1));
+}
+
+.advent-door__bow {
+    position: absolute;
+    top: -16px;
+    left: 50%;
+    z-index: 2;
+    width: min(70px, 24%);
+    height: auto;
+    translate: -50% 0;
+    color: var(--adv-rib-2);
+    filter: drop-shadow(0 2px 2px rgba(0, 0, 0, .3));
+}
+
+/* ---------- Nieve sobre el dintel y guirnalda de luces ---------- */
+/* Nieve: un montoncito irregular (más grueso en el centro) con dos gotas, no una barra */
+.advent-door__snow {
+    position: absolute;
+    z-index: 3;
+    top: -5px;
+    height: 10px;
+    border-radius: 50% 50% 40% 40% / 100% 100% 60% 60%;
+    background: radial-gradient(ellipse at 50% 30%, #fff, var(--adv-snowcap) 70%);
+    box-shadow: inset 0 -1px 0 rgba(110, 130, 160, .25), 0 1px 2px rgba(0, 0, 0, .2);
+    pointer-events: none;
+}
+
+.advent-door__snow::before,
+.advent-door__snow::after {
+    content: "";
+    position: absolute;
+    top: 6px;
+    width: 6px;
+    height: 7px;
+    border-radius: 0 0 50% 50%;
+    background: var(--adv-snowcap);
+}
+
+.advent-door__snow::before { left: 22%; }
+.advent-door__snow::after { right: 30%; height: 5px; }
+
+.advent-door[data-shape="large"] .advent-door__snow { left: 30%; right: 30%; top: -4px; }
+.advent-door[data-shape="final"] .advent-door__snow { left: 5%; right: 72%; }
+.advent-door[data-state="locked"] .advent-door__snow { opacity: .55; }
+
+.advent-lights {
+    position: absolute;
+    z-index: 3;
+    left: 3%;
+    right: 3%;
+    top: -6px;
+    height: 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    pointer-events: none;
+    background: linear-gradient(rgba(0, 0, 0, .4), rgba(0, 0, 0, .4)) 0 4px / 100% 1.5px no-repeat;
+}
+
+.advent-lights i {
+    width: 7px;
+    height: 10px;
+    margin-top: 4px;
+    border-radius: 50% 50% 45% 45%;
+    background: var(--adv-lit-1);
+    box-shadow: 0 0 8px var(--adv-lit-1);
+    animation: adv-bulb 2.4s ease-in-out infinite alternate;
+    animation-delay: calc(var(--b, 0) * -0.35s);
+}
+
+.advent-lights i:nth-child(3n + 2) { background: var(--adv-rib-2); box-shadow: 0 0 8px var(--adv-rib-2); }
+.advent-lights i:nth-child(3n) { background: var(--adv-tx-accent); box-shadow: 0 0 8px var(--adv-tx-accent); }
+
+@keyframes adv-bulb {
+    from { opacity: .45; }
+    to { opacity: 1; }
+}
+
+/* ---------- Destacadas: marco dorado, medallón, destellos y estallido ---------- */
+.advent-door[data-featured] .advent-door__body::after {
+    content: "";
+    position: absolute;
+    inset: -4px;
+    border: 1.5px solid var(--adv-tx-accent);
+    border-radius: var(--d-radius);
+    opacity: .55;
+    pointer-events: none;
+}
+
+.advent-door[data-shape="large"][data-featured] .advent-door__plate {
+    width: min(calc(var(--cell, 80px) * .95), 9rem);
+    aspect-ratio: 1;
+    padding: 0;
+    border-radius: 50%;
+    box-shadow: 0 0 0 3px var(--adv-tag-bg), 0 0 0 5px var(--adv-rib-2), 0 6px 16px rgba(0, 0, 0, .35);
+}
+
+.advent-door__sparkles i {
+    position: absolute;
+    z-index: 3;
+    width: 10px;
+    height: 10px;
+    background: var(--adv-tx-accent);
+    clip-path: polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%);
+    opacity: 0;
+    pointer-events: none;
+    animation: adv-twinkle 3.2s ease-in-out infinite;
+}
+
+.advent-door__sparkles i:nth-child(1) { top: -6px; left: 12%; }
+.advent-door__sparkles i:nth-child(2) { top: 18%; right: -6px; animation-delay: .8s; }
+.advent-door__sparkles i:nth-child(3) { bottom: -5px; right: 22%; animation-delay: 1.6s; }
+.advent-door__sparkles i:nth-child(4) { bottom: 30%; left: -6px; animation-delay: 2.4s; }
+
+@keyframes adv-twinkle {
+    0%, 100% { opacity: 0; transform: scale(.6); }
+    50% { opacity: .95; transform: scale(1); }
+}
+
+.advent-door__burst i {
+    position: absolute;
+    z-index: 4;
+    left: 50%;
+    top: 50%;
+    width: 6px;
+    height: 6px;
+    margin: -3px;
+    border-radius: 50%;
+    background: var(--adv-lit-0);
+    box-shadow: 0 0 6px var(--adv-lit-1);
+    pointer-events: none;
+    animation: adv-burst 800ms var(--adv-ease-out) forwards;
+}
+
+@keyframes adv-burst {
+    to {
+        transform: translate(var(--adv-dx), var(--adv-dy)) scale(.2);
+        opacity: 0;
+    }
+}
+
+/* ---------- Estados ---------- */
+/* Bloqueada: el mismo objeto, apagado (se reconoce la puerta, pero «aún no») */
 .advent-door[data-state="locked"] {
     cursor: not-allowed;
 }
 
-.advent-door[data-state="locked"] .advent-door__face {
+.advent-door[data-state="locked"] :is(.advent-door__leaf, .advent-door__wrap) {
     background: var(--adv-lk-fill);
     box-shadow: inset 0 0 0 1.5px var(--adv-lk-edge);
 }
 
-.advent-door[data-state="locked"] .advent-door__face::before { border-color: var(--adv-lk-line); }
-.advent-door[data-state="locked"] .advent-door__face::after { background: var(--adv-lk-line); box-shadow: none; }
-.advent-door[data-state="locked"] .advent-door__num { color: var(--adv-lk-ink); }
+.advent-door[data-state="locked"] .advent-door__leaf::before { border-color: var(--adv-lk-line); }
+.advent-door[data-state="locked"] .advent-door__leaf::after { background: var(--adv-lk-line); box-shadow: none; }
+.advent-door[data-state="locked"] .advent-door__num { color: var(--adv-lk-ink); text-shadow: none; }
+.advent-door[data-state="locked"] .advent-ribbon { opacity: .45; }
+.advent-door[data-state="locked"] .advent-door__bow { opacity: .7; }
+.advent-door[data-state="locked"] .advent-door__shine i { opacity: .35; }
+
+.advent-door[data-state="locked"]:is([data-shape="wide"], [data-shape="large"], [data-shape="banner"], [data-shape="final"]) .advent-door__plate {
+    background: var(--adv-tag-lk-bg);
+    box-shadow: inset 0 0 0 1px var(--adv-lk-edge);
+}
+
+.advent-door[data-state="locked"]:is([data-shape="wide"], [data-shape="large"], [data-shape="banner"], [data-shape="final"]) :is(.advent-door__num, .advent-door__name, .advent-door__lock) {
+    color: var(--adv-tag-lk-ink);
+}
 
 /* Hoy: halo que respira */
 .advent-door[data-state="today"]::before {
@@ -276,7 +739,7 @@
     position: absolute;
     inset: -5px;
     z-index: -1;
-    border-radius: calc(var(--r-top) + 4px) calc(var(--r-top) + 4px) 9px 9px;
+    border-radius: var(--d-radius);
     box-shadow: 0 0 0 2px var(--adv-halo-solid), 0 0 26px 4px var(--adv-halo);
     animation: adv-breathe 2.6s ease-in-out infinite;
 }
@@ -286,98 +749,81 @@
     50% { opacity: 1; }
 }
 
-/* Abierta: la puerta se abre y deja ver la luz */
-.advent-door[data-state="open"] .advent-door__face {
-    transform: rotateY(-108deg);
+/* Abierta: las hojas giran sobre su bisagra y la luz queda a la vista */
+.advent-door[data-state="open"] .advent-door__leaf {
+    transform: rotateY(-105deg);
     opacity: 0;
     pointer-events: none;
 }
 
-.advent-door:not([data-state="open"]) .advent-door__inside {
-    visibility: hidden;
+.advent-door[data-state="open"] .advent-door__leaf--r { transform: rotateY(105deg); }
+
+.advent-door[data-state="open"] .advent-door__plate {
+    transform: rotateY(-105deg);
+    opacity: 0;
 }
 
-/* Asomarse: con ratón, una puerta disponible se entreabre y deja ver la luz */
-@media (hover: hover) {
-    .advent-door[data-state="today"]:hover .advent-door__face,
-    .advent-door[data-state="available"]:hover .advent-door__face {
-        transform: rotateY(-16deg);
-    }
-
-    .advent-door[data-state="today"]:hover .advent-door__inside,
-    .advent-door[data-state="available"]:hover .advent-door__inside {
-        visibility: visible;
-    }
+.advent-door[data-state="open"]:is([data-shape="wide"], [data-shape="large"], [data-shape="banner"], [data-shape="final"]) .advent-door__plate {
+    transform: translateY(14px) scale(.9);
+    transition: transform 300ms var(--adv-ease-out), opacity 200ms ease;
 }
 
-/* ---------- Puerta final: fila entera, con lazo y etiqueta ---------- */
-.advent-door--final {
-    grid-column: 1 / -1;
-    aspect-ratio: 16 / 6;
-    margin-top: 4px;
-}
-
-@container (min-width: 640px) {
-    .advent-door--final { aspect-ratio: 16 / 4.2; }
-}
-
-.advent-door--final .advent-door__num { font-size: clamp(2.2rem, 12cqw, 3.4rem); }
-.advent-door--final .advent-door__face::before { inset: 10px; }
-.advent-door--final .advent-door__face::after { display: none; }
-
-/* El lazo pasa por detrás de una «etiqueta de regalo» donde va el texto, para no competir con la lectura */
-.advent-ribbon {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 50%;
-    width: 9%;
-    transform: translateX(-50%);
-    background: linear-gradient(90deg, var(--adv-rib-1), var(--adv-rib-2), var(--adv-rib-1));
-    opacity: .95;
+.advent-door[data-state="open"] .advent-door__wrap {
+    transform: translateY(-22%) rotate(-3deg);
+    opacity: 0;
     pointer-events: none;
 }
 
-.advent-door--final[data-state="locked"] .advent-ribbon { opacity: .5; }
+/* Con ratón: la puerta disponible se entreabre y deja ver la luz */
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+    .advent-door:is([data-state="today"], [data-state="available"]):hover .advent-door__leaf { transform: rotateY(-14deg); }
+    .advent-door:is([data-state="today"], [data-state="available"]):hover .advent-door__leaf--r { transform: rotateY(14deg); }
+    .advent-door:is([data-shape="small"], [data-shape="tall"]):is([data-state="today"], [data-state="available"]):hover .advent-door__plate { transform: rotateY(-14deg); }
+    .advent-door:is([data-state="today"], [data-state="available"]):hover .advent-door__wrap { transform: translateY(-4%) rotate(-1deg); }
+    .advent-door:is([data-state="today"], [data-state="available"]):hover .advent-door__inside { visibility: visible; }
+}
 
-.advent-door__tag {
-    position: relative;
-    z-index: 1;
+/* Teclado: se eleva sin inclinarse */
+.advent-door:focus-visible .advent-door__body {
+    transform: translateY(-3px);
+}
+
+/* Táctil: respuesta al pulsar */
+@media (hover: none) {
+    .advent-door:active .advent-door__body {
+        transform: scale(.97);
+        transition-duration: 120ms;
+    }
+}
+
+/* ---------- Adornos que rellenan huecos de la composición ---------- */
+.advent-ornament {
+    grid-column: var(--o-col);
+    grid-row: var(--o-row);
     display: grid;
-    gap: 2px;
-    justify-items: center;
-    padding: 8px 22px 9px;
-    text-align: center;
-    border-radius: 12px;
-    background: var(--adv-tag-bg);
-    box-shadow: 0 3px 10px rgba(0, 0, 0, .3);
+    place-items: center;
+    color: var(--adv-tx-accent);
+    opacity: .75;
+    background: radial-gradient(circle, rgb(var(--adv-tx-rgb) / .08), transparent 65%);
 }
 
-.advent-door__tag .advent-door__num { color: var(--adv-tag-ink); }
-
-.advent-door--final[data-state="locked"] .advent-door__tag {
-    background: var(--adv-tag-lk-bg);
-    box-shadow: inset 0 0 0 1px var(--adv-lk-edge);
+.advent-ornament svg {
+    width: 46%;
+    height: auto;
 }
 
-.advent-door--final[data-state="locked"] .advent-door__tag .advent-door__num { color: var(--adv-tag-lk-ink); }
+.advent-ornament--wide { display: none; }
 
-.advent-door__pill--inline {
-    position: static;
-    transform: none;
-    margin-bottom: 2px;
+@container advent-grid (min-width: 600px) {
+    .advent-ornament--mobile { display: none; }
+    .advent-ornament--wide { display: grid; }
 }
-
-.advent-door__name { font: 700 .85rem var(--adv-f-ui); color: var(--adv-tag-ink); }
-.advent-door__note { font: 700 .68rem var(--adv-f-ui); color: var(--adv-tag-lk-ink); opacity: .9; }
-.advent-door--final[data-state="locked"] .advent-door__name,
-.advent-door--final[data-state="locked"] .advent-door__lock { color: var(--adv-tag-lk-ink); }
 
 /* ---------- Aviso (puerta bloqueada) ---------- */
 .advent-toast {
     position: fixed;
     left: 50%;
-    bottom: 22px;
+    bottom: 84px;
     z-index: 60;
     max-width: min(92vw, 420px);
     padding: 12px 18px;
@@ -391,7 +837,7 @@
     transform: translate(-50%, 20px);
     opacity: 0;
     pointer-events: none;
-    transition: opacity .25s, transform .25s;
+    transition: opacity .25s, transform .25s var(--adv-ease-out);
 }
 
 .advent-toast[data-show="true"] {
@@ -399,11 +845,365 @@
     transform: translate(-50%, 0);
 }
 
-/* ---------- Movimiento reducido: sin nieve, pulso ni giro 3D ---------- */
+/* ---------- Modal del día ---------- */
+.advent-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    background: rgba(10, 4, 8, .72);
+    backdrop-filter: blur(4px);
+}
+
+.advent-sheet {
+    position: relative;
+    width: 100%;
+    max-width: 460px;
+    max-height: 100%;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    border-radius: 10px;
+    background: var(--adv-sh-bg);
+    color: var(--adv-sh-ink);
+    border: 1px solid var(--adv-sh-border);
+    box-shadow: 0 24px 60px rgba(0, 0, 0, .55);
+}
+
+.advent-sheet__close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 2;
+    width: 44px;
+    height: 44px;
+    border: 0;
+    border-radius: 50%;
+    cursor: pointer;
+    font: 400 1.7rem/1 var(--adv-f-ui);
+    color: #fff;
+    background: rgba(30, 20, 10, .6);
+}
+
+.advent-sheet__hero {
+    display: grid;
+    place-items: center;
+    height: 150px;
+    color: var(--adv-lit-ink);
+    background: radial-gradient(ellipse at 50% 70%, var(--adv-lit-0) 0%, var(--adv-lit-1) 40%, var(--adv-lit-2) 85%);
+}
+
+.advent-sheet__hero svg {
+    width: 64px;
+    height: 64px;
+    stroke-width: 1.5;
+}
+
+.advent-sheet__hero--photo {
+    color: var(--adv-tx);
+    background: linear-gradient(135deg, var(--adv-bg1), var(--adv-bg3));
+}
+
+.advent-sheet__photo {
+    aspect-ratio: 4 / 3;
+    background: var(--adv-bg3);
+}
+
+.advent-sheet__photo img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.advent-sheet__video video {
+    display: block;
+    width: 100%;
+    max-height: 60vh;
+    background: #000;
+}
+
+.advent-sheet--final .advent-sheet__hero {
+    height: 170px;
+    background: radial-gradient(ellipse at 50% 70%, var(--adv-lit-0) 0%, var(--adv-lit-1) 35%, var(--adv-lit-2) 70%, var(--adv-rib-2) 125%);
+}
+
+.advent-sheet__body {
+    padding: 20px 24px 26px;
+    text-align: center;
+}
+
+.advent-sheet__day {
+    font: 600 .85rem var(--adv-f-ui);
+    color: var(--adv-sh-acc);
+    opacity: .9;
+}
+
+.advent-sheet__title {
+    margin: 4px 0 10px;
+    font-family: var(--adv-f-title);
+    font-weight: var(--adv-w-title);
+    font-size: var(--adv-s-sheet);
+    line-height: 1.15;
+    letter-spacing: var(--adv-ls-title);
+    color: var(--adv-sh-acc);
+}
+
+.advent-sheet__text {
+    font-family: var(--adv-f-text);
+    font-style: var(--adv-st-text);
+    font-size: 1.05rem;
+    line-height: 1.65;
+    white-space: pre-line;
+}
+
+.advent-sheet__text + .advent-sheet__text {
+    margin-top: .8em;
+}
+
+.advent-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 10px 22px;
+    border: 0;
+    border-radius: 999px;
+    cursor: pointer;
+    font: 800 .95rem var(--adv-f-ui);
+    text-decoration: none;
+    background: var(--adv-sh-acc);
+    color: var(--adv-sh-bg);
+}
+
+.advent-coupon {
+    margin-top: 16px;
+    padding: 16px;
+    border: 2px dashed var(--adv-sh-acc);
+    border-radius: 8px;
+    font: 600 1.02rem/1.5 var(--adv-f-text);
+}
+
+.advent-coupon small {
+    display: block;
+    margin-top: 6px;
+    font: 600 .8rem var(--adv-f-ui);
+    color: var(--adv-sh-acc);
+}
+
+.advent-song {
+    margin-bottom: 14px;
+}
+
+.advent-song__title {
+    font: 700 1.05rem var(--adv-f-text);
+}
+
+.advent-song__artist {
+    margin: 2px 0 12px;
+    font: 600 .9rem var(--adv-f-ui);
+    color: var(--adv-sh-acc);
+}
+
+.advent-riddle {
+    margin-top: 16px;
+}
+
+.advent-riddle__answer {
+    min-height: 2.2rem;
+    margin-top: 8px;
+    font-family: var(--adv-f-title);
+    font-weight: var(--adv-w-title);
+    font-size: var(--adv-s-answer);
+    color: var(--adv-sh-acc);
+    outline: none;
+}
+
+/* Chispas del final (un solo estallido al abrir el modal del 25) */
+.advent-spark {
+    position: absolute;
+    top: 85px;
+    left: 50%;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--adv-lit-0);
+    pointer-events: none;
+    animation: adv-burst .95s ease-out forwards;
+}
+
+/* Texto solo para lectores de pantalla */
+.advent-vh {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+}
+
+/* ---------- Botón «Estilo» (flotante, abajo a la derecha) ---------- */
+.advent-stylebtn {
+    position: fixed;
+    right: max(16px, env(safe-area-inset-right));
+    bottom: max(16px, env(safe-area-inset-bottom));
+    z-index: 30;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 48px;
+    padding: 10px 16px 10px 12px;
+    border: 0;
+    border-radius: 999px;
+    cursor: pointer;
+    font: 800 .9rem var(--adv-f-ui);
+    color: var(--adv-btn-ink);
+    background: linear-gradient(180deg, var(--adv-btn-1), var(--adv-btn-2));
+    box-shadow: 0 8px 22px rgba(0, 0, 0, .35);
+}
+
+.advent-stylebtn svg {
+    width: 22px;
+    height: 22px;
+}
+
+/* ---------- Selector de estilos (hoja inferior) ---------- */
+.advent-backdrop--bottom {
+    align-items: flex-end;
+    padding: 0;
+}
+
+.advent-picker {
+    width: 100%;
+    max-width: 760px;
+    max-height: 86dvh;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding: 18px 16px calc(20px + env(safe-area-inset-bottom));
+    border-radius: 18px 18px 0 0;
+    background: var(--adv-sh-bg);
+    color: var(--adv-sh-ink);
+    box-shadow: 0 -12px 40px rgba(0, 0, 0, .45);
+}
+
+.advent-picker__top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 14px;
+}
+
+.advent-picker__title {
+    font-family: var(--adv-f-title);
+    font-weight: var(--adv-w-title);
+    font-size: 1.5rem;
+    color: var(--adv-sh-acc);
+}
+
+.advent-picker__hint {
+    margin-top: 2px;
+    font: 600 .85rem var(--adv-f-ui);
+    opacity: .85;
+}
+
+.advent-picker__close {
+    flex: none;
+    width: 44px;
+    height: 44px;
+    border: 0;
+    border-radius: 50%;
+    cursor: pointer;
+    font: 400 1.7rem/1 var(--adv-f-ui);
+    color: #fff;
+    background: rgba(30, 20, 10, .6);
+}
+
+.advent-picker__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 12px;
+}
+
+/* Cada tarjeta se pinta con su propio estilo (data-adv-theme) */
+.advent-pcard {
+    position: relative;
+    container-type: inline-size;
+    display: grid;
+    gap: 6px;
+    align-content: start;
+    padding: 14px;
+    text-align: left;
+    cursor: pointer;
+    border-radius: 14px;
+    border: 2px solid rgb(var(--adv-tx-rgb) / .25);
+    color: var(--adv-tx);
+    background: var(--adv-texture), linear-gradient(180deg, var(--adv-bg1), var(--adv-bg2) 60%, var(--adv-bg3));
+}
+
+.advent-pcard[aria-pressed="true"] {
+    border-color: var(--adv-tx-accent);
+    box-shadow: 0 0 0 3px var(--adv-tx-accent);
+}
+
+.advent-pcard__name {
+    padding-right: 56px;
+    font-family: var(--adv-f-title);
+    font-weight: var(--adv-w-title);
+    font-size: 1.3rem;
+    line-height: 1.15;
+}
+
+.advent-pcard__desc {
+    min-height: 2.6em;
+    font: 600 .8rem/1.35 var(--adv-f-ui);
+    color: var(--adv-tx-soft);
+}
+
+.advent-pcard__doors {
+    --cell: calc((100cqw - 18px) / 4);
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+    margin-top: 4px;
+}
+
+.advent-pcard .advent-door {
+    height: auto;
+    aspect-ratio: 1;
+    cursor: inherit;
+    animation: none;
+}
+
+.advent-pcard__badge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    padding: 2px 10px;
+    border-radius: 999px;
+    font: 800 .72rem var(--adv-f-ui);
+    background: var(--adv-hoy-bg);
+    color: var(--adv-hoy-ink);
+}
+
+/* ---------- Movimiento reducido: menos y más suave, nunca nada que se desplace ---------- */
 @media (prefers-reduced-motion: reduce) {
-    .advent-snow { display: none; }
-    .advent-door__face,
-    .advent-toast { transition: opacity .2s; }
-    .advent-door[data-state="open"] .advent-door__face { transform: none; }
+    .advent-snow,
+    .advent-door__burst,
+    .advent-spark { display: none; }
+    .advent-door { animation-name: adv-fade-in; }
+    .advent-door__body { transition: none; }
+    .advent-door__leaf,
+    .advent-door__plate,
+    .advent-door__wrap { transition: opacity .2s ease; }
+    .advent-door[data-state="open"] :is(.advent-door__leaf, .advent-door__leaf--r, .advent-door__plate, .advent-door__wrap) { transform: none; }
     .advent-door[data-state="today"]::before { animation: none; opacity: 1; }
+    .advent-door__inside::after { animation: none !important; }
+    .advent-door__sparkles i,
+    .advent-lights i,
+    .advent-twinkles i { animation: none; opacity: .8; }
+    .advent-door:focus-visible .advent-door__body { transform: none; }
+    .advent-toast { transition: opacity .2s; }
 }

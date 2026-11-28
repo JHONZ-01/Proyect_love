@@ -1,0 +1,91 @@
+/*
+ * Estilo «Papel kraft»: Fondo claro y puertas de cartón. Hecho a mano.
+ * Variables --adv-* acotadas al elemento con data-adv-theme (el bloque o una tarjeta del
+ * selector de estilos): no cambian el aspecto de la carta, la galería ni el cesto.
+ * Todos los estilos definen exactamente las mismas variables (lo comprueba themes.test.js).
+ * Contraste de texto comprobado en el mockup (>= 4,5:1).
+ */
+[data-adv-theme="papel-kraft"] {
+    /* Fondo */
+    --adv-bg1: #F6EEDF;
+    --adv-bg2: #EBDDC4;
+    --adv-bg3: #DCC8A5;
+    --adv-star-rgb: 140 100 50;
+    --adv-snow: #C9B08A;
+    --adv-texture: repeating-linear-gradient(45deg, rgba(140, 100, 50, .035) 0 2px, transparent 2px 6px);
+
+    /* Texto sobre el fondo */
+    --adv-tx: #3B2D24;
+    --adv-tx-rgb: 59 45 36;
+    --adv-tx-soft: rgba(59, 45, 36, .86);
+    --adv-tx-accent: #9B2335;
+    --adv-glow: rgba(255, 255, 255, 0);
+
+    /* Puerta */
+    --adv-door-1: #DDBE8E;
+    --adv-door-2: #C79B63;
+    --adv-door-edge: #8C6638;
+    --adv-door-ink: #33241A;
+    --adv-door-line: rgba(51, 36, 26, .3);
+    --adv-knob-1: #DDBE8E;
+    --adv-knob-2: #8C6638;
+    --adv-door-deco: repeating-linear-gradient(0deg, rgba(90, 60, 30, .07) 0 1px, transparent 1px 4px); /* material de la puerta */
+    --adv-deco-size: 100% 100%;
+    --adv-light: rgba(255, 250, 235, .5); /* luz que sigue al cursor */
+    --adv-snowcap: #FFFDF7; /* nieve sobre las puertas grandes */
+
+    /* Puerta bloqueada (apagada) */
+    --adv-lk-fill: rgba(140, 102, 56, .10);
+    --adv-lk-edge: rgba(140, 102, 56, .4);
+    --adv-lk-ink: #6A5039;
+    --adv-lk-line: rgba(106, 80, 57, .28);
+
+    /* Ventana encendida (puerta abierta) */
+    --adv-lit-0: #FFF3C9;
+    --adv-lit-1: #F3C25B;
+    --adv-lit-2: #D9822B;
+    --adv-lit-3: #A04E1A;
+    --adv-lit-ink: #5a3410;
+    --adv-lit-edge: rgba(160, 78, 26, .55);
+    --adv-lit-glow: rgba(217, 130, 43, .35);
+
+    /* «Hoy», pendiente y halo */
+    --adv-hoy-bg: #9B2335;
+    --adv-hoy-ink: #FFF1E0;
+    --adv-dot: #9B2335;
+    --adv-halo: rgba(155, 35, 53, .4);
+    --adv-halo-solid: #9B2335;
+
+    /* Botón principal */
+    --adv-btn-1: #A82A3E;
+    --adv-btn-2: #8A1F31;
+    --adv-btn-ink: #FFF1E0;
+
+    /* Puerta final: lazo y etiqueta */
+    --adv-rib-1: #2F5D46;
+    --adv-rib-2: #3F7A5C;
+    --adv-tag-bg: #F6EEDF;
+    --adv-tag-ink: #33241A;
+    --adv-tag-lk-bg: rgba(246, 238, 223, .92);
+    --adv-tag-lk-ink: #6A5039;
+
+    /* Hoja (modal y aviso) */
+    --adv-sh-bg: #FFFAF0;
+    --adv-sh-ink: #3B2D24;
+    --adv-sh-acc: #9B2335;
+    --adv-sh-border: rgba(140, 102, 56, .5);
+
+    /* Letra: Caveat (títulos, escrita a mano) + Nunito (números y texto). La hoja de fuentes la carga theme.js (fontUrl). */
+    --adv-f-title: "Caveat", cursive;
+    --adv-w-title: 700;
+    --adv-ls-title: 0;
+    --adv-s-h1: clamp(2.8rem, 15cqw, 4.2rem);
+    --adv-lh-h1: 1;
+    --adv-s-sheet: 2.7rem;
+    --adv-s-answer: 2rem;
+    --adv-f-num: "Nunito", system-ui, sans-serif;
+    --adv-w-num: 800;
+    --adv-f-text: "Nunito", system-ui, sans-serif;
+    --adv-st-text: normal;
+    --adv-f-ui: "Nunito", system-ui, sans-serif;
+}

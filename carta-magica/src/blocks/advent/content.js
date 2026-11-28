@@ -5,7 +5,9 @@
 import { dateParts, doorDate } from './lib/calendar.js'
 
 export const ADVENT_TITLE = 'Calendario de adviento'
-export const FINAL_NAME = 'Navidad' // nombre de la última puerta
+// Nombre que se muestra en las puertas destacadas (y que lee el lector de pantalla).
+export const DAY_NAMES = { 1: 'Primera puerta', 24: 'Nochebuena', 25: 'Navidad' }
+export const FINAL_NAME = DAY_NAMES[25] // nombre de la última puerta
 export const FINAL_GREETING = 'Feliz Navidad'
 
 // Cambia aquí cuándo empieza y cuántas puertas tiene. Las fechas son 'AAAA-MM-DD' del
@@ -14,10 +16,6 @@ export const ADVENT_CONFIG = Object.freeze({
     startDate: '2026-12-01',
     totalDays: 25,
 })
-
-// Letra del estilo por defecto (Vino y champán). Cuando haya varios estilos, cada uno traerá la suya.
-export const ADVENT_FONT_URL =
-    'https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Figtree:wght@500;600;700;800&display=swap'
 
 const MONTHS = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre']
 
@@ -50,11 +48,30 @@ export function headerText({ phase, daysUntilStart, todayDay }, { today, todayOp
 
 /** Nombre accesible de una puerta (lo lee el lector de pantalla). */
 export function doorLabel(day, status, config = ADVENT_CONFIG) {
-    if (status === 'locked') return `Puerta ${day}, se abre el ${longDate(doorDate(day, config))}`
-    if (status === 'today') return `Puerta ${day}, disponible hoy`
-    if (status === 'available') return `Puerta ${day}, sin abrir`
-    return `Puerta ${day}, abierta`
+    const name = DAY_NAMES[day] ? `Puerta ${day} (${DAY_NAMES[day]})` : `Puerta ${day}`
+    if (status === 'locked') return `${name}, se abre el ${longDate(doorDate(day, config))}`
+    if (status === 'today') return `${name}, disponible hoy`
+    if (status === 'available') return `${name}, sin abrir`
+    return `${name}, abierta. Volver a verla`
 }
+
+/** Encabezado del modal: «Día 5 de 25». */
+export const dayCounter = (day, total = ADVENT_CONFIG.totalDays) => `Día ${day} de ${total}`
+
+// Textos fijos del modal.
+export const COUPON_NOTE = 'Canjeable cuando quieras'
+export const LISTEN_LABEL = 'Escuchar'
+export const WATCH_LABEL = 'Ver el vídeo'
+export const NEW_TAB_NOTE = ' (se abre en otra pestaña)'
+export const REVEAL_LABEL = 'Mostrar la respuesta'
+export const CLOSE_LABEL = 'Cerrar'
+
+// Selector de estilos.
+export const STYLE_BUTTON_LABEL = 'Estilo'
+export const STYLE_BUTTON_ARIA = 'Cambiar el estilo del calendario'
+export const PICKER_TITLE = 'Elige un estilo'
+export const PICKER_HINT = 'Las puertas que ya abriste se mantienen.'
+export const IN_USE_LABEL = 'En uso'
 
 /** Aviso al tocar una puerta bloqueada. */
 export function lockedHint(day, config = ADVENT_CONFIG) {

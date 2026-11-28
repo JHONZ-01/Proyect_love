@@ -1,0 +1,91 @@
+/*
+ * Estilo «Kawaii lazo rojo»: Rosa pastel, lunares, corazones y un lazo rojo.
+ * Variables --adv-* acotadas al elemento con data-adv-theme (el bloque o una tarjeta del
+ * selector de estilos): no cambian el aspecto de la carta, la galería ni el cesto.
+ * Todos los estilos definen exactamente las mismas variables (lo comprueba themes.test.js).
+ * Contraste de texto comprobado en el mockup (>= 4,5:1).
+ */
+[data-adv-theme="kawaii-lazo"] {
+    /* Fondo */
+    --adv-bg1: #FFE3EC;
+    --adv-bg2: #FFD0E0;
+    --adv-bg3: #FFB8D0;
+    --adv-star-rgb: 255 255 255;
+    --adv-snow: #ff80ab;
+    --adv-texture: linear-gradient(transparent, transparent);
+
+    /* Texto sobre el fondo */
+    --adv-tx: #8E1B47;
+    --adv-tx-rgb: 142 27 71;
+    --adv-tx-soft: rgba(142, 27, 71, .92);
+    --adv-tx-accent: #A50E3B;
+    --adv-glow: rgba(255, 255, 255, .7);
+
+    /* Puerta */
+    --adv-door-1: #FFFFFF;
+    --adv-door-2: #FFD6E4;
+    --adv-door-edge: #F06292;
+    --adv-door-ink: #A50E3B;
+    --adv-door-line: rgba(216, 27, 96, .35);
+    --adv-knob-1: #FF6B9A;
+    --adv-knob-2: #C2185B;
+    --adv-door-deco: radial-gradient(circle, rgba(255, 150, 185, .55) 1.4px, transparent 2px);
+    --adv-deco-size: 13px 13px;
+    --adv-light: rgba(255, 255, 255, .6); /* luz que sigue al cursor */
+    --adv-snowcap: #FFFFFF; /* nieve sobre las puertas grandes */
+
+    /* Puerta bloqueada (apagada) */
+    --adv-lk-fill: rgba(255, 255, 255, .4);
+    --adv-lk-edge: rgba(216, 27, 96, .4);
+    --adv-lk-ink: #9E2A52;
+    --adv-lk-line: rgba(216, 27, 96, .25);
+
+    /* Ventana encendida (puerta abierta) */
+    --adv-lit-0: #FFFFFF;
+    --adv-lit-1: #FFE27A;
+    --adv-lit-2: #FF9EB5;
+    --adv-lit-3: #E8638C;
+    --adv-lit-ink: #7A1038;
+    --adv-lit-edge: rgba(216, 27, 96, .5);
+    --adv-lit-glow: rgba(255, 105, 150, .4);
+
+    /* «Hoy», pendiente y halo */
+    --adv-hoy-bg: #D81B60;
+    --adv-hoy-ink: #FFFFFF;
+    --adv-dot: #D81B60;
+    --adv-halo: rgba(255, 64, 129, .5);
+    --adv-halo-solid: #FF4081;
+
+    /* Botón principal */
+    --adv-btn-1: #D81B60;
+    --adv-btn-2: #C2185B;
+    --adv-btn-ink: #FFFFFF;
+
+    /* Puerta final: lazo y etiqueta */
+    --adv-rib-1: #C2185B;
+    --adv-rib-2: #E91E63;
+    --adv-tag-bg: #FFFFFF;
+    --adv-tag-ink: #A50E3B;
+    --adv-tag-lk-bg: rgba(255, 255, 255, .88);
+    --adv-tag-lk-ink: #9E2A52;
+
+    /* Hoja (modal y aviso) */
+    --adv-sh-bg: #FFF5F8;
+    --adv-sh-ink: #5A2A3A;
+    --adv-sh-acc: #C2185B;
+    --adv-sh-border: rgba(233, 30, 99, .35);
+
+    /* Letra: Fredoka (redondeada) + Nunito (etiquetas). La hoja de fuentes la carga theme.js (fontUrl). */
+    --adv-f-title: "Fredoka", system-ui, sans-serif;
+    --adv-w-title: 600;
+    --adv-ls-title: 0;
+    --adv-s-h1: clamp(2.2rem, 12cqw, 3.3rem);
+    --adv-lh-h1: 1.05;
+    --adv-s-sheet: 2.1rem;
+    --adv-s-answer: 1.7rem;
+    --adv-f-num: "Fredoka", system-ui, sans-serif;
+    --adv-w-num: 600;
+    --adv-f-text: "Fredoka", system-ui, sans-serif;
+    --adv-st-text: normal;
+    --adv-f-ui: "Nunito", system-ui, sans-serif;
+}

@@ -1,17 +1,18 @@
 /*
- * Estilo «Vino y champán» (el estilo por defecto del adviento): burdeos profundo y oro rosado.
- * Todas las variables llevan el prefijo --adv- y quedan acotadas al bloque, así que no
- * cambian el aspecto de la carta, la galería ni el cesto. Cada estilo nuevo será una carpeta
- * hermana con este mismo conjunto de variables (ver PLAN_BLOQUE_4_ADVIENTO.md §4.8).
- * Los contrastes de texto de estos pares se comprobaron en el mockup (≥ 4,5:1).
+ * Estilo «Vino y champán»: Burdeos profundo y oro rosado. Íntima y romántica.
+ * Variables --adv-* acotadas al elemento con data-adv-theme (el bloque o una tarjeta del
+ * selector de estilos): no cambian el aspecto de la carta, la galería ni el cesto.
+ * Todos los estilos definen exactamente las mismas variables (lo comprueba themes.test.js).
+ * Contraste de texto comprobado en el mockup (>= 4,5:1).
  */
-.advent-block[data-theme="vino-champagne"] {
+[data-adv-theme="vino-champagne"] {
     /* Fondo */
     --adv-bg1: #5B1A2E;
     --adv-bg2: #3A0F1E;
     --adv-bg3: #240912;
     --adv-star-rgb: 255 235 225;
     --adv-snow: #fff0e8;
+    --adv-texture: linear-gradient(transparent, transparent);
 
     /* Texto sobre el fondo */
     --adv-tx: #F6E3D6;
@@ -28,6 +29,10 @@
     --adv-door-line: rgba(74, 18, 36, .3);
     --adv-knob-1: #F4D2B8;
     --adv-knob-2: #A86A52;
+    --adv-door-deco: repeating-linear-gradient(90deg, rgba(74, 18, 36, .05) 0 1px, transparent 1px 5px); /* material de la puerta */
+    --adv-deco-size: 100% 100%;
+    --adv-light: rgba(255, 236, 222, .55); /* luz que sigue al cursor */
+    --adv-snowcap: #FFF7F2; /* nieve sobre las puertas grandes */
 
     /* Puerta bloqueada (apagada) */
     --adv-lk-fill: rgba(244, 210, 184, .10);
@@ -64,19 +69,20 @@
     --adv-tag-lk-bg: rgba(36, 9, 18, .92);
     --adv-tag-lk-ink: #F6E3D6;
 
-    /* Hoja (aviso y, en la Fase 5, el modal) */
+    /* Hoja (modal y aviso) */
     --adv-sh-bg: #FBEFE6;
     --adv-sh-ink: #4a2a30;
     --adv-sh-acc: #8E3A4E;
     --adv-sh-border: rgba(168, 106, 82, .5);
 
-    /* Tipografía: Fraunces (títulos, números y texto) + Figtree (etiquetas). La hoja de fuentes
-       se carga desde content.js (ADVENT_FONT_URL). */
+    /* Letra: Fraunces (títulos, números y texto) + Figtree (etiquetas). La hoja de fuentes la carga theme.js (fontUrl). */
     --adv-f-title: "Fraunces", Georgia, serif;
     --adv-w-title: 600;
     --adv-ls-title: -.01em;
     --adv-s-h1: clamp(2rem, 10.5cqw, 3rem);
     --adv-lh-h1: 1.1;
+    --adv-s-sheet: 1.95rem;
+    --adv-s-answer: 1.5rem;
     --adv-f-num: "Fraunces", Georgia, serif;
     --adv-w-num: 700;
     --adv-f-text: "Fraunces", Georgia, serif;

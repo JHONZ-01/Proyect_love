@@ -12,12 +12,12 @@ const makeFlakes = () =>
         drift: Math.round(Math.random() * 60 - 30),
     }))
 
-/** Nieve suave, solo CSS. Con «reducir movimiento» se oculta (ver advent.css). */
-export default function Snow() {
+/** Nieve suave (o corazones con `hearts`), solo CSS. Con «reducir movimiento» se oculta (ver advent.css). */
+export default function Snow({ hearts = false }) {
     const [flakes] = useState(makeFlakes)
 
     return (
-        <div className="advent-snow" aria-hidden="true">
+        <div className={`advent-snow${hearts ? ' advent-snow--hearts' : ''}`} aria-hidden="true">
             {flakes.map((f, i) => (
                 <i
                     key={i}

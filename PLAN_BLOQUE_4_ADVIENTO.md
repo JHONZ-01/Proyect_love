@@ -284,13 +284,19 @@ Los iconos (candado, estrella, check) los dibujo como SVG propios: sin librería
 - `DoorGrid`, `Door` con los 4 estados, cabecera con progreso y cuenta atrás, fondo noche/nieve, aviso de puerta bloqueada, scroll a la puerta de hoy.
 - **Listo cuando**: con `?preview=` de varios días (antes del 1-dic, 5-dic, 25-dic, 2027) cada puerta muestra el estado correcto.
 
-### Fase 5 — Modal y tipos de contenido · M · 28 nov
+### Fase 5 — Modal y tipos de contenido · M · 28 nov — ✅ código hecho el 27-nov, pendiente de tu revisión en pantalla (`npm test` 52/52; render de prueba del modal para los 5 tipos + final, con foto simulada, enlace https y enlace `javascript:` bloqueado; fotos en `assets/days/NN.webp`)
 - `DayModal` + las 5 vistas, final del 25, `useOpenedDays`, contenido real o placeholders.
 - **Listo cuando**: se recorre el flujo «abrir hoy → leer → cerrar → recargar → sigue abierta» con ratón y con el dedo, a 360 px y en escritorio.
 
-### Fase 5b — Estilos intercambiables · M · 29 nov
+### Fase 5b — Estilos intercambiables · M · 29 nov — ✅ código hecho el 27-nov, pendiente de tu revisión en pantalla (6 estilos en `themes/<id>/`, botón «Estilo» con hoja de tarjetas pintadas con cada estilo, `?estilo=`, elección recordada, imagen propia `assets/header.*` por estilo; `npm test` 61/61 con prueba de coherencia de variables; render de prueba de los 6 estilos y del selector)
 - `themes/<id>/` para los 6 estilos (las variables ya están en el mockup: se trasladan), selector «Estilo» con recuerdo y `?estilo=`, adornos SVG por defecto, ranuras opcionales de imagen y audio.
 - **Listo cuando**: se cambia de estilo sin perder puertas abiertas, y los 6 se ven bien a 360 px y en escritorio. La música por estilo queda para después (Fase 8, coordinada con el Plan 2).
+
+### Rediseño premium de las puertas (27-nov) — ✅ código hecho, verificado en tu servidor
+- **Composición asimétrica diseñada a mano** (`lib/layout.js`): 6 formas (pequeña, alta con arco, ancha con contraventanas, grande de doble puerta, franja de Nochebuena y regalo final) colocadas a mano para móvil (4 columnas) y pantallas anchas (6 columnas, desde tableta). El orden de lectura sigue los números (el tabulador va de la 1 a la 25). `layout.test.js` prueba que no haya solapes ni huecos y que las grandes no formen un bloque.
+- **Objetos con profundidad**: material por estilo (madera, papel, escarcha…), bisel, sombra en el suelo, nieve en el dintel de las grandes, guirnalda de luces en Nochebuena, regalo con lazo en Navidad; destacadas 1, 24 y 25 con marco dorado, medallón y destellos.
+- **Microinteracciones** (skill «animate»): con ratón la puerta se eleva, se inclina hacia el cursor y se ilumina donde está el puntero; las disponibles se entreabren. Abrir: las hojas giran sobre su bisagra (una hoja o dos desde el centro), la luz «se enciende» y la tarjeta nace desde la puerta; las destacadas sueltan un estallido de chispas. Entrada escalonada al cargar. Todo con «reducir movimiento» respetado.
+- **Contenido**: nuevo tipo `video` (archivo en `assets/days/` o enlace https). Tipos provisionales alineados con el tamaño de cada puerta (ver cabecera de `days.data.js`). Minijuegos: pendientes (propuesta aparte).
 
 → **Aquí hay un producto publicable.** Lo que sigue pule, pero no bloquea el 1-dic.
 

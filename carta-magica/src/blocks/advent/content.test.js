@@ -1,6 +1,6 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { ADVENT_CONFIG, headerText, doorLabel, lockedHint, longDate } from './content.js'
+import { ADVENT_CONFIG, headerText, doorLabel, lockedHint, longDate, dayCounter } from './content.js'
 import { getPhase, isValidDate } from './lib/calendar.js'
 
 const header = (today, todayOpened = false) => headerText(getPhase(today, ADVENT_CONFIG), { today, todayOpened })
@@ -40,10 +40,16 @@ test('doorLabel describe cada estado y la fecha de las bloqueadas', () => {
     assert.equal(doorLabel(12, 'locked'), 'Puerta 12, se abre el 12 de diciembre')
     assert.equal(doorLabel(5, 'today'), 'Puerta 5, disponible hoy')
     assert.equal(doorLabel(4, 'available'), 'Puerta 4, sin abrir')
-    assert.equal(doorLabel(1, 'open'), 'Puerta 1, abierta')
+    assert.equal(doorLabel(1, 'open'), 'Puerta 1 (Primera puerta), abierta. Volver a verla')
+    assert.equal(doorLabel(24, 'locked'), 'Puerta 24 (Nochebuena), se abre el 24 de diciembre')
 })
 
 test('lockedHint dice cuándo se abre la puerta', () => {
     assert.equal(lockedHint(12), 'La puerta 12 se abre el 12 de diciembre.')
     assert.equal(lockedHint(25), 'La puerta 25 se abre el 25 de diciembre.')
+})
+
+test('dayCounter numera el día sobre el total', () => {
+    assert.equal(dayCounter(5), 'Día 5 de 25')
+    assert.equal(dayCounter(25, 25), 'Día 25 de 25')
 })
