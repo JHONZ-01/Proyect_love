@@ -73,6 +73,47 @@ export const PICKER_TITLE = 'Elige un estilo'
 export const PICKER_HINT = 'Las puertas que ya abriste se mantienen.'
 export const IN_USE_LABEL = 'En uso'
 
+// Reloj y reproductor.
+export const CLOCK_LABEL = 'Hora local'
+export const MUSIC_PLAY = 'Reproducir la música'
+export const MUSIC_PAUSE = 'Pausar la música'
+export const MUSIC_PLAYING = 'Sonando'
+export const MUSIC_PAUSED = 'En pausa'
+export const MUSIC_VOLUME = 'Volumen'
+export const MUSIC_FALLBACK_TITLE = 'Música navideña'
+// Solo lo ve quien prepara el calendario (en vista previa), nunca quien lo recibe.
+export const MUSIC_MISSING = 'Sin música: pon un .mp3 en assets/music'
+export const MUSIC_NEXT = 'Siguiente canción'
+// Los navegadores no dejan sonar música sin un gesto de la persona. Con true, la música empieza con
+// su primer toque en la página (abrir una puerta, por ejemplo); con false, solo con el botón ▶.
+export const MUSIC_ON_FIRST_TOUCH = true
+
+// Dedicatoria final: cambia aquí el texto y la firma.
+export const DEDICATION = Object.freeze({
+    text: 'Cada día es una pequeña sorpresa, cada detalle guarda un momento especial y cada puerta es una razón más para sonreír.',
+    signedBy: 'Creado con cariño por',
+    name: 'Jhon Paucar',
+})
+
+const two = (n) => String(n).padStart(2, '0')
+
+/**
+ * Texto de la cuenta atrás a partir de nextOpening() y splitDuration() (lib/clock.js):
+ *   antes de empezar -> 'La primera puerta se abre en 3 d 04 h 12 min'
+ *   el último día    -> 'La primera puerta se abre en 04:12:09' (si falta menos de un día)
+ *   durante          -> 'La puerta 6 se abre en 05:12:33'
+ */
+export function countdownText(next, parts) {
+    if (!next) return null
+    const clock = `${two(parts.hours)}:${two(parts.minutes)}:${two(parts.seconds)}`
+    if (next.kind === 'first') {
+        return parts.days >= 1
+            ? `La primera puerta se abre en ${parts.days} d ${two(parts.hours)} h ${two(parts.minutes)} min`
+            : `La primera puerta se abre en ${clock}`
+    }
+    return `La puerta ${next.day} se abre en ${clock}`
+}
+
 /** Aviso al tocar una puerta bloqueada. */
 export function lockedHint(day, config = ADVENT_CONFIG) {
     return `La puerta ${day} se abre el ${longDate(doorDate(day, config))}.`

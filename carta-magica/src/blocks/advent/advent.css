@@ -109,16 +109,65 @@
     position: relative;
     z-index: 1;
     display: block;
-    width: min(100%, 1040px);
+    width: min(100%, 1560px); /* en pantallas grandes la escena usa el ancho (10 columnas) */
     margin: 0 auto;
-    padding: 36px 16px 112px; /* abajo deja sitio al botón «Estilo» */
+    padding: 52px clamp(16px, 3vw, 40px) 112px; /* arriba, sitio para la guirnalda; abajo, para el botón «Estilo» */
     container-type: inline-size;
 }
 
 /* ---------- Cabecera ---------- */
+/* Tres zonas: en móvil, el centro arriba y reloj + música debajo; en ancho, reloj | centro | música */
+/* Móvil: título, luego reloj y reproductor, cada uno centrado en su fila (así el reproductor tiene
+   sitio para el nombre de la canción) */
 .advent-head {
-    margin-bottom: 26px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "main" "start" "end";
+    justify-items: center;
+    align-items: center;
+    gap: 14px 12px;
+    margin-bottom: 30px;
+}
+
+.advent-head__main {
+    grid-area: main;
     text-align: center;
+}
+
+.advent-head__side--start { grid-area: start; }
+.advent-head__side--end { grid-area: end; min-width: 0; max-width: 100%; }
+.advent-head__side:empty { display: none; }
+
+/* Tableta: reloj y reproductor en la misma fila */
+@container (min-width: 560px) {
+    .advent-head {
+        grid-template-columns: 1fr 1fr;
+        grid-template-areas: "main main" "start end";
+    }
+
+    .advent-head__side--start { justify-self: start; }
+    .advent-head__side--end { justify-self: end; }
+
+    /* Si no hay reproductor, el reloj se centra */
+    .advent-head:not(:has(.advent-head__side--end > *)) .advent-head__side--start {
+        grid-column: 1 / -1;
+        justify-self: center;
+    }
+}
+
+@container (min-width: 900px) {
+    .advent-head {
+        grid-template-columns: 1fr minmax(auto, 600px) 1fr;
+        grid-template-areas: "start main end";
+        align-items: start;
+    }
+
+    .advent-head__side { padding-top: 14px; }
+
+    .advent-head:not(:has(.advent-head__side--end > *)) .advent-head__side--start {
+        grid-column: auto;
+        justify-self: start;
+    }
 }
 
 .advent-head__title {
@@ -212,6 +261,14 @@
     }
 }
 
+/* Escena panorámica: 10 columnas en pantallas grandes (las casillas no crecen: crece la escena) */
+@container advent-grid (min-width: 1100px) {
+    .advent-grid {
+        --cols: 10;
+        --gap: 16px;
+    }
+}
+
 /* ---------- Puerta: estructura común ---------- */
 .advent-door {
     --d-radius: 12px 12px 6px 6px;
@@ -238,6 +295,13 @@
     .advent-door {
         grid-column: var(--w-col) / span var(--w-cs);
         grid-row: var(--w-row) / span var(--w-rs);
+    }
+}
+
+@container advent-grid (min-width: 1100px) {
+    .advent-door {
+        grid-column: var(--x-col) / span var(--x-cs);
+        grid-row: var(--x-row) / span var(--x-rs);
     }
 }
 
@@ -812,11 +876,17 @@
     height: auto;
 }
 
-.advent-ornament--wide { display: none; }
+.advent-ornament--wide,
+.advent-ornament--xl { display: none; }
 
 @container advent-grid (min-width: 600px) {
     .advent-ornament--mobile { display: none; }
     .advent-ornament--wide { display: grid; }
+}
+
+@container advent-grid (min-width: 1100px) {
+    .advent-ornament--wide { display: none; }
+    .advent-ornament--xl { display: grid; }
 }
 
 /* ---------- Aviso (puerta bloqueada) ---------- */
@@ -1206,4 +1276,425 @@
     .advent-twinkles i { animation: none; opacity: .8; }
     .advent-door:focus-visible .advent-door__body { transform: none; }
     .advent-toast { transition: opacity .2s; }
+}
+
+/* ======================================================================
+   SEGUNDA EVOLUCIÓN: ambiente en planos, reloj, música y dedicatoria
+   ====================================================================== */
+
+/* ---------- Planos de ambiente (paralaje suave con el ratón, ver Ambience.jsx) ---------- */
+.advent-plane {
+    position: fixed;
+    inset: -24px; /* margen para que al desplazarse no se vean los bordes */
+    z-index: 0;
+    pointer-events: none;
+    transition: transform 600ms var(--adv-ease-out);
+}
+
+/* Luces cálidas desenfocadas: cada una deriva a su propio ritmo */
+.advent-glow {
+    position: absolute;
+    translate: -50% -50%;
+    border-radius: 50%;
+    opacity: .16;
+    background: radial-gradient(circle, var(--adv-lit-1), transparent 65%);
+    animation: adv-drift ease-in-out infinite alternate;
+}
+
+.advent-glow--accent { opacity: .12; background: radial-gradient(circle, var(--adv-tx-accent), transparent 65%); }
+.advent-glow--ribbon { opacity: .1; background: radial-gradient(circle, var(--adv-rib-2), transparent 65%); }
+
+@keyframes adv-drift {
+    from { transform: translate3d(-30px, -20px, 0) scale(1); }
+    to { transform: translate3d(30px, 24px, 0) scale(1.08); }
+}
+
+/* Guirnalda de luces colgando sobre la escena */
+.advent-garland {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 2;
+    height: 44px;
+    pointer-events: none;
+}
+
+.advent-garland svg {
+    position: absolute;
+    inset: 0 0 auto 0;
+    width: 100%;
+    height: 32px;
+    overflow: visible;
+}
+
+.advent-garland path {
+    fill: none;
+    stroke: rgb(var(--adv-tx-rgb) / .35);
+    stroke-width: 1.5;
+}
+
+.advent-garland i {
+    position: absolute;
+    width: 8px;
+    height: 11px;
+    margin: 2px 0 0 -4px;
+    border-radius: 50% 50% 45% 45%;
+    background: var(--adv-lit-1);
+    box-shadow: 0 0 10px 1px var(--adv-lit-1);
+    animation: adv-bulb ease-in-out infinite alternate;
+}
+
+.advent-garland i:nth-of-type(3n + 2) { background: var(--adv-rib-2); box-shadow: 0 0 10px 1px var(--adv-rib-2); }
+.advent-garland i:nth-of-type(3n) { background: var(--adv-tx-accent); box-shadow: 0 0 10px 1px var(--adv-tx-accent); }
+
+/* Resplandor cálido que respira alrededor de las puertas especiales (cada una a su ritmo) */
+.advent-door[data-featured]::after {
+    content: "";
+    position: absolute;
+    inset: -18px;
+    z-index: -1;
+    border-radius: 32px;
+    background: radial-gradient(closest-side, var(--adv-halo), transparent);
+    pointer-events: none;
+    animation: adv-glow ease-in-out infinite alternate;
+    animation-duration: calc(4.8s + var(--i, 0) * 0.07s);
+}
+
+.advent-door[data-featured][data-state="locked"]::after { animation-name: adv-glow-soft; }
+
+@keyframes adv-glow {
+    from { opacity: .22; transform: scale(.98); }
+    to { opacity: .5; transform: scale(1.03); }
+}
+
+@keyframes adv-glow-soft {
+    from { opacity: .1; transform: scale(.98); }
+    to { opacity: .24; transform: scale(1.02); }
+}
+
+/* ---------- Reloj ---------- */
+.advent-clock {
+    display: inline-grid;
+    justify-items: start;
+    gap: 3px;
+    padding: 10px 16px 11px;
+    border-radius: 16px;
+    background: rgb(var(--adv-tx-rgb) / .06);
+}
+
+.advent-clock__time {
+    display: flex;
+    align-items: baseline;
+    font-family: var(--adv-f-num);
+    font-weight: var(--adv-w-num);
+    font-size: 1.9rem;
+    line-height: 1;
+    font-variant-numeric: tabular-nums lining-nums;
+    color: var(--adv-tx);
+    /* números con luz propia, sin pasarse */
+    text-shadow: 0 0 2px var(--adv-halo), 0 0 16px var(--adv-halo);
+}
+
+.advent-clock__sep {
+    margin: 0 .04em;
+    animation: adv-sep 2s ease-in-out infinite;
+}
+
+@keyframes adv-sep {
+    0%, 100% { opacity: 1; }
+    50% { opacity: .35; }
+}
+
+.advent-clock__sec {
+    margin-left: 6px;
+    font-size: .52em;
+    opacity: .6;
+    text-shadow: none;
+}
+
+.advent-clock__date {
+    font: 600 .78rem var(--adv-f-ui);
+    color: var(--adv-tx-soft);
+}
+
+/* ---------- Cuenta atrás ---------- */
+.advent-head__countdown {
+    display: inline-block;
+    margin-top: 12px;
+    padding: 6px 14px;
+    border-radius: 999px;
+    font: 700 .9rem var(--adv-f-ui);
+    font-variant-numeric: tabular-nums;
+    color: var(--adv-tx);
+    background: rgb(var(--adv-tx-rgb) / .08);
+}
+
+.advent-head__countdown + .advent-head__go { display: table; margin-inline: auto; }
+
+/* ---------- Reproductor de ambiente ---------- */
+.advent-music {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    max-width: 100%;
+    padding: 6px 14px 6px 6px;
+    border-radius: 999px;
+    color: var(--adv-tx);
+    background: rgb(var(--adv-tx-rgb) / .07);
+}
+
+.advent-music__toggle {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border: 0;
+    border-radius: 50%;
+    cursor: pointer;
+    color: var(--adv-btn-ink);
+    background: linear-gradient(180deg, var(--adv-btn-1), var(--adv-btn-2));
+    box-shadow: 0 4px 12px rgba(0, 0, 0, .25);
+    transition: transform 120ms var(--adv-ease-out), box-shadow 200ms ease;
+}
+
+.advent-music__toggle:active { transform: scale(.94); }
+
+.advent-music__toggle svg {
+    width: 20px;
+    height: 20px;
+}
+
+/* Siguiente canción: secundario, más pequeño que reproducir */
+.advent-music__next {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    border: 0;
+    border-radius: 50%;
+    cursor: pointer;
+    color: var(--adv-tx);
+    background: rgb(var(--adv-tx-rgb) / .1);
+    transition: transform 120ms var(--adv-ease-out), background-color 160ms ease;
+}
+
+.advent-music__next:active { transform: scale(.92); }
+
+.advent-music__next svg {
+    width: 16px;
+    height: 16px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .advent-music__next:hover { background: rgb(var(--adv-tx-rgb) / .18); }
+}
+
+.advent-music__count {
+    font-variant-numeric: tabular-nums;
+    opacity: .8;
+}
+
+.advent-music[data-playing="true"] .advent-music__toggle {
+    box-shadow: 0 0 0 4px rgb(var(--adv-tx-rgb) / .12), 0 0 18px var(--adv-halo);
+}
+
+.advent-music__info {
+    display: grid;
+    min-width: 0;
+    text-align: left;
+}
+
+.advent-music__title {
+    max-width: min(230px, 52vw);
+    overflow: hidden;
+    font: 700 .85rem var(--adv-f-ui);
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.advent-music__state {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+    font: 600 .72rem var(--adv-f-ui);
+    color: var(--adv-tx-soft);
+}
+
+.advent-music__bars {
+    display: inline-flex;
+    align-items: flex-end;
+    gap: 2px;
+    height: 12px;
+}
+
+.advent-music__bars i {
+    width: 3px;
+    height: 100%;
+    border-radius: 2px;
+    background: var(--adv-tx-accent);
+    transform-origin: bottom;
+    transform: scaleY(.3);
+}
+
+/* En pausa las barras quedan quietas y bajas; sonando, cada una late a su ritmo */
+.advent-music[data-playing="true"] .advent-music__bars i { animation: adv-eq ease-in-out infinite alternate; }
+.advent-music[data-playing="true"] .advent-music__bars i:nth-child(1) { animation-duration: .7s; }
+.advent-music[data-playing="true"] .advent-music__bars i:nth-child(2) { animation-duration: 1.1s; animation-delay: -.3s; }
+.advent-music[data-playing="true"] .advent-music__bars i:nth-child(3) { animation-duration: .82s; animation-delay: -.5s; }
+.advent-music[data-playing="true"] .advent-music__bars i:nth-child(4) { animation-duration: 1.3s; animation-delay: -.2s; }
+
+@keyframes adv-eq {
+    from { transform: scaleY(.25); }
+    to { transform: scaleY(1); }
+}
+
+/* Volumen: solo con ratón (en móvil manda el botón físico, y en iPhone el navegador lo ignora) */
+.advent-music__volume { display: none; }
+
+@media (hover: hover) and (pointer: fine) {
+    .advent-music__volume {
+        display: flex;
+        align-items: center;
+    }
+}
+
+.advent-music__volume input {
+    width: 84px;
+    accent-color: var(--adv-tx-accent);
+    cursor: pointer;
+}
+
+.advent-music--missing {
+    padding: 8px 14px;
+    border: 1px dashed rgb(var(--adv-tx-rgb) / .35);
+    font: 600 .75rem var(--adv-f-ui);
+    color: var(--adv-tx-soft);
+}
+
+/* ---------- Dedicatoria y firma ---------- */
+.advent-dedication {
+    position: relative;
+    max-width: 560px;
+    margin: 84px auto 36px;
+    padding: 44px 36px 60px;
+    text-align: center;
+    color: var(--adv-sh-ink);
+    border-radius: 6px;
+    background:
+        repeating-linear-gradient(0deg, rgba(120, 90, 50, .035) 0 1px, transparent 1px 4px),
+        var(--adv-sh-bg);
+    box-shadow: 0 18px 40px rgba(0, 0, 0, .32), inset 0 1px 0 rgba(255, 255, 255, .45);
+}
+
+.advent-dedication__holly {
+    position: absolute;
+    top: -16px;
+    left: 18px;
+    width: 72px;
+    height: auto;
+    rotate: -12deg;
+    filter: drop-shadow(0 2px 2px rgba(0, 0, 0, .25));
+}
+
+/* Hojas en el verde del estilo de Bosque (o el tono de su tinta), bayas en el color del lazo */
+.advent-dedication__leaf {
+    fill: #2F6B4F;
+    stroke: #1E4A36;
+    stroke-width: 1;
+}
+
+.advent-dedication__vein {
+    fill: none;
+    stroke: rgba(255, 255, 255, .35);
+    stroke-width: 1;
+}
+
+.advent-dedication__berry {
+    fill: #B3202E;
+    stroke: rgba(0, 0, 0, .2);
+    stroke-width: .8;
+}
+
+.advent-dedication__text {
+    font-family: var(--adv-f-text);
+    font-size: 1.2rem;
+    line-height: 1.75;
+    text-wrap: balance;
+}
+
+.advent-dedication__by {
+    margin-top: 28px;
+    font: 600 .85rem var(--adv-f-ui);
+    color: var(--adv-sh-acc);
+    opacity: .85;
+}
+
+.advent-dedication__name {
+    position: relative;
+    display: inline-block;
+    margin-top: 2px;
+    font-family: "Caveat", cursive;
+    font-weight: 700;
+    font-size: 2.5rem;
+    line-height: 1.1;
+    color: var(--adv-sh-acc);
+    rotate: -2deg;
+}
+
+.advent-dedication__underline {
+    position: absolute;
+    left: -4%;
+    bottom: -6px;
+    width: 108%;
+    height: 10px;
+}
+
+.advent-dedication__underline path {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    opacity: .6;
+}
+
+/* Sello de lacre: borde irregular, anillo grabado y un corazón */
+.advent-dedication__seal {
+    position: absolute;
+    left: 50%;
+    bottom: -30px;
+    display: grid;
+    place-items: center;
+    width: 62px;
+    height: 62px;
+    translate: -50% 0;
+    border-radius: 46% 54% 50% 48% / 52% 46% 54% 48%;
+    color: rgba(255, 255, 255, .78);
+    background: radial-gradient(circle at 35% 30%, var(--adv-rib-2), var(--adv-rib-1) 70%);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, .35), inset 0 -3px 6px rgba(0, 0, 0, .25), inset 0 2px 3px rgba(255, 255, 255, .25);
+}
+
+.advent-dedication__seal::before {
+    content: "";
+    position: absolute;
+    inset: 8px;
+    border-radius: 50%;
+    box-shadow: inset 0 0 0 1.5px rgba(255, 255, 255, .28), inset 0 1px 2px rgba(0, 0, 0, .25);
+}
+
+.advent-dedication__seal svg {
+    width: 24px;
+    height: 24px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .advent-plane { transition: none; }
+    .advent-glow,
+    .advent-clock__sep,
+    .advent-door[data-featured]::after { animation: none; }
+    .advent-garland i { animation: none; opacity: .85; }
+    .advent-music[data-playing="true"] .advent-music__bars i { animation: none; transform: scaleY(.7); }
 }

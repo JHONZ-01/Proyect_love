@@ -19,8 +19,12 @@ const BURST = 12
 
 const prefersReducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
-/** Posición en la cuadrícula para móvil (--m-*) y para pantallas anchas (--w-*); el CSS elige según el ancho. */
-const placementStyle = ({ mobile, wide }, index) => ({
+/** Posición en la cuadrícula para móvil (--m-*), tableta/portátil (--w-*) y pantallas grandes (--x-*); el CSS elige según el ancho. */
+const placementStyle = ({ mobile, wide, xl }, index) => ({
+    '--x-col': xl.col,
+    '--x-row': xl.row,
+    '--x-cs': xl.cols,
+    '--x-rs': xl.rows,
     '--m-col': mobile.col,
     '--m-row': mobile.row,
     '--m-cs': mobile.cols,

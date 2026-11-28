@@ -1,8 +1,9 @@
 /**
  * Composición de las puertas (lógica pura): la forma de cada puerta y su sitio en la cuadrícula.
  *
- * Está diseñada a mano para dos anchos: móvil (4 columnas) y pantallas anchas (6 columnas, desde
- * tableta). Cada puerta conserva su forma en los dos; solo cambia dónde va. El orden de lectura
+ * Está diseñada a mano para tres anchos: móvil (4 columnas), tableta y portátil (6 columnas) y
+ * pantallas grandes (10 columnas, escena panorámica). Cada puerta conserva su forma en todas;
+ * solo cambia dónde va (y, en la panorámica, el tamaño de Nochebuena y Navidad). El orden de lectura
  * (fila a fila, de izquierda a derecha) sigue el orden de los números: así el tabulador y los
  * lectores de pantalla recorren las puertas de la 1 a la 25.
  *
@@ -52,6 +53,7 @@ export const LAYOUTS = {
             24: [1, 11],
             25: [1, 12],
         },
+        spans: {},
         decor: [
             { at: [3, 2], icon: 'star' },
             { at: [4, 10], icon: 'snowflake' },
@@ -69,7 +71,26 @@ export const LAYOUTS = {
             23: [1, 7], 24: [3, 7],
             25: [1, 8],
         },
+        spans: {},
         decor: [],
+    },
+    // Pantallas grandes: escena panorámica de 10 columnas. Las grandes bajan en diagonal
+    // (1 a la izquierda, 9 al centro, 18 a la derecha) y Nochebuena y Navidad cierran la escena
+    // a todo el ancho, una junto a otra.
+    xl: {
+        columns: 10,
+        doors: {
+            1: [1, 1], 2: [3, 1], 3: [4, 1], 4: [5, 1], 5: [7, 1], 6: [8, 1], 7: [9, 1], 8: [10, 1],
+            9: [5, 2], 10: [7, 2], 11: [8, 2], 12: [9, 2], 13: [10, 2],
+            14: [1, 3], 15: [2, 3], 16: [3, 3], 17: [7, 3], 18: [9, 3],
+            19: [1, 4], 20: [2, 4], 21: [3, 4], 22: [4, 4], 23: [5, 4],
+            24: [1, 5], 25: [5, 5],
+        },
+        spans: { 24: [4, 2], 25: [6, 2] }, // en esta escena, Nochebuena y Navidad ocupan dos filas
+        decor: [
+            { at: [3, 2], icon: 'star' },
+            { at: [8, 4], icon: 'snowflake' },
+        ],
     },
 }
 
@@ -80,12 +101,14 @@ export function spanOf(shape, columns) {
     return { cols: s.cols === 'all' ? columns : s.cols, rows: s.rows }
 }
 
-/** Sitio de una puerta en una composición: { col, row, cols, rows }. */
+/** Sitio de una puerta en una composición: { col, row, cols, rows }. `spans` de la composición manda sobre la forma. */
 export function placementOf(day, layoutName) {
     const layout = LAYOUTS[layoutName]
     const at = layout?.doors[day]
     if (!at) throw new RangeError(`La puerta ${day} no tiene sitio en «${layoutName}»`)
-    return { col: at[0], row: at[1], ...spanOf(DOOR_SHAPES[day], layout.columns) }
+    const override = layout.spans?.[day]
+    const span = override ? { cols: override[0], rows: override[1] } : spanOf(DOOR_SHAPES[day], layout.columns)
+    return { col: at[0], row: at[1], ...span }
 }
 
 /**

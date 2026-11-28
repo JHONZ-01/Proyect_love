@@ -55,6 +55,22 @@ const PATHS = {
             <path d="M10 9.2v5.6l4.6-2.8z" />
         </>
     ),
+    'play-solid': <path d="M8 5.5v13l10.5-6.5z" fill="currentColor" />,
+    pause: <path d="M8 5.5v13M16 5.5v13" strokeWidth="3" />,
+    next: (
+        <>
+            <path d="M6 6v12l8.5-6z" fill="currentColor" />
+            <path d="M17.5 6v12" strokeWidth="2.4" />
+        </>
+    ),
+    holly: (
+        <>
+            <path d="M12 13c-2.5-3.5-7-4-9.5-2 1 .5 1.2 1.6.8 2.6 1.2-.2 2.2.6 2.3 1.8 1.4-.8 3.3-.6 4.4.6M12 13c2.5-3.5 7-4 9.5-2-1 .5-1.2 1.6-.8 2.6-1.2-.2-2.2.6-2.3 1.8-1.4-.8-3.3-.6-4.4.6" />
+            <circle cx="10.6" cy="14.6" r="1.4" fill="currentColor" />
+            <circle cx="13.4" cy="14.6" r="1.4" fill="currentColor" />
+            <circle cx="12" cy="12.4" r="1.4" fill="currentColor" />
+        </>
+    ),
     lock: (
         <>
             <rect x="5" y="11" width="14" height="9" rx="2" />

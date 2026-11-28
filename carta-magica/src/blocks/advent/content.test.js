@@ -1,6 +1,6 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { ADVENT_CONFIG, headerText, doorLabel, lockedHint, longDate, dayCounter } from './content.js'
+import { ADVENT_CONFIG, headerText, doorLabel, lockedHint, longDate, dayCounter, countdownText, DEDICATION } from './content.js'
 import { getPhase, isValidDate } from './lib/calendar.js'
 
 const header = (today, todayOpened = false) => headerText(getPhase(today, ADVENT_CONFIG), { today, todayOpened })
@@ -52,4 +52,16 @@ test('lockedHint dice cuándo se abre la puerta', () => {
 test('dayCounter numera el día sobre el total', () => {
     assert.equal(dayCounter(5), 'Día 5 de 25')
     assert.equal(dayCounter(25, 25), 'Día 25 de 25')
+})
+
+test('countdownText antes de empezar y durante diciembre', () => {
+    const p = (days, hours, minutes, seconds) => ({ days, hours, minutes, seconds })
+    assert.equal(countdownText({ kind: 'first', day: 1 }, p(3, 4, 12, 9)), 'La primera puerta se abre en 3 d 04 h 12 min')
+    assert.equal(countdownText({ kind: 'first', day: 1 }, p(0, 4, 12, 9)), 'La primera puerta se abre en 04:12:09')
+    assert.equal(countdownText({ kind: 'next', day: 6 }, p(0, 5, 2, 33)), 'La puerta 6 se abre en 05:02:33')
+    assert.equal(countdownText(null, p(0, 0, 0, 0)), null)
+})
+
+test('la dedicatoria tiene texto, firma y nombre', () => {
+    for (const key of ['text', 'signedBy', 'name']) assert.ok(DEDICATION[key].trim(), key)
 })

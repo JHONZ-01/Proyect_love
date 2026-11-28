@@ -298,6 +298,13 @@ Los iconos (candado, estrella, check) los dibujo como SVG propios: sin librería
 - **Microinteracciones** (skill «animate»): con ratón la puerta se eleva, se inclina hacia el cursor y se ilumina donde está el puntero; las disponibles se entreabren. Abrir: las hojas giran sobre su bisagra (una hoja o dos desde el centro), la luz «se enciende» y la tarjeta nace desde la puerta; las destacadas sueltan un estallido de chispas. Entrada escalonada al cargar. Todo con «reducir movimiento» respetado.
 - **Contenido**: nuevo tipo `video` (archivo en `assets/days/` o enlace https). Tipos provisionales alineados con el tamaño de cada puerta (ver cabecera de `days.data.js`). Minijuegos: pendientes (propuesta aparte).
 
+### Segunda evolución: escena inmersiva (27-nov) — ✅ código hecho, verificado en tu servidor
+- **Escena panorámica** en pantallas grandes (`lib/layout.js`, composición `xl` de 10 columnas): las grandes bajan en diagonal y Nochebuena y Navidad cierran la escena a todo el ancho. Móvil y tableta, sin cambios.
+- **Cabecera en tres zonas**: reloj local (hora, segundos discretos, fecha; `lib/clock.js`, `hooks/useNow.js`), título con **cuenta atrás en vivo** hasta la próxima puerta, y reproductor.
+- **Reproductor**: se amplió el del shell (`core/AudioProvider.jsx`, `shared/useSound.js`) de forma compatible con la carta y la galería: estado real de reproducción, volumen y título. La canción del adviento va en `blocks/advent/assets/music/` (hoy no hay ninguna: el reproductor no se muestra a quien lo recibe; en vista previa avisa).
+- **Dedicatoria y firma** en una nota con acebo y sello de lacre, al final; texto y nombre en `content.js` (DEDICATION).
+- **Ambiente en planos**: luces cálidas desenfocadas que derivan a ritmos distintos, guirnalda de luces, estrellas con velocidades variadas, paralaje suave con el ratón y resplandor que respira en las puertas especiales. Todo quieto con «reducir movimiento».
+
 → **Aquí hay un producto publicable.** Lo que sigue pule, pero no bloquea el 1-dic.
 
 ### Fase 6 — Accesibilidad, rendimiento y verificación · M · 29 nov

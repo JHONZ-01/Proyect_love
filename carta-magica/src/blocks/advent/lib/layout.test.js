@@ -49,6 +49,8 @@ test('spanOf y placementOf', () => {
     assert.deepEqual(spanOf('final', 4), { cols: 4, rows: 2 })
     assert.deepEqual(spanOf('final', 6), { cols: 6, rows: 2 })
     assert.deepEqual(placementOf(9, 'wide'), { col: 2, row: 3, cols: 2, rows: 2 })
+    assert.deepEqual(placementOf(25, 'xl'), { col: 5, row: 5, cols: 6, rows: 2 }) // tamaño ajustado por la composición
+    assert.deepEqual(placementOf(24, 'xl'), { col: 1, row: 5, cols: 4, rows: 2 })
     assert.throws(() => spanOf('rara', 4), RangeError)
     assert.throws(() => placementOf(99, 'wide'), RangeError)
 })

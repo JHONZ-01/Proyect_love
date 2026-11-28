@@ -16,7 +16,7 @@ const ActiveBlock = result.status === 'ok'
         const [{ default: Block }, { default: meta }] = await result.block.load()
         return {
             default: () => (
-                <AudioProvider src={meta.music} volume={meta.musicVolume}>
+                <AudioProvider src={meta.music} title={meta.musicTitle ?? null} tracks={meta.musicTracks} volume={meta.musicVolume}>
                     <Block />
                 </AudioProvider>
             ),

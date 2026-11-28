@@ -22,3 +22,15 @@ export function isSafeLink(url) {
         return false
     }
 }
+
+/**
+ * Nombre legible de una canción a partir de su archivo:
+ * './assets/music/01-noche_de-paz.mp3' -> 'Noche de paz'. Quita la ruta, la extensión y el número inicial.
+ */
+export function titleFromFile(path) {
+    if (typeof path !== 'string' || path.trim() === '') return null
+    const base = path.split(/[\\/]/).pop().replace(/\.[^.]+$/, '')
+    const words = base.replace(/^\d+[\s._-]*/, '').replace(/[_-]+/g, ' ').replace(/\s+/g, ' ').trim()
+    if (!words) return null
+    return words.charAt(0).toUpperCase() + words.slice(1)
+}
